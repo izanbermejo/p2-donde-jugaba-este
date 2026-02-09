@@ -1,8 +1,8 @@
 <template>
-    <aside 
+    <aside
         :class="[
             props.sidebarOpen ? 'translate-x-0' : '-translate-x-full',
-            props.isCollapsed ? 'w-[70px]' : 'w-64',
+            props.isCollapsed ? 'w-17.5' : 'w-64',
             'fixed left-0 top-0 z-50 flex h-screen flex-col overflow-hidden bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-800 transition-all duration-300 ease-in-out lg:static lg:translate-x-0 shadow-lg lg:shadow-none sidebar-container group'
         ]"
     >
@@ -10,7 +10,7 @@
         <div class="flex items-center justify-center p-4 border-b border-gray-100 dark:border-gray-800 shrink-0 transition-all duration-300"
              :class="props.isCollapsed ? 'h-16' : 'h-24'">
             <div class="flex items-center gap-3 overflow-hidden whitespace-nowrap transition-all duration-300 w-full justify-center">
-                <img src="/images/logo.svg" alt="Logo" class="transition-all duration-300 object-contain" 
+                <img src="/images/logo.svg" alt="Logo" class="transition-all duration-300 object-contain"
                      :class="props.isCollapsed ? 'h-8 w-8' : 'h-16 w-auto max-w-full'"/>
             </div>
         </div>
@@ -29,7 +29,7 @@
                      <!-- Submenu Items -->
                      <template v-for="(subItem, subIndex) in item.items" :key="subItem.label">
                         <router-link :to="subItem.route" v-if="subItem.route" custom v-slot="{ href, navigate, isActive }">
-                            <a :href="href" @click="navigate" 
+                            <a :href="href" @click="navigate"
                                v-tooltip.right="props.isCollapsed ? subItem.label : ''"
                                class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200"
                                :class="[
@@ -37,7 +37,7 @@
                                ]"
                             >
                                 <i class="text-lg shrink-0 transition-colors" :class="[subItem.icon, isActive ? 'text-blue-600 dark:text-blue-400' : 'text-gray-500 dark:text-gray-500']"></i>
-                                
+
                                 <span class="whitespace-nowrap transition-all duration-300 origin-left"
                                       :class="[props.isCollapsed ? 'hidden' : 'w-auto opacity-100']">
                                     {{ subItem.label }}
@@ -52,7 +52,7 @@
                 <!-- Single Item -->
                 <template v-else-if="item.route">
                      <router-link :to="item.route" custom v-slot="{ href, navigate, isActive }">
-                        <a :href="href" @click="navigate" 
+                        <a :href="href" @click="navigate"
                            v-tooltip.right="props.isCollapsed ? item.label : ''"
                            class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200"
                            :class="[
@@ -122,7 +122,8 @@ const menuModel = computed(() => {
             items: [
                 { label: 'Usuarios', icon: 'pi pi-users', route: '/admin/users', permission: 'user-list' },
                 { label: 'Roles', icon: 'pi pi-shield', route: '/admin/roles', permission: 'role-list' },
-                { label: 'Permisos', icon: 'pi pi-key', route: '/admin/permissions', permission: 'permission-list' }
+                { label: 'Permisos', icon: 'pi pi-key', route: '/admin/permissions', permission: 'permission-list' },
+                { label: 'Posts', icon: 'pi pi-key', route: '/admin/posts', permission: 'permission-list' }
             ]
         },
         {
