@@ -52,5 +52,7 @@ Route::apiResource('/posts', PostController::class);
 Route::apiResource('/paises', PaisController::class);
 
 Route::apiResource('/jugadores', JugadorController::class);
+Route::get('/jugadores/pais/{id_pais}', [JugadorController::class, 'indexByIdPais']);
+Route::get('/jugadores/posicion/{id_posicion}', [JugadorController::class, 'indexByIdPosicion']);
 
 Route::apiResource('/posiciones', PosicionController::class);

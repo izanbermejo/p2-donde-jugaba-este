@@ -46,4 +46,14 @@ class JugadorController extends Controller
             'data' => $jugador->fresh()
         ]);
     }
+
+    public function indexByIdPais($id_pais){
+        $jugadores = Jugador::where('pais_jugador', $id_pais)->get();
+        return $jugadores;
+    }
+
+    public function indexByIdPosicion($id_posicion){
+        $jugadores = Jugador::where('posicion_jugador', $id_posicion)->get();
+        return $jugadores;
+    }
 }
