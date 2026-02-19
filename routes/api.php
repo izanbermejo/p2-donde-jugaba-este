@@ -46,4 +46,5 @@ Route::get('category-list', [CategoryController::class, 'getList']);
 
 Route::apiResource('/posts', PostController::class);
 
+// Route::get('/paises/{id_pais}', [PaisController::class, 'show']);
 Route::apiResource('/paises', PaisController::class);

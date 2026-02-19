@@ -15,12 +15,19 @@ class PaisController extends Controller
         return $paises;
     }
 
-    public function show(Pais $pais){
+    public function show($id_pais){
+        $pais = Pais::find($id_pais);
         return $pais;
     }
 
-    public function destroy(Pais $pais){
+    public function destroy($id_pais){
+        $pais = Pais::find($id_pais);
         $pais->delete();
+
+        return response()->json([
+            'message' => 'País eliminado correctamente',
+            'data' => $pais
+        ]);
     }
 
     public function store(StorePaisRequest $request){
@@ -29,8 +36,15 @@ class PaisController extends Controller
         return $pais;
     }
 
-    public function update(UpdatePaisRequest $request, Pais $pais){
+    public function update(UpdatePaisRequest $request, $id_pais){
+        
+        $pais = Pais::find($id_pais);
         $pais->update($request->validated());
-        return $pais;
+
+
+        return response()->json([
+            'message' => 'País actualizado correctamente',
+            'data' => $pais->fresh()
+        ]);
     }
 }

@@ -22,7 +22,7 @@ class UpdatePaisRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'id_pais' => ['required', 'string', 'max:6', 'min:2'],
+            'id_pais' => '',
             'nombre_pais' => ['required', 'string'],
             'dificultad_pais' => ['required', 'integer', 'in:1,2,3,4'],
         ];
