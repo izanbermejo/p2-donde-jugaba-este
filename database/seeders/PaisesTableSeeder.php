@@ -19,7 +19,7 @@ class PaisesTableSeeder extends Seeder
         \DB::table('paises')->insert(array(
             0 => array('id_pais'=>'es','nombre_pais'=>'España','dificultad_pais'=>1),
             1 => array('id_pais'=>'br','nombre_pais'=>'Brasil','dificultad_pais'=>1),
-            2 => array('id_pais'=>'en','nombre_pais'=>'Inglaterra','dificultad_pais'=>1),
+            2 => array('id_pais'=>'eng','nombre_pais'=>'Inglaterra','dificultad_pais'=>1),
             3 => array('id_pais'=>'fr','nombre_pais'=>'Francia','dificultad_pais'=>1),
             4 => array('id_pais'=>'it','nombre_pais'=>'Italia','dificultad_pais'=>1),
             5 => array('id_pais'=>'ar','nombre_pais'=>'Argentina','dificultad_pais'=>1),
@@ -42,7 +42,7 @@ class PaisesTableSeeder extends Seeder
 
             21 => array('id_pais'=>'usa','nombre_pais'=>'Estados Unidos','dificultad_pais'=>3),
             22 => array('id_pais'=>'cl','nombre_pais'=>'Chile','dificultad_pais'=>3),
-            23 => array('id_pais'=>'türki','nombre_pais'=>'Türkiye','dificultad_pais'=>3),
+            23 => array('id_pais'=>'tr','nombre_pais'=>'Türkiye','dificultad_pais'=>3),
             24 => array('id_pais'=>'sn','nombre_pais'=>'Senegal','dificultad_pais'=>3),
             25 => array('id_pais'=>'ci','nombre_pais'=>'Costa de Marfil','dificultad_pais'=>3),
             26 => array('id_pais'=>'ma','nombre_pais'=>'Marruecos','dificultad_pais'=>3),
@@ -143,7 +143,7 @@ class PaisesTableSeeder extends Seeder
             119 => array('id_pais'=>'ly','nombre_pais'=>'Libia','dificultad_pais'=>4),
             120 => array('id_pais'=>'kn','nombre_pais'=>'San Cristóbal y Nieves','dificultad_pais'=>4),
             121 => array('id_pais'=>'sa','nombre_pais'=>'Arabia Saudí','dificultad_pais'=>4),
-            122 => array('id_pais'=>'saint','nombre_pais'=>'Saint-Martin','dificultad_pais'=>4),
+            122 => array('id_pais'=>'mf','nombre_pais'=>'Saint-Martin','dificultad_pais'=>4),
             123 => array('id_pais'=>'tt','nombre_pais'=>'Trinidad y Tobago','dificultad_pais'=>4),
             124 => array('id_pais'=>'sy','nombre_pais'=>'Siria','dificultad_pais'=>4),
             125 => array('id_pais'=>'tz','nombre_pais'=>'Tanzania','dificultad_pais'=>4),
