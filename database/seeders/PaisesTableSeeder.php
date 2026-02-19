@@ -14,6 +14,7 @@ class PaisesTableSeeder extends Seeder
      */
     public function run()
     {
+        \DB::statement('SET FOREIGN_KEY_CHECKS=0');
         \DB::table('paises')->delete();
 
         \DB::table('paises')->insert(array(
@@ -148,6 +149,7 @@ class PaisesTableSeeder extends Seeder
             124 => array('id_pais'=>'sy','nombre_pais'=>'Siria','dificultad_pais'=>4),
             125 => array('id_pais'=>'tz','nombre_pais'=>'Tanzania','dificultad_pais'=>4),
             126 => array('id_pais'=>'ae','nombre_pais'=>'Emiratos Árabes Unidos','dificultad_pais'=>4),
-        ));
+            ));
+            \DB::statement('SET FOREIGN_KEY_CHECKS=1');
     }
 }

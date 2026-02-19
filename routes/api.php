@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\RoleController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\PostController;
 use App\Http\Controllers\Api\PaisController;
+use App\Http\Controllers\Api\PosicionController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -48,3 +49,5 @@ Route::apiResource('/posts', PostController::class);
 
 // Route::get('/paises/{id_pais}', [PaisController::class, 'show']);
 Route::apiResource('/paises', PaisController::class);
+
+Route::apiResource('/posiciones', PosicionController::class);
