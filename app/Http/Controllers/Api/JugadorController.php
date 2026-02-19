@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreJugadorRequest;
 use App\Http\Requests\UpdateJugadorRequest;
-use App\Models\Pais;
+use App\Models\Jugador;
 
 class JugadorController extends Controller
 {
@@ -24,7 +24,7 @@ class JugadorController extends Controller
         $jugador->delete();
 
         return response()->json([
-            'message' => 'País eliminado correctamente',
+            'message' => 'Jugador eliminado correctamente',
             'data' => $jugador
         ]);
     }
@@ -35,14 +35,14 @@ class JugadorController extends Controller
         return $jugador;
     }
 
-    public function update(UpdatePaisRequest $request, $id_jugador){
+    public function update(UpdateJugadorRequest $request, $id_jugador){
         
         $jugador = Jugador::find($id_jugador);
         $jugador->update($request->validated());
 
 
         return response()->json([
-            'message' => 'País actualizado correctamente',
+            'message' => 'Jugador actualizado correctamente',
             'data' => $jugador->fresh()
         ]);
     }

@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdatePaisRequest extends FormRequest
+class UpdateJugadorRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -27,7 +27,7 @@ class UpdatePaisRequest extends FormRequest
             'nombre_jugador' => ['required', 'string'],
             'fecha_nacimiento_jugador' => ['required', 'date'],
             'pais_jugador' => ['required', 'string', 'exists:paises,id_pais'],
-            'posicion_jugador' => ['required', 'string'],
+            'posicion_jugador' => ['required', 'string', 'exists:posiciones,id_posicion'],
             'club_actual_jugador' => ['required', 'string'],
         ];
     }
