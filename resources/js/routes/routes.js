@@ -235,6 +235,23 @@ export default [
                     }
                 ]
             },
+
+            {
+                name: 'paises',
+                path: 'paises',
+                meta: { breadCrumb: 'Paises' },
+                children: [
+                    {
+                        name: 'paises.index',
+                        path: '',
+                        component: () => import('../views/admin/paises/Index.vue'),
+                        meta: {
+                            breadCrumb: 'View paises',
+                            hideBreadcrumb: true
+                        }
+                    },
+                ]
+            },
         ]
     },
     {
