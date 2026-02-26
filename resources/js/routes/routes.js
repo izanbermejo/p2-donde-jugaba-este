@@ -252,6 +252,23 @@ export default [
                     },
                 ]
             },
+
+            {
+                name: 'posiciones',
+                path: 'posiciones',
+                meta: { breadCrumb: 'posiciones' },
+                children: [
+                    {
+                        name: 'posiciones.index',
+                        path: '',
+                        component: () => import('../views/admin/posiciones/Index.vue'),
+                        meta: {
+                            breadCrumb: 'View posiciones',
+                            hideBreadcrumb: true
+                        }
+                    },
+                ]
+            },
         ]
     },
     {
