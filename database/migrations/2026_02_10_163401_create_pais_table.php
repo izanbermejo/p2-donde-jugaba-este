@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('paises', function (Blueprint $table) {
             $table->string('id_pais', 6)->primary();
             $table->string('nombre_pais', 50);
-            $table->enum('dificultad_pais', ['1', '2', '3', '4']);
+            $table->enum('dificultad_pais', ['0', '1', '2', '3']);
         });
     }
 

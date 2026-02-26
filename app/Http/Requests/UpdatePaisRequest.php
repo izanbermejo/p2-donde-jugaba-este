@@ -24,7 +24,7 @@ class UpdatePaisRequest extends FormRequest
         return [
             'id_pais' => '',
             'nombre_pais' => ['required', 'string'],
-            'dificultad_pais' => ['required', 'integer', 'in:1,2,3,4'],
+            'dificultad_pais' => ['required', 'integer', 'in:0,1,2,3'],
         ];
     }
 }
