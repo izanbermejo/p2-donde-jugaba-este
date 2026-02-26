@@ -42,7 +42,7 @@ class PaisesTableSeeder extends Seeder
 
             21 => array('id_pais'=>'usa','nombre_pais'=>'Estados Unidos','dificultad_pais'=>'3'),
             22 => array('id_pais'=>'cl','nombre_pais'=>'Chile','dificultad_pais'=>'3'),
-            23 => array('id_pais'=>'türki','nombre_pais'=>'Türkiye','dificultad_pais'=>'3'),
+            23 => array('id_pais'=>'tr','nombre_pais'=>'Türkiye','dificultad_pais'=>'3'),
             24 => array('id_pais'=>'sn','nombre_pais'=>'Senegal','dificultad_pais'=>'3'),
             25 => array('id_pais'=>'ci','nombre_pais'=>'Costa de Marfil','dificultad_pais'=>'3'),
             26 => array('id_pais'=>'ma','nombre_pais'=>'Marruecos','dificultad_pais'=>'3'),
