@@ -117,7 +117,7 @@ export default function usePosiciones() {
 
     const upsertPosicionRecord = (posicionRecord) => {
         if (!posicionRecord?.id_posicion) return
-        posicion.value = [
+        posiciones.value = [
             posicionRecord,
             ...posiciones.value.filter(item => item.id_posicion !== posicionRecord.id_posicion)
         ]

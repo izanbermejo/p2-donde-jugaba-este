@@ -32,82 +32,61 @@
                 <DataTable v-else v-model:filters="filters" :value="posiciones || []" :paginator="true" :rows="10"
                     :rows-per-page-options="[10, 25, 50]" data-key="id" striped-rows size="small" :loading="isLoading"
                     filter-display="menu" :filter-delay="300"
-                    :global-filter-fields="['id_posiciones', 'rol', 'posicion']">
-                    <template #empty>
-                        <div class="table-empty-state">
-                            <i class="pi pi-inbox empty-state-icon"></i>
+                    :global-filter-fields="['id_posicion', 'rol', 'posicion']"> <template #empty>
+                        <div class="table-empty-state"> <i class="pi pi-inbox empty-state-icon"></i>
                             <p class="empty-state-text">No se encontraron posiciones</p>
                             <p class="empty-state-subtext">Intenta ajustar los filtros de búsqueda</p>
                         </div>
                     </template>
-
-                    <Column field="id_posicion" header="ID" sortable filter class="w-[80px]">
-                        <template #body="slotProps">
-                            <Skeleton v-if="isLoading" width="3rem" height="1rem" />
-                            <span v-else class="table-cell-id">{{ slotProps.data.id_posicion }}</span>
+                    <Column field="id_posicion" header="ID" sortable filter class="w-[80px]"> <template
+                            #body="slotProps">
+                            <Skeleton v-if="isLoading" width="3rem" height="1rem" /> <span v-else
+                                class="table-cell-id">{{ slotProps.data.id_posicion }}</span>
                         </template>
                         <template #filter="{ filterModel }">
                             <InputText v-model="filterModel.value" placeholder="ID" class="w-full" />
                         </template>
                     </Column>
 
-                    <Column field="rol" header="Rol" sortable filter :showFilterMatchModes="false"
-                        class="min-w-[200px]">
+
+
+                    <Column field="rol" header="Rol"  sortable filter class="min-w-[200px]" :showFilterMatchModes="false"
+                        :showFilterOperator="false" >
                         <template #body="slotProps">
+                           
                             <Skeleton v-if="isLoading" width="10rem" height="1rem" />
-                            <span v-else class="table-cell-name">{{ slotProps.data.rol || '-' }}</span>
-                        </template>
-                        <template #filter="{ filterModel }">
-                            <MultiSelect v-model="filterModel.value" :options="roles" placeholder="Seleccionar rol"
-                                class="w-full" display="chip" :showClear="true" />
-                        </template>
-
-                    </Column>
-
-                    <Column field="Posicion" header="Posicion" sortable class="min-w-[170px]">
-                        <template #body="slotProps">
-                            <Skeleton v-if="isLoading" width="8rem" height="1rem" />
-                            <span v-else class="text-sm table-cell-date">
-                                {{ slotProps.data.posicion }}
+                            <span v-else class="table-cell-name">
+                                                
+                                {{ slotProps.data.rol || '-' }}
                             </span>
                         </template>
 
-
-
-
-
-
-
                         <template #filter="{ filterModel, filterCallback }">
                             <MultiSelect v-model="filterModel.value" @change="filterCallback()" :options="roles"
-                                optionLabel="name" optionValue="name" placeholder="Seleccionar rol" class="w-full" display="chip"
-                                :maxSelectedLabels="1">
-                                <template #option="slotProps">
-                                    <div class="flex items-center gap-2">
-                                        <span>{{ slotProps.option.name }}</span>
-                                    </div>
-                                </template>
-                            </MultiSelect>
+                                placeholder="Seleccionar rol" class="w-full" display="chip" />
                         </template>
-
                     </Column>
 
 
 
 
-
-
-                    <Column header="Acciones" class="w-[150px]">
-                        <template #body="slotProps">
+                    <Column field="posicion" header="Posicion" sortable class="min-w-[170px]"> <template
+                            #body="slotProps">
+                            <Skeleton v-if="isLoading" width="8rem" height="1rem" /> <span v-else
+                                class="text-sm table-cell-date"> {{ slotProps.data.posicion }} </span>
+                        </template>
+                        <template #filter="{ filterModel }">
+                            <InputText v-model="filterModel.value" placeholder="Nombre" class="w-full" />
+                        </template>
+                    </Column>
+                    <Column header="Acciones" class="w-[150px]"> <template #body="slotProps">
                             <Skeleton v-if="isLoading" width="4rem" height="2rem" />
-                            <div v-else class="flex gap-2">
-                                <Button v-if="can('posicion-edit')" v-tooltip.top="'Editar posición'"
-                                    icon="pi pi-pencil" rounded text severity="secondary" size="small"
-                                    @click="openEditDialog(slotProps.data)" />
-                                <Button v-if="can('posicion-delete')" v-tooltip.top="'Eliminar posición'"
-                                    icon="pi pi-trash" rounded text severity="danger" size="small"
-                                    @click="confirmDeletePosicion(slotProps.data)" />
-                            </div>
+                            <div v-else class="flex gap-2"> <Button v-if="can('posicion-edit')"
+                                    v-tooltip.top="'Editar posición'" icon="pi pi-pencil" rounded text
+                                    severity="secondary" size="small" @click="openEditDialog(slotProps.data)" /> <Button
+                                    v-if="can('posicion-delete')" v-tooltip.top="'Eliminar posición'" icon="pi pi-trash"
+                                    rounded text severity="danger" size="small"
+                                    @click="confirmDeletePosicion(slotProps.data)" /> </div>
                         </template>
                     </Column>
                 </DataTable>
@@ -157,7 +136,7 @@
 import { ref, reactive, computed, onMounted, inject, watch } from "vue";
 import usePosiciones from "@/composables/posiciones";
 import { useAbility } from '@casl/vue';
-import { FilterMatchMode, FilterOperator } from "@primevue/core/api";
+import { FilterMatchMode, FilterOperator, FilterService } from "@primevue/core/api";
 
 const FILTERS_STORAGE_KEY = 'admin_permissions_table_filters';
 const { posiciones, posicion, getPosiciones, createPosicion, updatePosicion, deletePosicion, resetPosicion, setPosicion, hasError, getError, upsertPosicionRecord, isLoading } = usePosiciones();
@@ -165,6 +144,15 @@ const { can } = useAbility();
 
 const swal = inject('$swal');
 const canUseBrowserStorage = typeof window !== 'undefined';
+
+const FILTER_MATCH_OR = 'FILTER_MATCH_OR';
+
+const ROL_MATCH_OR = (value, filter) => {
+    if (!filter || filter.length === 0) return true;
+    if (!value) return false;
+
+    return filter.some(f => f === value);
+};
 
 const rolOpciones = ref([
     { rol: 'Portero', value: 'Portero' },
@@ -174,16 +162,16 @@ const rolOpciones = ref([
 ]);
 
 const roles = [
-    'Portero',
-    'Defensa',
-    'Mediocampo',
-    'Ataque'
+    "Portero",
+    "Defensa",
+    "Mediocampo",
+    "Ataque"
 ]
 
 const filters = ref({
     global: { value: null, matchMode: FilterMatchMode.CONTAINS },
     id_posicion: { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }] },
-    rol: { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.IN }] },
+    rol: {  value: null, matchMode: FILTER_MATCH_OR },
     posicion: { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.CONTAINS }] },
 });
 
@@ -294,5 +282,6 @@ const confirmDeletePosicion = (currentPosicion) => {
 onMounted(() => {
     restoreFiltersFromStorage();
     getPosiciones();
+    FilterService.register('FILTER_MATCH_OR',ROL_MATCH_OR);
 });
 </script>
