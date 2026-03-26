@@ -170,25 +170,25 @@ class PermissionsTableSeeder extends Seeder
             26 =>
             array (
                 'id' => 28,
-                'name' => 'task-create',
+                'name' => 'liga-create',
                 'guard_name' => 'web',
             ),
             27 =>
             array (
                 'id' => 30,
-                'name' => 'task-delete',
+                'name' => 'liga-delete',
                 'guard_name' => 'web',
             ),
             28 =>
             array (
                 'id' => 29,
-                'name' => 'task-edit',
+                'name' => 'liga-edit',
                 'guard_name' => 'web',
             ),
             29 =>
             array (
                 'id' => 27,
-                'name' => 'task-list',
+                'name' => 'liga-list',
                 'guard_name' => 'web',
             ),
             30 =>
