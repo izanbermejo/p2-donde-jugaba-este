@@ -131,6 +131,7 @@ const menuModel = computed(() => {
             items: [
                 { label: 'Jugadores', icon: 'pi pi-users', route: '/admin/jugadores', permission: 'jugador-list' },
                 { label: 'Paises', icon: 'pi pi-globe', route: '/admin/paises', permission: 'pais-list' },
+                { label: 'Posiciones', icon: 'pi pi-bullseye', route: '/admin/posiciones', permission: 'posicion-list' },
                 { label: 'Categorías', icon: 'pi pi-tags', route: '/admin/categories' }
             ]
         }

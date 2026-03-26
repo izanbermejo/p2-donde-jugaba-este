@@ -20,25 +20,25 @@ class PermissionsTableSeeder extends Seeder
             0 =>
             array (
                 'id' => 24,
-                'name' => 'category-create',
+                'name' => 'posicion-create',
                 'guard_name' => 'web',
             ),
             1 =>
             array (
                 'id' => 26,
-                'name' => 'category-delete',
+                'name' => 'posicion-delete',
                 'guard_name' => 'web',
             ),
             2 =>
             array (
                 'id' => 25,
-                'name' => 'category-edit',
+                'name' => 'posicion-edit',
                 'guard_name' => 'web',
             ),
             3 =>
             array (
                 'id' => 23,
-                'name' => 'category-list',
+                'name' => 'posicion-list',
                 'guard_name' => 'web',
             ),
             4 =>
