@@ -130,6 +130,7 @@ const menuModel = computed(() => {
             label: 'Contenido',
             items: [
                 { label: 'Paises', icon: 'pi pi-globe', route: '/admin/paises', permission: 'pais-list' },
+                { label: 'Ligas', icon: 'pi pi-flag', route: '/admin/ligas', permission: 'liga-list' },
                 { label: 'Posiciones', icon: 'pi pi-bullseye', route: '/admin/posiciones', permission: 'posicion-list' },
                 { label: 'Categorías', icon: 'pi pi-tags', route: '/admin/categories' }
             ]

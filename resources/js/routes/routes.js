@@ -269,6 +269,23 @@ export default [
                     },
                 ]
             },
+
+            {
+                name: 'ligas',
+                path: 'ligas',
+                meta: { breadCrumb: 'ligas' },
+                children: [
+                    {
+                        name: 'ligas.index',
+                        path: '',
+                        component: () => import('../views/admin/ligas/Index.vue'),
+                        meta: {
+                            breadCrumb: 'View ligas',
+                            hideBreadcrumb: true
+                        }
+                    },
+                ]
+            },
         ]
     },
     {

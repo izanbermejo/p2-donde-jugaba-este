@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\ProfileController;
 use App\Http\Controllers\Api\RoleController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\PostController;
+use App\Http\Controllers\Api\LigaController;
 use App\Http\Controllers\Api\PaisController;
 use App\Http\Controllers\Api\PosicionController;
 use Illuminate\Http\Request;
@@ -51,3 +52,5 @@ Route::apiResource('/posts', PostController::class);
 Route::apiResource('/paises', PaisController::class);
 
 Route::apiResource('/posiciones', PosicionController::class);
+
+Route::apiResource('/ligas', LigaController::class);
