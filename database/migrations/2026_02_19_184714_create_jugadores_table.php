@@ -16,10 +16,11 @@ return new class extends Migration
             $table->string('slug_jugador');
             $table->string('nombre_jugador');
             $table->date('fecha_nacimiento_jugador');
-            $table->string('pais_jugador');
-            $table->string('posicion_jugador');
+            $table->string('pais_jugador', 6);
+            $table->string('posicion_jugador', 3);
             $table->string('club_actual_jugador');
 
+            $table->foreign('posicion_jugador')->references('id_posicion')->on('posiciones');
             $table->foreign('pais_jugador')->references('id_pais')->on('paises');
         });
     }

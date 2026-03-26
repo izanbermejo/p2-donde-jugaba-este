@@ -123,14 +123,15 @@ const menuModel = computed(() => {
                 { label: 'Usuarios', icon: 'pi pi-users', route: '/admin/users', permission: 'user-list' },
                 { label: 'Roles', icon: 'pi pi-shield', route: '/admin/roles', permission: 'role-list' },
                 { label: 'Permisos', icon: 'pi pi-key', route: '/admin/permissions', permission: 'permission-list' },
-                { label: 'Posts', icon: 'pi pi-key', route: '/admin/posts', permission: 'permission-list' },
+                { label: 'Posts', icon: 'pi pi-key', route: '/admin/posts' },
             ]
         },
         {
             label: 'Contenido',
             items: [
+                { label: 'Jugadores', icon: 'pi pi-users', route: '/admin/jugadores', permission: 'jugador-list' },
                 { label: 'Paises', icon: 'pi pi-globe', route: '/admin/paises', permission: 'pais-list' },
-                { label: 'Categorías', icon: 'pi pi-tags', route: '/admin/categories', permission: 'category-list' }
+                { label: 'Categorías', icon: 'pi pi-tags', route: '/admin/categories' }
             ]
         }
     ];

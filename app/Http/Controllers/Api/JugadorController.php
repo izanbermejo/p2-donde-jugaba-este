@@ -10,7 +10,7 @@ use App\Models\Jugador;
 class JugadorController extends Controller
 {
     public function index(){
-        $jugadores = Jugador::all();
+        $jugadores = Jugador::with('pais')->get();
         return $jugadores;
     }
 
@@ -36,7 +36,6 @@ class JugadorController extends Controller
     }
 
     public function update(UpdateJugadorRequest $request, $id_jugador){
-        
         $jugador = Jugador::find($id_jugador);
         $jugador->update($request->validated());
 

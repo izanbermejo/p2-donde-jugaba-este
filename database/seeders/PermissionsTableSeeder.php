@@ -119,34 +119,28 @@ class PermissionsTableSeeder extends Seeder
                 'name' => 'permission-list',
                 'guard_name' => 'web',
             ),
-            17 =>
-            array (
-                'id' => 16,
-                'name' => 'post-all',
-                'guard_name' => 'web',
-            ),
             18 =>
             array (
                 'id' => 14,
-                'name' => 'post-create',
+                'name' => 'jugador-create',
                 'guard_name' => 'web',
             ),
             19 =>
             array (
                 'id' => 17,
-                'name' => 'post-delete',
+                'name' => 'jugador-delete',
                 'guard_name' => 'web',
             ),
             20 =>
             array (
                 'id' => 15,
-                'name' => 'post-edit',
+                'name' => 'jugador-edit',
                 'guard_name' => 'web',
             ),
             21 =>
             array (
                 'id' => 13,
-                'name' => 'post-list',
+                'name' => 'jugador-list',
                 'guard_name' => 'web',
             ),
             22 =>

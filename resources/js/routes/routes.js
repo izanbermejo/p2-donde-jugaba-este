@@ -237,6 +237,23 @@ export default [
             },
 
             {
+                name: 'jugadores',
+                path: 'jugadores',
+                meta: { breadCrumb: 'Jugadores' },
+                children: [
+                    {
+                        name: 'jugadores.index',
+                        path: '',
+                        component: () => import('../views/admin/jugadores/Index.vue'),
+                        meta: {
+                            breadCrumb: 'View jugadores',
+                            hideBreadcrumb: true
+                        }
+                    },
+                ]
+            },
+
+            {
                 name: 'paises',
                 path: 'paises',
                 meta: { breadCrumb: 'Paises' },

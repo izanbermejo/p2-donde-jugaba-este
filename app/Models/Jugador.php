@@ -22,4 +22,9 @@ class Jugador extends Model
         'posicion_jugador', 
         'club_actual_jugador'
     ];
+
+    public function pais(){
+        return $this->belongsTo(Pais::class, 'pais_jugador');
+    }
+
 }
