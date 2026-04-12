@@ -26,7 +26,7 @@
                         v-for="link in navLinks"
                         :key="link.route"
                         :to="link.route"
-                        class="text-white hover:text-blue-600 dark:hover:text-blue-400 font-medium transition-colors"
+                        class="font-medium transition-colors nav-link"
                         style="font-size: 24px;"
                     >
                         {{ link.label }}
@@ -50,12 +50,12 @@
                         <button
                             type="button"
                             @click="toggle"
-                            class="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors text-white">
+                            class="flex items-center gap-2 px-3 py-2 rounded-lg  transition-colors header-user-button">
                             <Avatar :image="authStore().user.avatar" :label="authStore().user.name[0]" shape="circle" size="small" />
-                            <span class="text-sm font-medium hidden xl:inline">{{ authStore().user?.name }}</span>
-                            <i class="pi pi-chevron-down text-xs"></i>
+                            <span class="text-sm font-medium hidden xl:inline user-name">{{ authStore().user?.name }}</span>
+                            <i class="pi pi-chevron-down text-xs" style="color: white;"></i>
                         </button>
-                        <Menu ref="menu" :model="items" popup />
+                        <Menu ref="menu" :model="items" popup class="header-dropdown" />
                     </div>
                 </div>
             </div>
@@ -159,10 +159,9 @@ const items = computed(() => [
             {
                 label: 'Panel Admin',
                 icon: 'pi pi-cog',
-                route: '/admin',
-                visible: authStore().user?.roles?.some(r => r.name.includes('admin')) || false
+                visible: authStore().user?.roles?.some(r => r.name.includes('admin')) || false,
+                command: () => router.push('/admin')
             },
-            { label: 'Mi Panel', icon: 'pi pi-th-large', route: '/app' },
             { separator: true },
             {
                 label: 'Cerrar sesión',
@@ -213,3 +212,40 @@ onBeforeMount(() => {
 })
 </script>
 
+<style scoped>
+
+.nav-link {
+    color: white;
+}
+
+.nav-link:hover {
+    color: #54db83;
+}
+
+.nav-link:active {
+    color: #1DB954;
+}
+
+.header-user-button {
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+.header-user-button:hover {
+    background-color: #002b53;
+    border-radius: 0.5rem;
+}
+
+.header-user-button:hover .user-name {
+    color: #54db83;
+}
+
+.user-name {
+    color: white;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+}
+
+
+</style>
