@@ -25,7 +25,7 @@
                     v-for="link in navLinks"
                     :key="link.route"
                     :to="link.route"
-                    class="text-white hover:text-blue-600 dark:hover:text-blue-400 font-medium transition-colors"
+                    class="font-medium transition-colors nav-link"
                     style="font-size: 24px; margin-left: 15px;"
                 >
                     {{ link.label }}
@@ -429,6 +429,18 @@ header {
 .toggle-sidebar-icon {
     color: white;
     border-color: #1DB954;
+}
+
+.nav-link {
+    color: white;
+}
+
+.nav-link:hover {
+    color: #54db83;
+}
+
+.nav-link:active {
+    color: #1DB954;
 }
 
 </style>
