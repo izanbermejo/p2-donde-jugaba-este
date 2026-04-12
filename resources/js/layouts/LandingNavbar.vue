@@ -1,10 +1,10 @@
 <template>
-    <div 
+    <div
         class="fixed w-full z-50 border-b border-gray-200 dark:border-gray-800 transition-all duration-300"
-        :class="isDarkTheme ? 'bg-gray-900' : 'bg-white'">
+        style="background-color: #00203E;">
         <nav class="container mx-auto px-6 py-4 flex items-center justify-between">
             <!-- Logo -->
-            <router-link to="/" class="flex items-center gap-2">
+            <router-link v-if="!isDesktop" to="/" class="flex items-center gap-2">
                 <img src="/images/logo.svg" alt="logo" class="h-10 w-auto"/>
             </router-link>
 
@@ -13,30 +13,29 @@
                 v-if="!isDesktop"
                 @click="visibleMobileMenu = true"
                 class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
-                <i class="pi pi-bars text-2xl"></i>
+                <i class="pi pi-bars text-2xl" style="color: white;"></i>
             </button>
 
             <!-- Desktop Menu -->
-            <div v-if="isDesktop" class="flex items-center gap-6">
-                <router-link 
-                    v-for="link in navLinks" 
-                    :key="link.route" 
-                    :to="link.route" 
-                    class="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium transition-colors"
-                >
-                    {{ link.label }}
+            <div v-if="isDesktop" class="flex items-center" style="width: 100%; justify-content: space-between;">
+                <router-link  to="/" class="flex items-center gap-2">
+                    <img src="/images/logo.svg" alt="logo" class="h-10 w-auto"/>
                 </router-link>
-                
+                <div class="flex gap-20">
+                    <router-link
+                        v-for="link in navLinks"
+                        :key="link.route"
+                        :to="link.route"
+                        class="text-white hover:text-blue-600 dark:hover:text-blue-400 font-medium transition-colors"
+                        style="font-size: 24px;"
+                    >
+                        {{ link.label }}
+                    </router-link>
+
+                </div>
+
                 <!-- Actions -->
-                <div class="flex items-center gap-3 pl-6 border-l border-gray-200 dark:border-gray-700">
-                    <LocaleSwitcher />
-                    
-                    <button 
-                        type="button" 
-                        @click="toggleDarkMode"
-                        class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
-                        <i :class="isDarkTheme ? 'pi-moon' : 'pi-sun'" class="pi text-lg"></i>
-                    </button>
+                <div class="flex items-center gap-3 pl-6 ">
 
                     <template v-if="!authStore().user?.name">
                         <router-link to="/login">
@@ -48,10 +47,10 @@
                     </template>
 
                     <div v-else>
-                        <button 
-                            type="button" 
+                        <button
+                            type="button"
                             @click="toggle"
-                            class="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+                            class="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors text-white">
                             <Avatar :image="authStore().user.avatar" :label="authStore().user.name[0]" shape="circle" size="small" />
                             <span class="text-sm font-medium hidden xl:inline">{{ authStore().user?.name }}</span>
                             <i class="pi pi-chevron-down text-xs"></i>
@@ -66,11 +65,11 @@
         <div v-if="visibleMobileMenu" class="fixed inset-0 z-50 lg:hidden">
             <!-- Backdrop -->
             <div class="absolute inset-0 bg-black/50" @click="visibleMobileMenu = false"></div>
-            
+
             <!-- Panel -->
-            <div 
+            <div
                 class="absolute right-0 top-0 h-full w-full sm:w-80 shadow-2xl"
-                :class="isDarkTheme ? 'bg-gray-900 text-white' : 'bg-white text-gray-900'"
+                :class="'bg-white text-gray-900'"
                 @click.stop>
                 <!-- Header -->
                 <div class="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-800">
@@ -78,7 +77,7 @@
                         <img src="/images/logo.svg" alt="logo" class="h-8"/>
                         <span class="font-bold text-lg">Menu</span>
                     </div>
-                    <button 
+                    <button
                         @click="visibleMobileMenu = false"
                         class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
                         <i class="pi pi-times text-xl"></i>
@@ -89,10 +88,10 @@
                 <div class="flex flex-col gap-4 p-4 h-[calc(100%-5rem)] overflow-y-auto">
                     <!-- Nav Links -->
                     <div class="flex flex-col gap-1">
-                        <router-link 
+                        <router-link
                             v-for="link in navLinks"
                             :key="link.route"
-                            :to="link.route" 
+                            :to="link.route"
                             @click="visibleMobileMenu = false"
                             class="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
                             <i :class="link.icon"></i>
@@ -121,24 +120,11 @@
                             <Button label="Cerrar Sesión" icon="pi pi-power-off" severity="danger" text @click="handleLogout" />
                         </template>
                     </div>
-                    
-                    <!-- Theme Toggle -->
-                    <div 
-                        class="mt-auto flex items-center justify-between p-3 rounded-lg"
-                        :class="isDarkTheme ? 'bg-gray-800' : 'bg-gray-50'">
-                        <span class="text-sm font-medium">Tema</span>
-                        <button 
-                            @click="toggleDarkMode"
-                            class="p-2 rounded-lg transition-colors"
-                            :class="isDarkTheme ? 'hover:bg-gray-700' : 'hover:bg-gray-200'">
-                            <i :class="isDarkTheme ? 'pi-moon' : 'pi-sun'" class="pi"></i>
-                        </button>
-                    </div>
                 </div>
             </div>
         </div>
     </div>
-    
+
     <!-- Spacer -->
     <div class="h-20"></div>
 </template>
@@ -161,17 +147,19 @@ const { processing, logout } = useAuth();
 const { toggleDarkMode, isDarkTheme, setDefaultMode } = useLayout();
 
 const navLinks = [
-    { label: 'Inicio', route: '/', icon: 'pi pi-home' }
+    { label: 'Inicio', route: '/', icon: 'pi pi-home' },
+    { label: 'Juegos', route: '/juegos', icon: 'pi pi-play' },
+    { label: 'Ranking', route: '/ranking', icon: 'pi pi-list' }
 ];
 
 const items = computed(() => [
     {
         items: [
             { label: 'Perfil', icon: 'pi pi-user', command: () => router.push('/app/profile') },
-            { 
-                label: 'Panel Admin', 
-                icon: 'pi pi-cog', 
-                route: '/admin', 
+            {
+                label: 'Panel Admin',
+                icon: 'pi pi-cog',
+                route: '/admin',
                 visible: authStore().user?.roles?.some(r => r.name.includes('admin')) || false
             },
             { label: 'Mi Panel', icon: 'pi pi-th-large', route: '/app' },

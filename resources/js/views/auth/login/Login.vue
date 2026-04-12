@@ -4,7 +4,7 @@
             <!-- Logo y título -->
             <div class="text-center mb-8">
                 <h2 class="text-3xl font-bold">
-                    Bienvenido a SQL Check!
+                    Bienvenido a ¿Dónde jugaba este?
                 </h2>
                 <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
                     Inicia sesión para continuar

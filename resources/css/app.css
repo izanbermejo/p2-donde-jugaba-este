@@ -5,22 +5,23 @@
 @import "primeicons/primeicons.css";
 @import 'sweetalert2/dist/sweetalert2.min.css';
 @import "./flags.css";
+@import url('https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap');
 
 /* ============================================
    Variables CSS - Colores y Tamaños
    ============================================ */
 :root {
     /* Colores - Modo Claro */
-    --color-sidebar-bg: #ffffff;
-    --color-sidebar-border: #e5e7eb;
-    --color-sidebar-text: #64748b;
-    --color-sidebar-text-hover: #1e293b;
-    --color-sidebar-hover-bg: #f8fafc;
-    --color-sidebar-active-bg: rgba(59, 130, 246, 0.15);
-    --color-sidebar-active-text: #3b82f6;
-    --color-sidebar-active-border: #3b82f6;
-    --color-sidebar-menu-active-bg: rgba(59, 130, 246, 0.08);
-    
+    --color-sidebar-bg: #00203E;
+    --color-sidebar-border: #002b53;
+    --color-sidebar-text: #ffffff;
+    --color-sidebar-text-hover: #54db83;
+    --color-sidebar-hover-bg: #002b53;
+    --color-sidebar-active-bg: #003262;
+    --color-sidebar-active-text: #1DB954;
+    --color-sidebar-active-border: #003262;
+    --color-sidebar-menu-active-bg: rgba(255, 0, 0, 0.08);
+
     /* Colores - Modo Oscuro */
     --color-dark-bg: var(--p-card-background);
     --color-dark-surface: #1e293b;
@@ -34,7 +35,7 @@
     --color-dark-active-bg-light: rgba(96, 165, 250, 0.12);
     --color-dark-hover-bg: rgba(255, 255, 255, 0.05);
     --color-dark-hover-bg-light: rgba(255, 255, 255, 0.08);
-    
+
     /* Colores - Header */
     --color-header-dark-bg: #0f172a;
     --color-header-dark-border: #1e293b;
@@ -42,23 +43,23 @@
     --color-header-dark-button-hover: #334155;
     --color-header-dark-input-bg: #1e293b;
     --color-header-dark-input-border: #334155;
-    
+
     /* Colores - Cards */
     --color-card-border-light: rgba(0, 0, 0, 0.05);
     --color-card-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
     --color-card-shadow-dark: 0 1px 3px 0 rgba(0, 0, 0, 0.3), 0 1px 2px 0 rgba(0, 0, 0, 0.2);
-    
+
     /* Colores - Texto Tabla */
     --color-text-id: #6b7280;
     --color-text-name: #1e293b;
     --color-text-email: #475569;
     --color-text-date: #64748b;
-    
+
     /* Colores - Estados */
     --color-danger: #ef4444;
     --color-danger-light: #f87171;
     --color-danger-bg: rgba(239, 68, 68, 0.15);
-    
+
     /* Colores - Gradientes */
     --gradient-primary: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
     --gradient-success: linear-gradient(135deg, #10b981 0%, #059669 100%);
@@ -67,7 +68,7 @@
     --gradient-purple: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     --gradient-avatar: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #d946ef 100%);
     --gradient-dropdown-header: linear-gradient(to bottom, #0f172a, #1e293b);
-    
+
     /* Tamaños - Spacing */
     --spacing-xs: 0.5rem;
     --spacing-sm: 0.75rem;
@@ -76,7 +77,7 @@
     --spacing-xl: 1.5rem;
     --spacing-2xl: 2rem;
     --spacing-3xl: 3rem;
-    
+
     /* Tamaños - Font */
     --font-xs: 0.75rem;
     --font-sm: 0.875rem;
@@ -87,7 +88,7 @@
     --font-3xl: 1.75rem;
     --font-4xl: 1.875rem;
     --font-5xl: 3rem;
-    
+
     /* Tamaños - Border */
     --border-width: 1px;
     --border-width-sm: 3px;
@@ -95,7 +96,7 @@
     --border-radius-sm: 0.375rem;
     --border-radius-md: 0.5rem;
     --border-radius-lg: 0.75rem;
-    
+
     /* Tamaños - Shadows */
     --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
     --shadow-md: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
@@ -117,7 +118,7 @@
     --shadow-submenu-indicator-dark: 0 0 8px rgba(96, 165, 250, 0.6);
     --shadow-submenu-dot: 0 0 6px rgba(59, 130, 246, 0.6);
     --shadow-submenu-dot-dark: 0 0 6px rgba(96, 165, 250, 0.7);
-    
+
     /* Tamaños - Indicadores */
     --indicator-width: 3px;
     --indicator-width-active: 4px;
@@ -126,19 +127,19 @@
     --indicator-height-submenu: 55%;
     --indicator-opacity: 0.6;
     --indicator-opacity-hover: 1;
-    
+
     /* Tamaños - Transiciones */
     --transition-fast: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
     --transition-base: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     --transition-slow: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    
+
     /* Tamaños - Opacidades */
     --opacity-icon: 0.7;
     --opacity-icon-hover: 1;
     --opacity-text: 0.8;
     --opacity-label: 0.7;
     --opacity-empty: 0.5;
-    
+
     /* Tamaños - Escalas */
     --scale-hover: 1.05;
     --scale-active: 1.08;
@@ -153,9 +154,9 @@
 @layer tailwind-base {
     html {
         @apply transition-colors duration-200 ease-in-out;
-        
+
         font-family:
-        'Roboto',
+        'Kanit',
         ui-sans-serif,
         system-ui,
         -apple-system,
@@ -163,13 +164,13 @@
         'Segoe UI',
         sans-serif;
         font-size: 15px; /* Reduce el tamaño base de 16px a 14px */
-  
+
     }
-    
+
 
     body {
         @apply font-sans antialiased transition-colors duration-200 ease-in-out;
-        font-family: 'Inter', system-ui, -apple-system, sans-serif;
+        font-family: 'Kanit', system-ui, -apple-system, sans-serif;
     }
 }
 
