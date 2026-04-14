@@ -1,12 +1,12 @@
 <template>
-    
+
     <div >
         <!-- ===== Page Wrapper Start ===== -->
         <div class="flex h-screen overflow-hidden">
             <!-- ===== Sidebar Start ===== -->
             <!-- ===== Sidebar Start ===== -->
-            <MainSidebar 
-                :sidebarOpen="sidebarOpen" 
+            <MainSidebar
+                :sidebarOpen="sidebarOpen"
                 :isCollapsed="isCollapsed"
                 :menuItems="menuItems"
                 @toggleSidebar="toggleSidebar"
@@ -17,13 +17,13 @@
             <!-- ===== Content Area Start ===== -->
             <div class="relative flex flex-1 flex-col overflow-y-auto overflow-x-hidden">
                 <!-- ===== Header Start ===== -->
-                <MainHeader 
-                    :sidebarOpen="sidebarOpen" 
+                <MainHeader
+                    :sidebarOpen="sidebarOpen"
                     :isCollapsed="isCollapsed"
                     @toggleSidebar="toggleSidebar"
                     @toggleCollapse="toggleCollapse"
                 />
-            
+
                 <!-- ===== Main Content Start ===== -->
                 <main>
                     <div class="main-content-wrapper">
@@ -36,6 +36,14 @@
                     </div>
                 </main>
                 <!-- ===== Main Content End ===== -->
+
+                <!-- ===== footer Start ===== -->
+                <MainFooter
+                    :sidebarOpen="sidebarOpen"
+                    :isCollapsed="isCollapsed"
+                    @toggleSidebar="toggleSidebar"
+                    @toggleCollapse="toggleCollapse"
+                />
             </div>
             <!-- ===== Content Area End ===== -->
         </div>
@@ -49,6 +57,7 @@ import { useRoute } from 'vue-router';
 import { useLayout } from '../composables/layout';
 import MainSidebar from './MainSidebar.vue';
 import MainHeader from './MainHeader.vue';
+import MainFooter from './MainFooter.vue';
 
 const props = defineProps({
     menuItems: {
@@ -102,18 +111,18 @@ const breadcrumbs = computed(() => {
     const currentPath = route.path;
     const isApp = currentPath.startsWith('/app');
     const rootPath = isApp ? '/app' : '/admin';
-    
+
     if (!currentPath || currentPath === rootPath) {
         return [];
     }
-    
+
     let pathArray = currentPath.split("/").filter(Boolean);
-    
+
     // Remover el prefijo (admin o app) del inicio si existe
     if (pathArray[0] === 'admin' || pathArray[0] === 'app') {
         pathArray.shift();
     }
-    
+
     return pathArray.map((path, idx) => {
         const fullPath = rootPath + '/' + pathArray.slice(0, idx + 1).join('/');
         const matchedRoute = route.matched.find(r => r.path === fullPath || r.path === fullPath.replace(/\/$/, ''));
