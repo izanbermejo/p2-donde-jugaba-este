@@ -254,6 +254,23 @@ export default [
             },
 
             {
+                name: 'clubes',
+                path: 'clubes',
+                meta: { breadCrumb: 'clubes' },
+                children: [
+                    {
+                        name: 'clubes.index',
+                        path: '',
+                        component: () => import('../views/admin/clubes/Index.vue'),
+                        meta: {
+                            breadCrumb: 'View clubes',
+                            hideBreadcrumb: true
+                        }
+                    },
+                ]
+            },
+
+            {
                 name: 'paises',
                 path: 'paises',
                 meta: { breadCrumb: 'Paises' },

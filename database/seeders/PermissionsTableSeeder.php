@@ -239,6 +239,24 @@ class PermissionsTableSeeder extends Seeder
                 'name' => 'pais-create',
                 'guard_name' => 'web',
             ),
-        ));
+            38 =>
+            array (
+                'id' => 39,
+                'name' => 'club-edit',
+                'guard_name' => 'web',
+            ),
+            39 =>
+            array (
+                'id' => 40,
+                'name' => 'club-list',
+                'guard_name' => 'web',
+            ),
+            40 =>
+            array (
+                'id' => 41,
+                'name' => 'club-create',
+                'guard_name' => 'web',
+            ),
+            ));
     }
 }

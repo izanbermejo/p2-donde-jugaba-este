@@ -11,6 +11,7 @@ use App\Http\Controllers\Api\LigaController;
 use App\Http\Controllers\Api\PaisController;
 use App\Http\Controllers\Api\JugadorController;
 use App\Http\Controllers\Api\PosicionController;
+use App\Http\Controllers\Api\ClubController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -55,6 +56,8 @@ Route::apiResource('/paises', PaisController::class);
 Route::apiResource('/jugadores', JugadorController::class);
 Route::get('/jugadores/pais/{id_pais}', [JugadorController::class, 'indexByIdPais']);
 Route::get('/jugadores/posicion/{id_posicion}', [JugadorController::class, 'indexByIdPosicion']);
+
+Route::apiResource('/clubes', ClubController::class);
 
 Route::apiResource('/posiciones', PosicionController::class);
 
