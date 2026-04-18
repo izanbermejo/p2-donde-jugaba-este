@@ -257,6 +257,12 @@ class PermissionsTableSeeder extends Seeder
                 'name' => 'club-create',
                 'guard_name' => 'web',
             ),
-            ));
+            41 =>
+            array (
+                'id' => 42,
+                'name' => 'club-delete',
+                'guard_name' => 'web',
+            ),
+        ));
     }
 }

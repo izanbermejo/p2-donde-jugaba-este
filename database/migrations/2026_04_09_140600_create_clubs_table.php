@@ -15,7 +15,7 @@ return new class extends Migration
             $table->integer('id_club')->primary();
             $table->string('slug_club');
             $table->string('nombre_club');
-            $table->string('logo_url');
+            $table->string('logo_url')->nullable();
             $table->string('pais_club');
             $table->string('id_liga_club', 5);
             $table->string('dificultad_club');

@@ -17,7 +17,7 @@ export default function useClubes() {
         id_club: 0,
         slug_club: '',
         nombre_club: '',
-        logo_url: new Date(),
+        logo_url: 'hola',
         pais_club: '',
         id_liga_club: '',
         dificultad_club: '',
@@ -32,7 +32,7 @@ export default function useClubes() {
         nombre_club: yup.string().trim().required('El nombre del club es obligatorio'),
         logo_url: yup.string().trim(),
         pais_club: yup.string().trim().required('Es obligatorio indicar un país para el club'),
-        id_pais_club: yup.string().trim().required('Es obligatorio indicar un id del pais para el club'),
+        id_liga_club: yup.string().trim().required('Es obligatorio indicar un id de la liga para el club'),
         dificultad_club: yup.string().trim().required('Es obligatorio indicar la dificultad del club'),
     })
 
@@ -59,18 +59,23 @@ export default function useClubes() {
         clearErrors()
 
         club.value.slug_club = formatearSlugNombreClub(club.value.nombre_club)
-
         const clubParaEnviar = {
             ...club.value,
             // pais_club: club.value.pais_club.id_pais, // aquí solo el ID
             // fecha_nacimiento_jugador: dayjs(jugador.value.fecha_nacimiento_jugador).format('YYYY-MM-DD')
         };
+console.log('==2');
 
-        const { isValid } = validate(clubSchema, clubParaEnviar)
+        const { isValid,errors } = validate(clubSchema, clubParaEnviar)
+        console.log(errors);
         if (!isValid) {
             isLoading.value = false
+            console.log('==3');
+
             return
         }
+        console.log('==5');
+
 
         const serializedClub = serializeClub(clubParaEnviar)
 
@@ -102,8 +107,8 @@ export default function useClubes() {
             id_club: data.id_club ?? 0,
             slug_club: data.slug_club ?? '',
             nombre_club: data.nombre_club ?? '',
-            logo_url: data.logo.url ?? '',
-            pais_club: darta.pais ?? '',
+            logo_url: data.logo_url ?? '',
+            pais_club: data.pais_club ?? 's',
             id_liga_club: data.id_liga_club ?? '',
             dificultad_club: data.dificultad_club ?? '',
         }

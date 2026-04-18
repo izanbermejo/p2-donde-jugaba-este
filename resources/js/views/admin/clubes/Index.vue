@@ -232,12 +232,14 @@
                         <small v-if="hasError('nombre_club')" class="dialog-error">
                             {{ getError('nombre_club') }}
                         </small>
+                    
                     </div>
                     <div class="flex flex-col">
                         <label for="club-pais" class="dialog-label">Pais</label>
                         <InputText
                             id="club-pais"
                             v-model="club.pais_club"
+                            :key="club.id_club"
                             placeholder="Pais"
                             class="w-full"
                             :class="{ 'p-invalid': hasError('pais_club') }"
@@ -247,7 +249,9 @@
                         </small>
                     </div>
                     <div>
-                        <Select 
+                        <label for="club-liga" class="dialog-label">Liga</label>
+                        <Select
+                        id="club-liga" 
                         v-model="club.id_liga_club" 
                         :options="ligas" 
                         optionLabel="nombre_liga"
@@ -259,7 +263,7 @@
                             <!-- Lo valida como false al insertar club porque devuelve el objeto de liga en vez de el id -->
                             <template #value="slotProps">
                                 <div v-if="slotProps.value" class="flex items-center">
-                                    <div>{{ slotProps.value.nombre_liga }}</div>
+                                    <div>{{ ligas.find(l => l.id_liga === slotProps.value)?.nombre_liga || '-' }}</div>
                                 </div>
                                 <span v-else>
                                     {{ slotProps.placeholder }}
@@ -271,8 +275,8 @@
                                 </div>
                             </template>
                         </Select>
-                        <small v-if="hasError('pais_liga')" class="dialog-error">
-                            {{ getError('pais_liga') }}
+                        <small v-if="hasError('id_liga_club')" class="dialog-error">
+                            {{ getError('id_liga_club') }}
                         </small>
                     </div>
                     <div>
@@ -400,9 +404,9 @@ const openCreateDialog = () => {
     clubDialog.open = true;
 };
 
-const openEditDialog = async (currentClub) => {
+const openEditDialog = (currentClub) => {
     cargaLigas()
-    await setClub(currentClub);
+    setClub(currentClub);
     clubDialog.type = 'edit';
     clubDialog.open = true;
 };
@@ -419,6 +423,7 @@ const closeDialog = () => {
 
 const submitCreate = () => {
     console.log("1. ENTRA")
+    console.log(isSubmitting.value);
     if (isSubmitting.value) return;
 
     createClub()
