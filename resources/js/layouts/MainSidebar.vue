@@ -130,7 +130,7 @@ const menuModel = computed(() => {
             label: 'Contenido',
             items: [
                 { label: 'Jugadores', icon: 'pi pi-users', route: '/admin/jugadores', permission: 'jugador-list' },
-                { label: 'Clubes', icon: 'pi pi-users', route: '/admin/clubes', permission: 'club-list' },
+                { label: 'Clubes', icon: 'pi pi-shield', route: '/admin/clubes', permission: 'club-list' },
                 { label: 'Paises', icon: 'pi pi-globe', route: '/admin/paises', permission: 'pais-list' },
                 { label: 'Ligas', icon: 'pi pi-flag', route: '/admin/ligas', permission: 'liga-list' },
                 { label: 'Posiciones', icon: 'pi pi-bullseye', route: '/admin/posiciones', permission: 'posicion-list' }            ]
