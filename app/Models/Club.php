@@ -17,4 +17,9 @@ class Club extends Model
     public function liga() {
         return $this->belongsTo(Liga::class, 'id_liga_club', 'id_liga');
     }
+
+    public function jugadores()
+    {
+        return $this->belongsToMany(Jugador::class, 'jugador_has_club', 'id_club', 'id_jugador');
+    }
 }
