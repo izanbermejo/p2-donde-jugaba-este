@@ -3,39 +3,43 @@
         <div class="flex grow items-center justify-between p-1 md:px-6 2xl:px-11">
             <div class="flex items-center gap-2 sm:gap-4">
                 <!-- Toggle Button - Mobile -->
-                <button 
-                    @click="emit('toggleSidebar')" 
-                    class="z-99999 flex items-center justify-center w-9 h-9 rounded-lg border transition-colors lg:hidden"
+                <button
+                    @click="emit('toggleSidebar')"
+                    class="z-99999 flex items-center justify-center w-9 h-9 rounded-lg border transition-colors lg:hidden toggle-sidebar-icon"
                     aria-label="Toggle sidebar"
                 >
-                    <i class="pi pi-bars text-lg"></i>
+                    <i class="pi pi-bars text-lg toggle-sidebar-icon"></i>
                 </button>
 
                 <!-- Toggle Button - Desktop (para colapsar/expandir) -->
-                <button 
-                    @click="emit('toggleCollapse')" 
-                    class="hidden lg:flex items-center justify-center w-9 h-9 rounded-lg border transition-colors"
+                <button
+                    @click="emit('toggleCollapse')"
+                    class="hidden lg:flex items-center justify-center w-9 h-9 rounded-lg border transition-colors toggle-sidebar-icon"
                     :title="props.isCollapsed ? 'Expandir sidebar' : 'Colapsar sidebar'"
                     aria-label="Toggle sidebar"
                 >
-                    <i :class="props.isCollapsed ? 'pi pi-angle-right' : 'pi pi-angle-left'" class="text-lg"></i>
+                    <i :class="props.isCollapsed ? 'pi pi-angle-right' : 'pi pi-angle-left'" class="text-lg toggle-sidebar-icon"></i>
                 </button>
+
+                <router-link
+                    v-for="link in navLinks"
+                    :key="link.route"
+                    :to="link.route"
+                    class="font-medium transition-colors nav-link"
+                    style="font-size: 24px; margin-left: 15px;"
+                >
+                    {{ link.label }}
+                </router-link>
             </div>
 
             <div class="flex items-center gap-2 sm:gap-3">
                 <ul class="flex items-center gap-1.5 sm:gap-2">
-                    <!-- Dark Mode Toggle -->
-                    <li>
-                        <button @click="toggleDarkMode" class="header-icon-button relative flex h-10 w-10 items-center justify-center rounded-lg border transition-all duration-200" title="Cambiar tema">
-                            <i :class="isDarkTheme ? 'pi pi-sun' : 'pi pi-moon'" class="text-base"></i>
-                        </button>
-                    </li>
 
                     <!-- User Dropdown -->
                     <li>
                         <div class="relative">
                             <button @click="toggleDropdown" class="header-user-button flex items-center gap-3 rounded-lg px-2 py-1.5 transition-all duration-200 hover:bg-opacity-50">
-                                <span class="hidden text-right lg:block min-w-[80px]">
+                                <span class="hidden text-right lg:block min-w-20">
                                     <span class="block text-sm font-semibold leading-tight user-name">{{ user?.name || 'Usuario' }}</span>
                                     <span class="block text-xs leading-tight user-role">{{ user?.roles?.[0]?.name || 'Rol' }}</span>
                                 </span>
@@ -118,6 +122,12 @@ const auth = authStore();
 const dropdownOpen = ref(false);
 
 const user = computed(() => auth.user);
+
+const navLinks = [
+    { label: 'Inicio', route: '/', icon: 'pi pi-home' },
+    { label: 'Juegos', route: '/juegos', icon: 'pi pi-play' },
+    { label: 'Ranking', route: '/ranking', icon: 'pi pi-list' }
+];
 
 
 const toggleDropdown = () => {
@@ -231,12 +241,16 @@ header {
 }
 
 .header-user-button:hover {
-    background-color: #f8fafc;
+    background-color: #002b53;
     border-radius: 0.5rem;
 }
 
+.header-user-button:hover .user-name {
+    color: #54db83;
+}
+
 .user-name {
-    color: #1e293b;
+    color: white;
     font-weight: 600;
     letter-spacing: -0.01em;
 }
@@ -276,20 +290,20 @@ header {
 
 /* Dropdown - Diseño Profesional */
 .header-dropdown {
-    background-color: #ffffff;
-    border: 1px solid #e2e8f0;
+    background-color: #002b53;
+    border: 1px solid #002b53;
     box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04), 0 0 0 1px rgba(0, 0, 0, 0.05);
     min-width: 280px;
 }
 
 .header-dropdown-header {
-    border-bottom: 1px solid #f1f5f9;
-    background: linear-gradient(to bottom, #fafbfc, #f8fafc);
+    border-bottom: 1px solid #002b53;
+    background: #00203E;
     padding: 1rem 1.25rem;
 }
 
 .user-dropdown-name {
-    color: #1e293b;
+    color: white;
     font-weight: 600;
     font-size: 0.875rem;
     line-height: 1.25rem;
@@ -308,7 +322,7 @@ header {
 }
 
 .dropdown-menu-item {
-    color: #475569;
+    color: white;
     border: none;
     background: transparent;
     padding: 0.625rem 0.75rem;
@@ -332,14 +346,14 @@ header {
     transform: translateY(-50%);
     width: 3px;
     height: 0;
-    background-color: #3b82f6;
+    background-color: #1DB954;
     border-radius: 0 2px 2px 0;
     transition: height 0.15s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .dropdown-menu-item:hover {
-    color: #1e293b;
-    background-color: #f1f5f9;
+    color: #1DB954;
+    background-color: #003262;
     padding-left: 1rem;
 }
 
@@ -348,7 +362,7 @@ header {
 }
 
 .dropdown-menu-item i {
-    color: #64748b;
+    color: grey;
     width: 18px;
     height: 18px;
     display: flex;
@@ -360,7 +374,7 @@ header {
 }
 
 .dropdown-menu-item:hover i {
-    color: #3b82f6;
+    color: #1DB954;
 }
 
 .dropdown-menu-item span {
@@ -368,7 +382,7 @@ header {
 }
 
 .header-dropdown .border-t {
-    border-top: 1px solid #f1f5f9;
+    border-top: 1px solid #003262;
     margin-top: 0.25rem;
 }
 
@@ -378,7 +392,7 @@ header {
 
 .logout-button:hover {
     color: #b91c1c;
-    background-color: #fef2f2;
+    background-color: #003262;
 }
 
 .logout-button:hover::before {
@@ -406,6 +420,27 @@ header {
 .dropdown-fade-leave-to {
     opacity: 0;
     transform: translateY(-5px) scale(0.98);
+}
+
+.tail-admin-header {
+    background-color: #00203E;
+}
+
+.toggle-sidebar-icon {
+    color: white;
+    border-color: #1DB954;
+}
+
+.nav-link {
+    color: white;
+}
+
+.nav-link:hover {
+    color: #54db83;
+}
+
+.nav-link:active {
+    color: #1DB954;
 }
 
 </style>

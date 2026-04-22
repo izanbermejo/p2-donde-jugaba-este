@@ -31,19 +31,19 @@
                         <router-link :to="subItem.route" v-if="subItem.route" custom v-slot="{ href, navigate, isActive }">
                             <a :href="href" @click="navigate"
                                v-tooltip.right="props.isCollapsed ? subItem.label : ''"
-                               class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200"
+                               class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 sidebar-link"
                                :class="[
-                                   isActive ? 'bg-blue-50 text-blue-600 dark:bg-blue-900/20 dark:text-blue-400 font-medium' : 'text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-gray-200'
+                                   isActive ? 'sidebar-active-link' : ''
                                ]"
                             >
-                                <i class="text-lg shrink-0 transition-colors" :class="[subItem.icon, isActive ? 'text-blue-600 dark:text-blue-400' : 'text-gray-500 dark:text-gray-500']"></i>
+                                <i class="text-lg shrink-0 transition-colors" :class="[subItem.icon, isActive ? 'sidebar-active-icon' : 'sidebar-icon']"></i>
 
                                 <span class="whitespace-nowrap transition-all duration-300 origin-left"
                                       :class="[props.isCollapsed ? 'hidden' : 'w-auto opacity-100']">
                                     {{ subItem.label }}
                                 </span>
 
-                                <span v-if="isActive" class="absolute right-2 w-1.5 h-1.5 rounded-full bg-blue-600 dark:bg-blue-400"></span>
+                                <span v-if="isActive" class="absolute right-2 w-1.5 h-1.5 rounded-full" style="background-color: #1DB954;"></span>
                             </a>
                         </router-link>
                      </template>
@@ -160,5 +160,27 @@ const menuModel = computed(() => {
 .scrollbar-hide {
     -ms-overflow-style: none;
     scrollbar-width: none;
+}
+
+.sidebar-link{
+    color: white;
+}
+
+.sidebar-icon {
+    color: grey;
+}
+
+.sidebar-link:hover {
+    color: #54db83;
+    background-color: #002b53;
+}
+
+.sidebar-link:active {
+    color: #1DB954;
+    background-color: #003262;
+}
+
+.sidebar-active-link, .sidebar-active-icon {
+    color: #1DB954;
 }
 </style>
