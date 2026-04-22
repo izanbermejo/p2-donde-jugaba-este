@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Api;
 
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreJugadorRequest;
 use App\Http\Requests\UpdateJugadorRequest;
 use App\Models\Jugador;
+use Illuminate\Support\Facades\DB;
 
 class JugadorController extends Controller
 {
@@ -54,5 +56,31 @@ class JugadorController extends Controller
     public function indexByIdPosicion($id_posicion){
         $jugadores = Jugador::where('posicion_jugador', $id_posicion)->get();
         return $jugadores;
+    }
+
+    public function getClubes($id)
+    {
+        $jugador = Jugador::with('clubes')->findOrFail($id);
+
+        return response()->json($jugador->clubes);
+    }
+
+
+//     public function updateClubes(\Illuminate\Http\Request $request, $id)
+// {
+//     return response()->json(['ok' => true]);
+// }
+
+    public function updateClubes(Request $request, $id)
+    {
+        $jugador = Jugador::findOrFail($id);
+
+        $clubes = $request->input('clubes', []); // 👈 evita null
+
+        $jugador->clubes()->sync($clubes);
+
+        return response()->json([
+            'message' => 'Clubes actualizados correctamente'
+        ]);
     }
 }

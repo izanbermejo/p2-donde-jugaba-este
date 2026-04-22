@@ -27,4 +27,9 @@ class Jugador extends Model
         return $this->belongsTo(Pais::class, 'pais_jugador');
     }
 
+    public function clubes()
+    {
+        return $this->belongsToMany(Club::class, 'jugador_has_club', 'id_jugador', 'id_club');
+    }
+
 }
