@@ -258,7 +258,7 @@
                     </div>
                     <div class="flex flex-col">
                         <label for="jugador-pais" class="dialog-label">Nacionalidad</label>
-                        <Select v-model="jugador.pais_jugador" :options="paises" filter filterBy="nombre_pais" optionLabel="nombre_pais" placeholder="Selecciona la nacionalidad" class="w-full">
+                        <Select v-model="jugador.pais_jugador" :options="countryStore.countries" filter filterBy="nombre_pais" optionLabel="nombre_pais" placeholder="Selecciona la nacionalidad" class="w-full">
                             <!-- Lo valida como false al insertar jugador porque devuelve el objeto de pais en vez de el id -->
                             <template #value="slotProps">
                                 <div v-if="slotProps.value" class="flex items-center">
@@ -339,15 +339,32 @@ import usePaises from "@/composables/paises";
 import { useAbility } from '@casl/vue';
 import {FilterMatchMode, FilterOperator} from "@primevue/core/api";
 import { usePrimeVue } from 'primevue/config';
+import { useCountryStore } from "@/store/paises";
 
 const FILTERS_STORAGE_KEY = 'admin_permissions_table_filters';
 const {jugadores, jugador, getJugadores, createJugador, updateJugador, deleteJugador, resetJugador, setJugador, hasError, getError, upsertJugadorRecord, isLoading} = useJugadores();
-const {paises, getPaises} = usePaises();
 const { can } = useAbility();
 const $primevue = usePrimeVue();
+const countryStore = useCountryStore();
 
 const swal = inject('$swal');
 const canUseBrowserStorage = typeof window !== 'undefined';
+
+console.log('DEBUG - Store inicial:', {
+    countries: countryStore.countries,
+    isArray: Array.isArray(countryStore.countries),
+    type: typeof countryStore.countries,
+    value: countryStore.countries
+});
+
+watch(() => countryStore.countries, (newVal, oldVal) => {
+    console.log('DEBUG - countries cambiaron:', {
+        nuevo: newVal,
+        esArray: Array.isArray(newVal),
+        longitud: newVal?.length,
+        tipo: typeof newVal
+    });
+}, { deep: true, immediate: true });
 
 const dificultadOpciones = ref([
     { dificultad: '0', value: '0' },
@@ -410,23 +427,26 @@ watch(filters, (newFilters) => {
 }, { deep: true });
 
 const openCreateDialog = () => {
-    cargaPaises()
+    console.log('DEBUG - Abriendo modal CREATE:', {
+        countries: countryStore.countries,
+        esArray: Array.isArray(countryStore.countries),
+        longitud: countryStore.countries?.length
+    });
     resetJugador();
     jugadorDialog.type = 'create';
     jugadorDialog.open = true;
 };
 
 const openEditDialog = async (currentJugador) => {
-    cargaPaises()
+    console.log('DEBUG - Abriendo modal CREATE:', {
+        countries: countryStore.countries,
+        esArray: Array.isArray(countryStore.countries),
+        longitud: countryStore.countries?.length
+    });
     await setJugador(currentJugador);
     jugadorDialog.type = 'edit';
     jugadorDialog.open = true;
 };
-
-const cargaPaises = async () => {
-    const response = await getPaises();
-    paises.value = response.data;
-}
 
 const closeDialog = () => {
     jugadorDialog.open = false;
@@ -439,7 +459,7 @@ const submitCreate = () => {
     createJugador()
         .then(createdJugador => {
             if (createdJugador) {
-                const paisObj = paises.value.find(p => p.id_pais === createdJugador.pais_jugador);
+                const paisObj = countryStore.countries.find(p => p.id_pais === createdJugador.pais_jugador);
                 createdJugador.pais = paisObj || { id_pais: createdJugador.pais_jugador, nombre_pais: '-' };
                 upsertJugadorRecord(createdJugador);
                 closeDialog();
@@ -453,7 +473,7 @@ const submitUpdate = () => {
     updateJugador()
     .then(updatedJugador => {
             if (updatedJugador) {
-                const paisObj = paises.value.find(p => p.id_pais === updatedJugador.pais_jugador);
+                const paisObj = countryStore.countries.find(p => p.id_pais === updatedJugador.pais_jugador);
                 updatedJugador.pais = paisObj || { id_pais: updatedJugador.pais_jugador, nombre_pais: '-' };
                 upsertJugadorRecord(updatedJugador);
                 closeDialog();
@@ -487,6 +507,7 @@ const confirmDeleteJugador = (currentJugador) => {
 };
 
 onMounted(() => {
+    countryStore.fetchCountries();
     restoreFiltersFromStorage();
     getJugadores();
 });
