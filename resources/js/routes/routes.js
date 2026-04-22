@@ -305,6 +305,20 @@ export default [
             },
         ]
     },
+
+    {
+        path: '/juegos',
+        component: () => import('../views/juegos/index.vue'),
+        meta: { breadCrumb: 'juegos' },
+        children: [
+            {
+                name: 'Match9',
+                path: 'match9',
+                component: () => import('../views/juegos/match9/index.vue')
+            },
+        ]
+    },
+
     {
         path: "/:pathMatch(.*)*",
         name: 'NotFound',

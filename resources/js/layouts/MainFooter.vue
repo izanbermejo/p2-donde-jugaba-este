@@ -39,9 +39,4 @@
     transition: all 0.2s ease;
 }
 
-.footer-logo:hover {
-    opacity: 1;
-    transform: scale(1.05);
-}
-
 </style>

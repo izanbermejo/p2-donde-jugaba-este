@@ -39,7 +39,7 @@
                     <li>
                         <div class="relative">
                             <button @click="toggleDropdown" class="header-user-button flex items-center gap-3 rounded-lg px-2 py-1.5 transition-all duration-200 hover:bg-opacity-50">
-                                <span class="hidden text-right lg:block min-w-[80px]">
+                                <span class="hidden text-right lg:block min-w-20">
                                     <span class="block text-sm font-semibold leading-tight user-name">{{ user?.name || 'Usuario' }}</span>
                                     <span class="block text-xs leading-tight user-role">{{ user?.roles?.[0]?.name || 'Rol' }}</span>
                                 </span>
