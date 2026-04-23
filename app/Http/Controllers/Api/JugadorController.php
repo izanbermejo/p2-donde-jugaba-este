@@ -6,12 +6,17 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreJugadorRequest;
 use App\Http\Requests\UpdateJugadorRequest;
 use App\Models\Jugador;
+use Illuminate\Http\Request;
 
 class JugadorController extends Controller
 {
-    public function index(){
-        $jugadores = Jugador::with('pais')->get();
-        return $jugadores;
+    public function index(Request $request){
+        $perPage = $request->get('rows', 10);
+        $page = $request->get('page', 1);
+
+        $jugadores = Jugador::with('pais')->paginate($perPage);
+
+        return response()->json($jugadores);
     }
 
     public function show($id_jugador){

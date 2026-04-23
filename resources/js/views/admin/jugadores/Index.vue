@@ -46,13 +46,16 @@
                         </div>
                     </div>
                 </div>
+
                 <DataTable
                     v-else
                     v-model:filters="filters"
                     :value="jugadores || []"
+                    :first="currentPage * 10"
                     :paginator="true"
                     :rows="10"
-                    :rows-per-page-options="[10, 25, 50]"
+                    :total-records="totalRecords"
+                    :lazy="true"
                     data-key="id"
                     striped-rows
                     size="small"
@@ -60,6 +63,7 @@
                     filter-display="menu"
                     :filter-delay="300"
                     :global-filter-fields="['id_jugador', 'nombre_jugador', 'dificultad_jugador']"
+                    @page="onPageChange"
                 >
                     <template #empty>
                         <div class="table-empty-state">
@@ -342,10 +346,11 @@ import { usePrimeVue } from 'primevue/config';
 import { useCountryStore } from "@/store/paises";
 
 const FILTERS_STORAGE_KEY = 'admin_permissions_table_filters';
-const {jugadores, jugador, getJugadores, createJugador, updateJugador, deleteJugador, resetJugador, setJugador, hasError, getError, upsertJugadorRecord, isLoading} = useJugadores();
+const {jugadores, jugador, getJugadores, createJugador, updateJugador, deleteJugador, resetJugador, setJugador, hasError, getError, upsertJugadorRecord, isLoading, totalRecords} = useJugadores();
 const { can } = useAbility();
 const $primevue = usePrimeVue();
 const countryStore = useCountryStore();
+const currentPage = ref(0);
 
 const swal = inject('$swal');
 const canUseBrowserStorage = typeof window !== 'undefined';
@@ -386,10 +391,6 @@ const jugadorDialog = reactive({
     open: false,
     type: 'create'
 });
-
-const test = () => {
-    getJugadores()
-}
 
 const isSubmitting = computed(() => isLoading.value);
 const skeletonRows = Array.from({ length: 5 }, (_, index) => index);
@@ -487,7 +488,8 @@ const performDelete = (id) => {
 
 const confirmDeleteJugador = (currentJugador) => {
     if (!swal) {
-        performDelete(currentJugador.id_jugador);
+        const currentPage = Math.ceil(jugadores.value.length > 0 ? 1 : 1);
+        deleteJugador(currentJugador.id_jugador, currentPage, 10);
         return;
     }
 
@@ -501,7 +503,8 @@ const confirmDeleteJugador = (currentJugador) => {
         confirmButtonColor: '#ef4444'
     }).then((result) => {
         if (result.isConfirmed) {
-            performDelete(currentJugador.id_jugador);
+            const currentPage = Math.ceil(jugadores.value.length > 0 ? 1 : 1);
+            deleteJugador(currentJugador.id_jugador, currentPage, 10);
         }
     });
 };
@@ -509,8 +512,23 @@ const confirmDeleteJugador = (currentJugador) => {
 onMounted(() => {
     countryStore.fetchCountries();
     restoreFiltersFromStorage();
-    getJugadores();
+    getJugadores(1, 10);
 });
+
+let isChangingPage = false;
+
+const onPageChange = async (event) => {
+    if (isChangingPage) return;
+    isChangingPage = true;
+
+    currentPage.value = event.page;
+
+    await getJugadores(event.page + 1, event.rows);
+
+    setTimeout(() => {
+        isChangingPage = false;
+    }, 100);
+};
 
 //subir imagen
 const totalSize = ref(0);

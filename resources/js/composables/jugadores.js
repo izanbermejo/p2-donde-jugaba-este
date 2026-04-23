@@ -13,6 +13,7 @@ export default function useJugadores() {
 
     const isLoading = ref(false)
     const jugadores = ref([])
+    const totalRecords = ref(0);
     const initialJugador = {
         id_jugador: 0,
         slug_jugador: '',
@@ -36,13 +37,26 @@ export default function useJugadores() {
         club_actual_jugador: yup.string().trim().required('Es obligatorio indicar el club actual del jugador o si está retirado (retired)'),
     })
 
-    const getJugadores = async () => {
-        return axios.get('/api/jugadores')
-        .then(response => {
-                jugadores.value = response.data;
-                return response;
-            })
-    }
+    const getJugadores = async (page = 1, rows = 10) => {
+        try {
+            isLoading.value = true;
+
+            const response = await axios.get('/api/jugadores', {
+                params: {
+                    page: page,
+                    rows: rows
+                }
+            });
+
+            jugadores.value = [...response.data.data];
+            totalRecords.value = response.data.total;
+
+        } catch (error) {
+            console.error(error);
+        } finally {
+            isLoading.value = false;
+        }
+    };
 
     const getJugador = async (id) => {
         return axios.get(`/api/jugadores/${id}`)
@@ -152,16 +166,16 @@ export default function useJugadores() {
         ]
     }
 
-    const deleteJugador = async (id) => {
-        axios.delete('/api/jugadores/' + id)
-            .then(response => {
-                getJugadores()
-                toast.crud.deleted('Jugador')
-            })
-            .catch(error => {
-                toast.error('Error', 'No se pudo eliminar el jugador')
-            })
-    }
+    const deleteJugador = async (id, currentPage = 1, rowsPerPage = 10) => {
+    axios.delete('/api/jugadores/' + id)
+        .then(response => {
+            getJugadores(currentPage, rowsPerPage)  
+            toast.crud.deleted('Jugador')
+        })
+        .catch(error => {
+            toast.error('Error', 'No se pudo eliminar el jugador')
+        })
+}
 
     const serializeJugador = (data) => {
         const form = new FormData()
@@ -199,5 +213,6 @@ export default function useJugadores() {
         getError,
         validationErrors,
         isLoading,
+        totalRecords,
     }
 }
