@@ -14,9 +14,8 @@
                     <router-link :to="juego.routeInfo">
                         <Button icon="pi pi-info" severity="primary" class="btn-info" />
                     </router-link>
-
                 </div>
-                </div>
+            </div>
         </div>
     </section>
 
@@ -44,7 +43,6 @@ const juegos = [
 
 import Navbar from '../../layouts/LandingNavbar.vue'
 import Footer from '../../layouts/MainFooter.vue'
-
 
 </script>
 
@@ -74,10 +72,11 @@ h2 {
     padding-bottom: 0px;
     margin-bottom: 40px;
     border-radius: 12px;
-    transition: transform 0.2s ease, box-shadow 0.2s ease
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.btn-jugar:hover, .btn-info:hover {
+.btn-jugar:hover,
+.btn-info:hover {
     transform: translateY(-5px);
     box-shadow: 0px 8px 20px rgba(0,0,0,0.3);
 }
@@ -86,8 +85,7 @@ h2 {
     width: 400px;
     height: 400px;
     border-radius: 8px;
-    box-shadow: 0px 4px 15px 4px rgba(0,0,0,0.23)
-;
+    box-shadow: 0px 4px 15px 4px rgba(0,0,0,0.23);
 }
 
 .juego-titulo {
@@ -95,17 +93,6 @@ h2 {
     font-size: 34px;
     font-weight: 600;
     color: #00203E;
-}
-
-.btn-ver-juegos {
-    font-size: 28px;
-    padding: 12px 24px;
-    border-radius: 16px;
-    background-color: #1DB954;
-    color: #00203E;
-    font-weight: 800;
-    width: 100%;
-    margin-top: 20px;
 }
 
 .btns-juego {
@@ -134,6 +121,62 @@ h2 {
     background-color: #1DB954;
     color: #00203E;
     font-weight: 800;
+}
+
+
+/* movil */
+
+@media (max-width: 430px) {
+
+    .juegos {
+        padding: 0px 20px;
+        gap: 20px;
+    }
+
+    h2 {
+        font-size: 36px;
+        text-align: center;
+    }
+
+    .flex.flex-row {
+        flex-direction: column !important;
+        align-items: center;
+    }
+
+    .juego-container {
+        width: 100%;
+        padding: 20px;
+        margin-bottom: 20px;
+    }
+
+    .juego-imagen {
+        width: 100%;
+        height: auto;
+        max-width: 320px;
+    }
+
+    .juego-titulo {
+        font-size: 24px;
+        text-align: center;
+    }
+
+    .btns-juego {
+        flex-direction: row;
+        width: 100%;
+        gap: 10px;
+    }
+
+    .btn-jugar {
+        width: 100%;
+        font-size: 16px;
+        padding: 10px 40px;
+    }
+
+    .btn-info {
+        width: 60px;
+        padding: 10px;
+        font-size: 16px;
+    }
 }
 
 </style>
