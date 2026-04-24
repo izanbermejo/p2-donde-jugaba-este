@@ -10,7 +10,7 @@
                             Dashboard
                         </h1>
                         <p class="page-description">
-                            Bienvenido al panel de administración. Desde aquí puedes gestionar usuarios, posts, categorías y más.
+                            Bienvenido al panel de administración. Desde aquí puedes gestionar usuarios, jugadores, clubes y más.
                         </p>
                     </div>
                 </div>
@@ -37,11 +37,11 @@
                 <template #content>
                     <div class="stat-card-content">
                         <div class="stat-card-icon stat-icon-success">
-                            <i class="pi pi-file"></i>
+                            <i class="pi pi-users"></i>
                         </div>
                         <div class="stat-card-info">
-                            <p class="stat-card-label">Posts</p>
-                            <p class="stat-card-value">{{ stats.posts || 0 }}</p>
+                            <p class="stat-card-label">Jugadores</p>
+                            <p class="stat-card-value">{{ stats.jugadores || 0 }}</p>
                         </div>
                     </div>
                 </template>
@@ -50,12 +50,26 @@
             <Card class="dashboard-stat-card">
                 <template #content>
                     <div class="stat-card-content">
-                        <div class="stat-card-icon stat-icon-success">
-                            <i class="pi pi-tags"></i>
+                        <div class="stat-card-icon stat-icon-danger">
+                            <i class="pi pi-shield"></i>
                         </div>
                         <div class="stat-card-info">
-                            <p class="stat-card-label">Categorías</p>
-                            <p class="stat-card-value">{{ stats.categories || 0 }}</p>
+                            <p class="stat-card-label">Clubes</p>
+                            <p class="stat-card-value">{{ stats.clubes || 0 }}</p>
+                        </div>
+                    </div>
+                </template>
+            </Card>
+
+            <Card class="dashboard-stat-card">
+                <template #content>
+                    <div class="stat-card-content">
+                        <div class="stat-card-icon stat-icon-info">
+                            <i class="pi pi-globe"></i>
+                        </div>
+                        <div class="stat-card-info">
+                            <p class="stat-card-label">Paises</p>
+                            <p class="stat-card-value">{{ stats.paises || 0 }}</p>
                         </div>
                     </div>
                 </template>
@@ -65,11 +79,25 @@
                 <template #content>
                     <div class="stat-card-content">
                         <div class="stat-card-icon stat-icon-warning">
-                            <i class="pi pi-shield"></i>
+                            <i class="pi pi-flag"></i>
                         </div>
                         <div class="stat-card-info">
-                            <p class="stat-card-label">Roles</p>
-                            <p class="stat-card-value">{{ stats.roles || 0 }}</p>
+                            <p class="stat-card-label">Ligas</p>
+                            <p class="stat-card-value">{{ stats.ligas || 0 }}</p>
+                        </div>
+                    </div>
+                </template>
+            </Card>
+
+            <Card class="dashboard-stat-card">
+                <template #content>
+                    <div class="stat-card-content">
+                        <div class="stat-card-icon stat-icon-secondary">
+                            <i class="pi pi-bullseye"></i>
+                        </div>
+                        <div class="stat-card-info">
+                            <p class="stat-card-label">Posiciones</p>
+                            <p class="stat-card-value">{{ stats.posiciones || 0 }}</p>
                         </div>
                     </div>
                 </template>
@@ -100,57 +128,71 @@
                         </router-link>
 
                         <router-link
-                            to="/admin/posts"
+                            to="/admin/jugadores"
                             class="dashboard-action-item"
                         >
                             <div class="dashboard-action-icon stat-icon-success">
-                                <i class="pi pi-file"></i>
+                                <i class="pi pi-users"></i>
                             </div>
                             <div class="dashboard-action-info">
-                                <p class="dashboard-action-title">Gestionar Posts</p>
-                                <p class="dashboard-action-description">Ver y editar posts</p>
+                                <p class="dashboard-action-title">Gestionar Jugadores</p>
+                                <p class="dashboard-action-description">Ver y editar jugadores</p>
                             </div>
                             <i class="pi pi-chevron-right dashboard-action-arrow"></i>
                         </router-link>
 
                         <router-link
-                            to="/admin/categories"
-                            class="dashboard-action-item"
-                        >
-                            <div class="dashboard-action-icon stat-icon-success">
-                                <i class="pi pi-tags"></i>
-                            </div>
-                            <div class="dashboard-action-info">
-                                <p class="dashboard-action-title">Gestionar Categorías</p>
-                                <p class="dashboard-action-description">Ver y editar categorías</p>
-                            </div>
-                            <i class="pi pi-chevron-right dashboard-action-arrow"></i>
-                        </router-link>
-
-                        <router-link
-                            to="/admin/roles"
-                            class="dashboard-action-item"
-                        >
-                            <div class="dashboard-action-icon stat-icon-warning">
-                                <i class="pi pi-shield"></i>
-                            </div>
-                            <div class="dashboard-action-info">
-                                <p class="dashboard-action-title">Gestionar Roles</p>
-                                <p class="dashboard-action-description">Ver y editar roles</p>
-                            </div>
-                            <i class="pi pi-chevron-right dashboard-action-arrow"></i>
-                        </router-link>
-
-                        <router-link
-                            to="/admin/permissions"
+                            to="/admin/clubes"
                             class="dashboard-action-item"
                         >
                             <div class="dashboard-action-icon stat-icon-danger">
-                                <i class="pi pi-key"></i>
+                                <i class="pi pi-shield"></i>
                             </div>
                             <div class="dashboard-action-info">
-                                <p class="dashboard-action-title">Gestionar Permisos</p>
-                                <p class="dashboard-action-description">Ver y editar permisos</p>
+                                <p class="dashboard-action-title">Gestionar Clubes</p>
+                                <p class="dashboard-action-description">Ver y editar clubes</p>
+                            </div>
+                            <i class="pi pi-chevron-right dashboard-action-arrow"></i>
+                        </router-link>
+
+                        <router-link
+                            to="/admin/paises"
+                            class="dashboard-action-item"
+                        >
+                                <div class="dashboard-action-icon" style="background-color: purple;">
+                                <i class="pi pi-globe"></i>
+                            </div>
+                            <div class="dashboard-action-info">
+                                <p class="dashboard-action-title">Gestionar Países</p>
+                                <p class="dashboard-action-description">Ver y editar países</p>
+                            </div>
+                            <i class="pi pi-chevron-right dashboard-action-arrow"></i>
+                        </router-link>
+
+                        <router-link
+                            to="/admin/ligas"
+                            class="dashboard-action-item"
+                        >
+                            <div class="dashboard-action-icon stat-icon-warning">
+                                <i class="pi pi-flag"></i>
+                            </div>
+                            <div class="dashboard-action-info">
+                                <p class="dashboard-action-title">Gestionar Ligas</p>
+                                <p class="dashboard-action-description">Ver y editar ligas</p>
+                            </div>
+                            <i class="pi pi-chevron-right dashboard-action-arrow"></i>
+                        </router-link>
+
+                        <router-link
+                            to="/admin/posiciones"
+                            class="dashboard-action-item"
+                        >
+                                <div class="dashboard-action-icon" style="background-color: purple;">
+                                <i class="pi pi-bullseye"></i>
+                            </div>
+                            <div class="dashboard-action-info">
+                                <p class="dashboard-action-title">Gestionar Posiciones</p>
+                                <p class="dashboard-action-description">Ver y editar posiciones</p>
                             </div>
                             <i class="pi pi-chevron-right dashboard-action-arrow"></i>
                         </router-link>
@@ -164,36 +206,47 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import useUsers from "../../composables/users";
-import usePosts from "../../composables/posts";
-import useCategories from "../../composables/categories";
-import useRoles from "../../composables/roles";
+import useJugadores from "../../composables/jugadores";
+import useClubes from "../../composables/clubes";
+import usePaises from "../../composables/paises";
+import useLigas from "../../composables/ligas";
+import usePosiciones from "../../composables/posiciones";
 
 const stats = ref({
     users: 0,
-    posts: 0,
-    categories: 0,
-    roles: 0
+    jugadores: 0,
+    clubes: 0,
+    paises: 0,
+    ligas: 0,
+    posiciones: 0
 });
 
 const { users, getUsers } = useUsers();
-const { posts, getPosts } = usePosts();
-const { categories, getCategories } = useCategories();
-const { roles, getRoles } = useRoles();
+const { totalRecords, getJugadores } = useJugadores();
+const { clubes, getClubes } = useClubes();
+const { paises, getPaises } = usePaises();
+const { ligas, getLigas } = useLigas();
+const { posiciones, getPosiciones } = usePosiciones();
+
 
 const loadStats = async () => {
     try {
         await Promise.all([
             getUsers(),
-            getPosts(),
-            getCategories(),
-            getRoles()
+            getJugadores(),
+            getClubes(),
+            getPaises(),
+            getLigas(),
+            getPosiciones()
         ]);
-        
+
         stats.value = {
             users: users.value?.total || users.value?.data?.length || 0,
-            posts: posts.value?.total || posts.value?.data?.length || 0,
-            categories: categories.value?.total || categories.value?.data?.length || 0,
-            roles: roles.value?.total || roles.value?.data?.length || 0
+            jugadores: totalRecords.value || 0,
+            clubes:  clubes.value?.length || 0,
+            paises: paises.value?.length || 0,
+            ligas: ligas.value?.length || 0,
+            posiciones: posiciones.value?.length || 0
         };
     } catch (error) {
         console.error('Error loading stats:', error);
