@@ -21,6 +21,7 @@
                 <router-link  to="/" class="flex items-center gap-2">
                     <img src="/images/logo.svg" alt="logo" class="h-10 w-auto"/>
                 </router-link>
+
                 <div class="flex gap-20">
                     <router-link
                         v-for="link in navLinks"
@@ -31,7 +32,6 @@
                     >
                         {{ link.label }}
                     </router-link>
-
                 </div>
 
                 <!-- Actions -->
@@ -50,7 +50,7 @@
                         <button
                             type="button"
                             @click="toggle"
-                            class="flex items-center gap-2 px-3 py-2 rounded-lg  transition-colors header-user-button">
+                            class="flex items-center gap-2 px-3 py-2 rounded-lg transition-colors header-user-button">
                             <Avatar :image="authStore().user.avatar" :label="authStore().user.name[0]" shape="circle" size="small" />
                             <span class="text-sm font-medium hidden xl:inline user-name">{{ authStore().user?.name }}</span>
                             <i class="pi pi-chevron-down text-xs" style="color: white;"></i>
@@ -61,64 +61,78 @@
             </div>
         </nav>
 
-        <!-- Mobile Menu -->
+        <!-- mobile menu -->
         <div v-if="visibleMobileMenu" class="fixed inset-0 z-50 lg:hidden">
+
             <!-- Backdrop -->
-            <div class="absolute inset-0 bg-black/50" @click="visibleMobileMenu = false"></div>
+            <div class="absolute inset-0 bg-black/60" @click="visibleMobileMenu = false"></div>
 
             <!-- Panel -->
             <div
-                class="absolute right-0 top-0 h-full w-full sm:w-80 shadow-2xl"
-                :class="'bg-white text-gray-900'"
+                class="absolute right-0 top-0 h-full w-full sm:w-80 shadow-2xl mobile-panel"
                 @click.stop>
+
                 <!-- Header -->
-                <div class="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-800">
+                <div class="flex items-center justify-between p-4 border-b border-white/10">
                     <div class="flex items-center gap-2">
                         <img src="/images/logo.svg" alt="logo" class="h-8"/>
-                        <span class="font-bold text-lg">Menu</span>
+                        <span class="font-bold text-lg text-white">Menu</span>
                     </div>
+
                     <button
                         @click="visibleMobileMenu = false"
-                        class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
-                        <i class="pi pi-times text-xl"></i>
+                        class="p-2 rounded-lg hover:bg-white/10 transition-colors">
+                        <i class="pi pi-times text-xl text-white"></i>
                     </button>
                 </div>
 
                 <!-- Content -->
                 <div class="flex flex-col gap-4 p-4 h-[calc(100%-5rem)] overflow-y-auto">
+
                     <!-- Nav Links -->
-                    <div class="flex flex-col gap-1">
+                    <div class="flex flex-col gap-2">
                         <router-link
                             v-for="link in navLinks"
                             :key="link.route"
                             :to="link.route"
                             @click="visibleMobileMenu = false"
-                            class="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
-                            <i :class="link.icon"></i>
-                            <span>{{ link.label }}</span>
+                            class="mobile-link flex items-center gap-3 p-3 rounded-lg transition-colors">
+
+                            <i :class="link.icon" class="text-lg"></i>
+                            <span class="font-medium">{{ link.label }}</span>
                         </router-link>
                     </div>
 
-                    <div class="border-t border-gray-200 dark:border-gray-800"></div>
+                    <div class="border-t border-white/10"></div>
 
                     <!-- Auth -->
                     <div class="flex flex-col gap-3">
+
                         <template v-if="!authStore().user?.name">
                             <router-link to="/login" @click="visibleMobileMenu = false">
-                                <Button label="Iniciar Sesión" outlined class="w-full" />
+                                <Button label="Iniciar Sesión" class="w-full mobile-btn" />
                             </router-link>
                             <router-link to="/register" @click="visibleMobileMenu = false">
-                                <Button label="Registrarse" class="w-full" />
+                                <Button label="Registrarse" class="w-full mobile-btn-outline" />
                             </router-link>
                         </template>
+
                         <template v-else>
-                            <div class="p-3 rounded-lg bg-gray-50 dark:bg-gray-800">
-                                <div class="font-medium">{{ authStore().user.name }}</div>
-                                <div class="text-xs text-gray-500">{{ authStore().user.email }}</div>
+                            <div class="p-3 rounded-lg mobile-user-box">
+                                <div class="font-medium text-white">{{ authStore().user.name }}</div>
+                                <div class="text-xs text-white/70">{{ authStore().user.email }}</div>
                             </div>
-                            <Button label="Ir al Dashboard" icon="pi pi-th-large" outlined @click="navigateToDashboard" />
-                            <Button label="Cerrar Sesión" icon="pi pi-power-off" severity="danger" text @click="handleLogout" />
+
+                            <Button
+                                v-if="authStore().user?.roles?.some(r => r.name.includes('admin'))"
+                                label="Panel de administrador"
+                                icon="pi pi-cog"
+                                class="w-full mobile-btn-outline"
+                                @click="navigateToAdminPanel"
+                            />
+                            <Button label="Cerrar Sesión" icon="pi pi-power-off" class="w-full mobile-btn-danger" @click="handleLogout" />
                         </template>
+
                     </div>
                 </div>
             </div>
@@ -166,21 +180,17 @@ const items = computed(() => [
                 label: 'Cerrar sesión',
                 icon: 'pi pi-power-off',
                 class: 'text-red-500',
-                command: () => {
-                    handleLogout()
-                }
+                command: () => handleLogout()
             }
         ]
     }
 ]);
 
-const toggle = (event) => {
-    menu.value.toggle(event);
-};
+const toggle = (event) => menu.value.toggle(event);
 
-const navigateToDashboard = () => {
+const navigateToAdminPanel = () => {
     visibleMobileMenu.value = false;
-    router.push('/app');
+    router.push('/admin');
 }
 
 const handleLogout = () => {
@@ -225,6 +235,51 @@ onBeforeMount(() => {
     color: #1DB954;
 }
 
+/* mobile */
+
+.mobile-panel {
+    background-color: #00203E;
+    color: white;
+}
+
+.mobile-link {
+    color: white;
+}
+
+.mobile-link:hover {
+    background-color: #002b53;
+    color: #54db83;
+}
+
+.mobile-link i {
+    color: #1DB954;
+}
+
+.mobile-btn {
+    background-color: #1DB954;
+    color: #00203E;
+    font-weight: 700;
+}
+
+.mobile-btn-outline {
+    border: 1px solid #1DB954;
+    color: #1DB954;
+    background: transparent;
+    font-weight: 700;
+}
+
+.mobile-btn-danger {
+    border: 1px solid #e74c3c;
+    background-color: #e74c3c;
+    color: white;
+    font-weight: 700;
+}
+
+.mobile-user-box {
+    background-color: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+}
+
 .header-user-button {
     border: none;
     background-color: transparent;
@@ -245,6 +300,5 @@ onBeforeMount(() => {
     font-weight: 600;
     letter-spacing: -0.01em;
 }
-
 
 </style>

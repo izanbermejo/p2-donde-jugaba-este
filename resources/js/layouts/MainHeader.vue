@@ -7,6 +7,7 @@
                     @click="emit('toggleSidebar')"
                     class="z-99999 flex items-center justify-center w-9 h-9 rounded-lg border transition-colors lg:hidden toggle-sidebar-icon"
                     aria-label="Toggle sidebar"
+                    style="border: 0px;"
                 >
                     <i class="pi pi-bars text-lg toggle-sidebar-icon"></i>
                 </button>

@@ -13,7 +13,7 @@
 
     <section class="juegos">
         <h2>Juegos</h2>
-        <div class="flex flex-row justify-between" style="width: 100%;">
+        <div class="flex flex-row flex-wrap justify-center w-full">
             <router-link  to="/juegos/match9">
                 <div class="juego-container">
                     <img src="/images/Match9.webp" alt="Imagen del juego" class="juego-imagen" />
@@ -46,6 +46,12 @@ h2 {
     color: #00203E;
     font-size: 60px;
     font-weight: bold;
+}
+
+.banner,
+.juegos {
+    max-width: 100%;
+    overflow-x: hidden;
 }
 
 .banner {
