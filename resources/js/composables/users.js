@@ -35,7 +35,7 @@ export default function useUsers() {
         name: yup.string().required('El nombre es obligatorio'),
         email: yup.string().email('Email inválido').required('El email es obligatorio'),
         password: yup.string().min(8, 'La contraseña debe tener al menos 8 caracteres').nullable(),
-        surname1: yup.string().required('El primer apellido es obligatorio'),
+        surname1: yup.string().nullable(),
         surname2: yup.string().nullable(),
         role_id: yup.array().min(1, 'Debe seleccionar al menos un rol').nullable()
     })

@@ -133,7 +133,6 @@
 import { useLayout } from "@/composables/layout.js";
 import useAuth from "@/composables/auth";
 import { authStore } from "../store/auth";
-import LocaleSwitcher from "../components/LocaleSwitcher.vue";
 import { ref, computed, onBeforeMount, onMounted, onUnmounted } from "vue";
 import { useRouter } from "vue-router";
 
@@ -143,8 +142,8 @@ const visibleMobileMenu = ref(false);
 const isScrolled = ref(false);
 const isDesktop = ref(window.innerWidth >= 992);
 
-const { processing, logout } = useAuth();
-const { toggleDarkMode, isDarkTheme, setDefaultMode } = useLayout();
+const { logout } = useAuth();
+const { setDefaultMode } = useLayout();
 
 const navLinks = [
     { label: 'Inicio', route: '/', icon: 'pi pi-home' },
@@ -155,7 +154,7 @@ const navLinks = [
 const items = computed(() => [
     {
         items: [
-            { label: 'Perfil', icon: 'pi pi-user', command: () => router.push('/app/profile') },
+            { label: 'Perfil', icon: 'pi pi-user', command: () => router.push('/perfil') },
             {
                 label: 'Panel Admin',
                 icon: 'pi pi-cog',

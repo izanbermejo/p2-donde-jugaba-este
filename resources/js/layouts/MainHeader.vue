@@ -60,7 +60,7 @@
                                     </div>
                                     <ul>
                                         <li>
-                                            <router-link :to="route.path.startsWith('/app') ? '/app/profile' : '/admin/profile'" class="dropdown-menu-item">
+                                            <router-link to="/perfil" class="dropdown-menu-item">
                                                 <i class="pi pi-user"></i>
                                                 <span>Mi Perfil</span>
                                             </router-link>
@@ -69,12 +69,6 @@
                                             <router-link v-if="auth.is('admin') || auth.is('docent')" to="/admin" class="dropdown-menu-item">
                                                 <i class="pi pi-shield"></i>
                                                 <span>Panel Admin</span>
-                                            </router-link>
-                                        </li>
-                                        <li>
-                                            <router-link to="/app" class="dropdown-menu-item">
-                                                <i class="pi pi-graduation-cap"></i>
-                                                <span>Panel Usuario</span>
                                             </router-link>
                                         </li>
                                     </ul>

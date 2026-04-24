@@ -55,6 +55,14 @@ export default [
                 name: 'home',
                 component: () => import('../views/public/home/index.vue'),
             },
+            {
+                name: 'perfil',
+                path: 'perfil',
+                component: () => import('../views/user/profile.vue'),
+                meta: {
+                    breadCrumb: 'Perfil',
+                },
+            },
 
             {
                 path: 'login',
@@ -84,26 +92,6 @@ export default [
     },
 
     {
-        path: '/app',
-        component: AuthenticatedUserLayout,
-        name: 'app',
-        beforeEnter: requireLogin,
-        meta: { breadCrumb: '.' },
-        children: [
-            {
-                name: 'app.profile',
-                path: 'profile',
-                component: () => import('../views/user/profile.vue'),
-                meta: {
-                    breadCrumb: 'Perfil',
-                },
-            },
-
-        ]
-    },
-
-
-    {
         path: '/admin',
         component: AuthenticatedLayout,
         beforeEnter: requireAdmin,
@@ -117,12 +105,6 @@ export default [
                     breadCrumb: 'Admin',
                     hideBreadcrumb: true
                 }
-            },
-            {
-                name: 'profile.index',
-                path: 'profile',
-                component: () => import('../views/admin/profile/index.vue'),
-                meta: { breadCrumb: 'Profile' }
             },
 
             {
