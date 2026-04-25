@@ -12,7 +12,7 @@ use Carbon\Carbon;
 class GameService
 {
     // INICIAR PARTIDA
-    public function iniciarPartida($usuarioId, $juegoId, $dificultad)
+    public function iniciarPartida($id_usuario, $id_juego, $dificultad)
     {
         $intentos = 0;
 
@@ -78,8 +78,8 @@ class GameService
 
         // 4. crear partida
         $partida = Partida::create([
-            'id_usuario' => $usuarioId,
-            'id_juego' => $juegoId,
+            'id_usuario' => $id_usuario,
+            'id_juego' => $id_juego,
             'id_dificultad' => $dificultad,
             'estado' => [
                 'paises' => $paises,
@@ -96,99 +96,86 @@ class GameService
         ];
     }
 
-    public function jugar($partidaId, $fila, $columna, $jugadorId = null)
-    {
-        $partida = Partida::findOrFail($partidaId);
-        $estado = $partida->estado;
+    public function jugar($id_partida, $fila, $columna, $id_jugador = null)
+{
+    $partida = Partida::findOrFail($id_partida);
+    $estado = $partida->estado;
 
-        $key = "{$fila}-{$columna}";
+    $key = "{$fila}-{$columna}";
 
-        // 1. comprobar si ya está ocupada
-        if (isset($estado['tablero'][$key])) {
-            return [
-                'ok' => false,
-                'message' => 'Esta casilla ya está ocupada'
-            ];
-        }
-
-        // 2. obtener restricciones de la casilla
-        $paisId = $estado['paises'][$fila - 1] ?? null;
-        $clubId = $estado['clubes'][$columna - 1] ?? null;
-
-        if (!$paisId || !$clubId) {
-            return [
-                'ok' => false,
-                'message' => 'Casilla inválida'
-            ];
-        }
-
-        // 3. buscar jugadores válidos
-        $query = Jugador::where('pais_jugador', $paisId)
-        ->whereHas('clubes', function ($q) use ($clubId) {
-            $q->where('clubes.id_club', $clubId);
-        });
-
-        // si el usuario ya seleccionó uno concreto
-        if ($jugadorId) {
-            $jugador = $query->where('id_jugador', $jugadorId)->first();
-
-            if (!$jugador) {
-                return [
-                    'ok' => false,
-                    'message' => 'Jugador incorrecto para esta casilla'
-                ];
-            }
-
-            $estado['tablero'][$key] = $jugador->id_jugador;
-            $partida->puntuacion += 100;
-            $partida->estado = $estado;
-            $partida->save();
-
-            return [
-                'ok' => true,
-                'message' => 'Correcto',
-                'jugador' => $jugador
-            ];
-        }
-
-        // 4. si no se pasa jugador → buscamos candidatos
-        $jugadores = $query->get();
-
-        if ($jugadores->isEmpty()) {
-            return [
-                'ok' => false,
-                'message' => 'No hay jugadores para esta casilla'
-            ];
-        }
-
-        // 5. si solo hay 1 → auto colocar
-        if ($jugadores->count() === 1) {
-            $jugador = $jugadores->first();
-
-            $estado['tablero'][$key] = $jugador->id_jugador;
-            $partida->puntuacion += 100;
-
-            $partida->estado = $estado;
-            $partida->save();
-
-            return [
-                'ok' => true,
-                'auto' => true,
-                'jugador' => $jugador
-            ];
-        }
-
-        // 6. si hay varios → devolver opciones
+    // 1. casilla ocupada
+    if (isset($estado['tablero'][$key])) {
         return [
-            'ok' => true,
-            'multiple' => true,
-            'jugadores' => $jugadores
+            'ok' => false,
+            'message' => 'Esta casilla ya está ocupada'
         ];
     }
 
-    public function finalizarPartida($partidaId)
+    // 2. restricciones
+    $id_pais = $estado['paises'][$columna - 1] ?? null;
+    $id_club = $estado['clubes'][$fila - 1] ?? null;
+
+    if (!$id_pais || !$id_club) {
+        return [
+            'ok' => false,
+            'message' => 'Casilla inválida'
+        ];
+    }
+
+    // 3. obligatorio seleccionar jugador
+    if (!$id_jugador) {
+        return [
+            'ok' => false,
+            'message' => 'Debes seleccionar un jugador'
+        ];
+    }
+
+    // 4. buscar jugador
+    $jugador = Jugador::with('clubes')->find($id_jugador);
+
+    if (!$jugador) {
+        return [
+            'ok' => false,
+            'message' => 'Jugador no encontrado'
+        ];
+    }
+
+    // 5. validar país
+    if ($jugador->pais_jugador != $id_pais) {
+        return [
+            'ok' => false,
+            'message' => 'El jugador no es de ese país'
+        ];
+    }
+
+    // 6. validar club (pivote 🔥)
+    $haJugado = $jugador->clubes()
+        ->where('clubes.id_club', $id_club)
+        ->exists();
+
+    if (!$haJugado) {
+        return [
+            'ok' => false,
+            'message' => 'El jugador nunca ha jugado en ese club'
+        ];
+    }
+
+    // 7. guardar
+    $estado['tablero'][$key] = $jugador;
+
+    $partida->puntuacion += 100;
+    $partida->estado = $estado;
+    $partida->save();
+
+    return [
+        'ok' => true,
+        'jugador' => $jugador
+    ];
+}
+
+    public function finalizarPartida($id_partida)
     {
-        $partida = Partida::findOrFail($partidaId);
+        $partida = Partida::findOrFail($id_partida);
 
         $inicio = Carbon::parse($partida->inicio);
         $fin = Carbon::now();
@@ -250,11 +237,11 @@ class GameService
         ];
     }
 
-    private function actualizarRanking($usuarioId, $juegoId, $puntos)
+    private function actualizarRanking($id_usuario, $id_juego, $puntos)
     {
         $ranking = Ranking::firstOrNew([
-            'id_usuario' => $usuarioId,
-            'id_juego' => $juegoId
+            'id_usuario' => $id_usuario,
+            'id_juego' => $id_juego
         ]);
 
         if (!$ranking->exists || $puntos > $ranking->puntuacion) {

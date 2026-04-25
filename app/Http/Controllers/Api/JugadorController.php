@@ -81,8 +81,7 @@ class JugadorController extends Controller
     public function search(Request $request)
     {
         $q = $request->get('search');
-
-        return Jugador::where('nombre', 'like', "%$q%")
+        return Jugador::where('nombre_jugador', 'like', "%$q%")
             ->limit(10)
             ->get();
     }

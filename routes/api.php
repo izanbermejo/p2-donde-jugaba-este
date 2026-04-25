@@ -55,11 +55,12 @@ Route::apiResource('/posts', PostController::class);
 // Route::get('/paises/{id_pais}', [PaisController::class, 'show']);
 Route::apiResource('/paises', PaisController::class);
 
-Route::apiResource('/jugadores', JugadorController::class);
+Route::get('/jugadores/search', [JugadorController::class, 'search']);
 Route::get('/jugadores/pais/{id_pais}', [JugadorController::class, 'indexByIdPais']);
 Route::get('/jugadores/posicion/{id_posicion}', [JugadorController::class, 'indexByIdPosicion']);
 Route::get('jugadores/{id}/clubes', [JugadorController::class, 'getClubes']);
 Route::put('jugadores/{id}/clubes', [JugadorController::class, 'updateClubes']);
+Route::apiResource('/jugadores', JugadorController::class);
 
 Route::apiResource('/clubes', ClubController::class);
 
@@ -70,4 +71,3 @@ Route::apiResource('/ligas', LigaController::class);
 Route::post('/partida/iniciar', [PartidaController::class, 'iniciar']);
 Route::post('/partida/jugar', [PartidaController::class, 'jugar']);
 Route::post('/partida/finalizar', [PartidaController::class, 'finalizar']);
-Route::get('/jugadores/search', [JugadorController::class, 'search']);

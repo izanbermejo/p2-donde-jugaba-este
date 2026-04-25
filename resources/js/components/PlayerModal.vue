@@ -20,7 +20,7 @@
       <div v-if="resultados.length" class="results">
         <div
           v-for="(jugador, index) in resultados"
-          :key="jugador.nombre_jugador"
+          :key="jugador.id_jugador"
           class="player"
           :class="{ active: index === selectedIndex }"
           @click="seleccionar(jugador)"
@@ -55,38 +55,31 @@ let debounceTimer = null
 /* ======================
    INPUT + DEBOUNCE
 ====================== */
-async function onInput() {
-  try {
-    const res = await axios.get('/api/jugadores', {
-      params: { search: search.value }
-    })
+function onInput() {
+  clearTimeout(debounceTimer)
 
-    resultados.value = res.data
+  debounceTimer = setTimeout(async () => {
+    if (search.value.length < 2) {
+      resultados.value = []
+      return
+    }
 
-  } catch (error) {
-    console.error(error)
-  }
-}
+    loading.value = true
 
-/* ======================
-   BUSCAR API
-====================== */
-async function buscar() {
-  loading.value = true
+    try {
+      const res = await axios.get('/api/jugadores/search', {
+        params: { search: search.value }
+      })
 
-  try {
-    const res = await axios.get('/api/jugadores/search', {
-      params: { search: search.value }
-    })
+      resultados.value = res.data
+      selectedIndex.value = 0
 
-    resultados.value = res.data
-    selectedIndex.value = 0
+    } catch (e) {
+      console.error(e)
+    }
 
-  } catch (e) {
-    console.error(e)
-  }
-
-  loading.value = false
+    loading.value = false
+  }, 300)
 }
 
 /* ======================

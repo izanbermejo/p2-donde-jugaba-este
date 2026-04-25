@@ -72,4 +72,5 @@ class PartidaController extends Controller
             )
         );
     }
+    
 }
