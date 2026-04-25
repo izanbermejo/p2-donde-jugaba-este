@@ -1,23 +1,37 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
-use App\Http\Requests\StoreRankingRequest;
+use App\Http\Controllers\Controller;
 use App\Models\Ranking;
-use Illuminate\Http\Request;
 
 class RankingController extends Controller
 {
-    public function indexTotalUsuario(){
-        $ranking_global = Ranking::select('id_usuario')
+    public function indexGlobal(){
+        $ranking_global = Ranking::join('users', 'rankings.id_usuario', '=', 'users.id')
+            ->select(
+                'rankings.id_usuario',
+                'users.name'
+            )
             ->selectRaw('SUM(puntuacion) as total_puntuacion')
-            ->groupBy('id_usuario')
+            ->groupBy('id_usuario', 'name')
+            ->orderByDesc('total_puntuacion')
             ->get();
         return $ranking_global;
     }
 
     public function indexByIdJuego($id_juego){
-        $ranking_juego = Ranking::where('id_juego', $id_juego)->get();
+        $ranking_juego = Ranking::join('users', 'rankings.id_usuario', '=', 'users.id')
+            ->where('rankings.id_juego', $id_juego)
+            ->select(
+                'rankings.id_usuario',
+                'users.name',
+                'rankings.fecha',
+                'rankings.puntuacion',
+            )
+            ->orderByDesc('rankings.puntuacion')
+            ->get();
+
         return $ranking_juego;
     }
 
