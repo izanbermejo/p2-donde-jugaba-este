@@ -223,11 +223,8 @@ class GameService
         $partida->save();
 
         // 5. actualizar ranking
-        $this->actualizarRanking(
-            $partida->id_usuario,
-            $partida->id_juego,
-            $puntuacionFinal
-        );
+
+        $this->rankingService->actualizarMejorRegistro($partida);
 
         return [
             'ok' => true,
@@ -235,18 +232,5 @@ class GameService
             'segundos' => $segundos,
             'completo' => $completo
         ];
-    }
-
-    private function actualizarRanking($id_usuario, $id_juego, $puntos)
-    {
-        $ranking = Ranking::firstOrNew([
-            'id_usuario' => $id_usuario,
-            'id_juego' => $id_juego
-        ]);
-
-        if (!$ranking->exists || $puntos > $ranking->puntuacion) {
-            $ranking->puntuacion = $puntos;
-            $ranking->save();
-        }
     }
 }
