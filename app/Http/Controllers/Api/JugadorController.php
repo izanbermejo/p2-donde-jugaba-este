@@ -11,17 +11,9 @@ use Illuminate\Support\Facades\DB;
 
 class JugadorController extends Controller
 {
-    public function index(Request $request)
-    {
-        $query = Jugador::query();
-
-        // 🔍 filtro por nombre (autocompletado)
-        if ($request->has('search') && $request->search != '') {
-            $query->where('nombre_jugador', 'LIKE', '%' . $request->search . '%');
-        }
-
-        // ⚠️ importante: limitar resultados
-        return $query->limit(10)->get();
+    public function index(){
+        $jugadores = Jugador::with('pais')->get();
+        return $jugadores;
     }
 
     public function show($id_jugador){
