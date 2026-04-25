@@ -341,4 +341,10 @@ export default [
         name: 'NotFound',
         component: () => import("../views/errors/404.vue"),
     },
+
+    {
+        path: '/juegos/match9',
+        name: 'Match9',
+        component: () => import('../views/juegos/match9/Index.vue')
+    }
 ];

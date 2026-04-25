@@ -11,9 +11,17 @@ use Illuminate\Support\Facades\DB;
 
 class JugadorController extends Controller
 {
-    public function index(){
-        $jugadores = Jugador::with('pais')->get();
-        return $jugadores;
+    public function index(Request $request)
+    {
+        $query = Jugador::query();
+
+        // 🔍 filtro por nombre (autocompletado)
+        if ($request->has('search') && $request->search != '') {
+            $query->where('nombre_jugador', 'LIKE', '%' . $request->search . '%');
+        }
+
+        // ⚠️ importante: limitar resultados
+        return $query->limit(10)->get();
     }
 
     public function show($id_jugador){
@@ -65,22 +73,25 @@ class JugadorController extends Controller
         return response()->json($jugador->clubes);
     }
 
-
-//     public function updateClubes(\Illuminate\Http\Request $request, $id)
-// {
-//     return response()->json(['ok' => true]);
-// }
-
     public function updateClubes(Request $request, $id)
     {
         $jugador = Jugador::findOrFail($id);
 
-        $clubes = $request->input('clubes', []); // 👈 evita null
+        $clubes = $request->input('clubes', []);
 
         $jugador->clubes()->sync($clubes);
 
         return response()->json([
             'message' => 'Clubes actualizados correctamente'
         ]);
+    }
+
+    public function search(Request $request)
+    {
+        $q = $request->get('search');
+
+        return Jugador::where('nombre', 'like', "%$q%")
+            ->limit(10)
+            ->get();
     }
 }

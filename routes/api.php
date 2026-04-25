@@ -12,6 +12,8 @@ use App\Http\Controllers\Api\PaisController;
 use App\Http\Controllers\Api\JugadorController;
 use App\Http\Controllers\Api\PosicionController;
 use App\Http\Controllers\Api\ClubController;
+use App\Http\Controllers\Api\PartidaController;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -64,3 +66,8 @@ Route::apiResource('/clubes', ClubController::class);
 Route::apiResource('/posiciones', PosicionController::class);
 
 Route::apiResource('/ligas', LigaController::class);
+
+Route::post('/partida/iniciar', [PartidaController::class, 'iniciar']);
+Route::post('/partida/jugar', [PartidaController::class, 'jugar']);
+Route::post('/partida/finalizar', [PartidaController::class, 'finalizar']);
+Route::get('/jugadores/search', [JugadorController::class, 'search']);
