@@ -32,12 +32,22 @@
         </router-link>
     </section>
 
-    <div class="flex gap-4">
-    </div>
+    <Divider />
+
+    <section class="ranking">
+        <h2>Ranking</h2>
+        <div class="flex flex-col" style="width: 100%; height: 100%; margin-bottom: 40px; gap: 30px; justify-content: space-between;">
+            <TablaRankingGlobal />
+            <router-link  to="/ranking" style="width: 100%;">
+                <Button label="Ir al ranking" severity="primary" class="btn-ver-juegos" />
+            </router-link>
+        </div>
+    </section>
 </template>
 
 <script setup>
 import { authStore } from "@/store/auth";
+import TablaRankingGlobal from "../../../components/TablaRankingGlobal.vue";
 </script>
 
 <style scoped>
@@ -101,6 +111,7 @@ h2 {
     gap: 50px;
     margin: 50px 0px;
     padding: 0px 200px;
+    margin-bottom: 80px;
 }
 
 .juego-container {
@@ -147,6 +158,14 @@ h2 {
 }
 
 /* ranking */
-
+.ranking {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 50px;
+    margin: 50px 0px;
+    padding: 0px 200px;
+    height: 700px;
+}
 
 </style>
