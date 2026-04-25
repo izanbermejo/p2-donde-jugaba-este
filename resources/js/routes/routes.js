@@ -337,6 +337,11 @@ export default [
     },
 
     {
+        path: '/ranking',
+        component: () => import('../views/ranking/index.vue'),
+    },
+
+    {
         path: "/:pathMatch(.*)*",
         name: 'NotFound',
         component: () => import("../views/errors/404.vue"),

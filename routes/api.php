@@ -13,6 +13,7 @@ use App\Http\Controllers\Api\JugadorController;
 use App\Http\Controllers\Api\PosicionController;
 use App\Http\Controllers\Api\ClubController;
 use App\Http\Controllers\Api\PartidaController;
+use App\Http\Controllers\Api\RankingController;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -71,3 +72,7 @@ Route::apiResource('/ligas', LigaController::class);
 Route::post('/partida/iniciar', [PartidaController::class, 'iniciar']);
 Route::post('/partida/jugar', [PartidaController::class, 'jugar']);
 Route::post('/partida/finalizar', [PartidaController::class, 'finalizar']);
+Route::get('/jugadores/search', [JugadorController::class, 'search']);
+
+Route::get('/ranking', [RankingController::class, 'indexGlobal']);
+Route::get('/ranking/{id_juego}', [RankingController::class, 'indexByIdJuego']);
