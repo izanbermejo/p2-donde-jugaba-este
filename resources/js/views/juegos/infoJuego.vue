@@ -1,23 +1,19 @@
 <template>
     <Navbar />
 
-    <section class="juegos">
-        <h2>Juegos</h2>
-        <div class="flex flex-row justify-between flex-wrap" style="width: 100%;">
-            <div v-for="juego in juegos" :key="juego.id" class="juego-container">
-                <h3 class="juego-titulo">{{ juego.name }}</h3>
-                <img :src="juego.image" alt="Imagen del juego" class="juego-imagen" />
-                <div class="btns-juego">
-                    <router-link :to="juego.route">
-                        <Button label="JUGAR" severity="primary" class="btn-jugar" />
-                    </router-link>
-                    <router-link :to="{ name: 'InfoJuego', params: { slug: juego.slug }, query: { idJuego: juego.id } }">
-                        <Button icon="pi pi-info" severity="primary" class="btn-info" />
-                    </router-link>
-
-                </div>
-                </div>
+    <section class="info-juego">
+        <h2>{{ juego?.nombre_juego }}</h2>
+        <div class="flex flex-row justify-between" style="width: 100%; gap: 10%;">
+            <div class="descripcion">
+                <p>{{ juego?.descripcion_juego }}</p>
+            </div>
+            <div class="ranking">
+                <TablaRankingJuego :idJuego="props.idJuego"/>
+            </div>
         </div>
+        <router-link :to="`/juegos/${juego?.slug_juego}`">
+            <Button label="JUGAR" severity="primary" class="btn-jugar" style="width: 500px;"/>
+        </router-link>
     </section>
 
     <Footer />
@@ -25,28 +21,24 @@
 
 <script setup>
 
-const juegos = [
-    {
-        id: '1',
-        name: 'Match 9',
-        slug: 'match9',
-        image: '/images/Match9.webp',
-        route: '/juegos/match9',
-        routeInfo: '/juegos/match9/info'
-    },
-    {
-        id: '2',
-        name: 'Path 4',
-        slug: 'path4',
-        image: '/images/Path4.webp',
-        route: '/juegos/path4',
-        routeInfo: '/juegos/path4/info'
-    },
-];
+import { onMounted, ref } from 'vue';
+import Navbar from '../../layouts/LandingNavbar.vue';
+import Footer from '../../layouts/MainFooter.vue';
+import useJuegos from "@/composables/juegos";
+import { useRoute } from 'vue-router';
+import TablaRankingJuego from '../../components/TablaRankingJuego.vue';
 
-import Navbar from '../../layouts/LandingNavbar.vue'
-import Footer from '../../layouts/MainFooter.vue'
+const route = useRoute()
+const {juego, getJuegoByIdJuego} = useJuegos();
 
+const props = defineProps({
+    idJuego: [String, Number],
+    slugJuego: String
+})
+
+onMounted( async () => {
+    await getJuegoByIdJuego(props.idJuego);
+});
 
 </script>
 
@@ -58,13 +50,34 @@ h2 {
     font-weight: bold;
 }
 
-.juegos {
+html, body {
+    height: 100%;
+}
+
+.info-juego {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 50px;
     margin: 50px 0px;
     padding: 0px 200px;
+    min-height: calc(75vh);
+}
+
+.descripcion {
+    width: 35%;
+    padding: 25px;
+    border-radius: 16px;
+    font-size: 16px;
+    color: #00203E;
+    background-color: #d8e6f4;
+    box-shadow: 0px 8px 20px rgba(0,0,0,0.3);
+}
+
+.ranking {
+    width: 55%;
+    font-size: 16px;
+    color: #00203E;
 }
 
 .juego-container {

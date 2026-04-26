@@ -14,6 +14,7 @@ use App\Http\Controllers\Api\PosicionController;
 use App\Http\Controllers\Api\ClubController;
 use App\Http\Controllers\Api\PartidaController;
 use App\Http\Controllers\Api\RankingController;
+use App\Http\Controllers\Api\JuegoController;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -77,3 +78,5 @@ Route::get('/jugadores/search', [JugadorController::class, 'search']);
 
 Route::get('/ranking', [RankingController::class, 'indexGlobal']);
 Route::get('/ranking/{id_juego}', [RankingController::class, 'indexByIdJuego']);
+
+Route::apiResource('/juegos', JuegoController::class);

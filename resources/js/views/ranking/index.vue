@@ -4,42 +4,7 @@
     <section class="ranking">
         <h2>Ranking</h2>
         <div class="flex flex-row justify-between flex-wrap" style="width: 70%;">
-            <DataTable
-                    v-model:filters="filters"
-                    :value="ranking || []"
-                    :paginator="true"
-                    :rows="10"
-                    :rows-per-page-options="[10, 25, 50]"
-                    striped-rows
-                    style="width: 100%;"
-                >
-                    <template #empty>
-                        <div class="table-empty-state">
-                            <i class="pi pi-trophy empty-state-icon"></i>
-                            <p class="empty-state-text">No hayn registros en el ranking</p>
-                            <p class="empty-state-subtext">Juega una partida y se el primero en aparecer</p>
-                        </div>
-                    </template>
-
-                    <Column header="Posición" style="width: 10%">
-                        <template #body="slotProps">
-                            {{ slotProps.index + 1 }}
-                        </template>
-                    </Column>
-
-                    <Column field="nombre" header="Nombre del Jugador" style="width: 70%">
-                        <template #body="slotProps">
-                            <span class="table-cell-name">{{ slotProps.data.name || '-' }}</span>
-                        </template>
-                    </Column>
-
-                    <Column field="puntuacion" header="Puntuación" style="width: 20%">
-                        <template #body="slotProps">
-                            <span class="table-cell-name">{{ slotProps.data.total_puntuacion || '-' }}</span>
-                        </template>
-                    </Column>
-
-                </DataTable>
+            <TablaRankingGlobal />
         </div>
     </section>
 
@@ -52,6 +17,7 @@ import { onMounted } from 'vue';
 import Navbar from '../../layouts/LandingNavbar.vue';
 import Footer from '../../layouts/MainFooter.vue';
 import useRanking from "@/composables/ranking";
+import TablaRankingGlobal from '../../components/TablaRankingGlobal.vue';
 
 const {ranking, getRankingGlobal} = useRanking();
 

@@ -11,15 +11,8 @@ class Juego extends Model
 
     protected $fillable = [
         'id_juego',
-        'nombre'
+        'nombre_juego',
+        'slug_juego',
+        'descripcion_juego',
     ];
-
-    /* ======================
-       RELACIONES
-    ====================== */
-
-    public function partidas()
-    {
-        return $this->hasMany(Partida::class, 'id_juego');
-    }
 }
