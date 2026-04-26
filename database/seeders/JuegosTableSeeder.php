@@ -21,6 +21,7 @@ class JuegosTableSeeder extends Seeder
             0 => array(
                 'id_juego'=>'1',
                 'nombre_juego'=>'Match9',
+                'slug_juego'=>'match9',
                 'descripcion_juego'=>'Juego de lógica futbolística en formato 3x3 donde deberás completar un tablero rellenando cada casilla con un jugador que cumpla simultáneamente los requisitos de su fila y su columna (Su nacionalidad y un club en el que haya jugado).
 
                 Cada combinación siempre tiene al menos un jugador válido, pero no podrás repetir jugadores dentro del mismo tablero, por lo que deberás pensar bien cada elección. Además, los requisitos no se repiten, lo que hace que cada partida sea única y equilibrada.

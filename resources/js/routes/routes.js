@@ -331,9 +331,19 @@ export default [
             {
                 name: 'Match9',
                 path: 'match9',
-                component: () => import('../views/juegos/match9/index.vue')
+                component: () => import('../views/juegos/match9/index.vue'),
             },
         ]
+    },
+
+    {
+        name: 'InfoJuego',
+        path: '/juegos/:slug/info',
+        component: () => import('../views/juegos/infoJuego.vue'),
+        props: route => ({
+            slugJuego: route.params.slug,
+            idJuego: route.query.idJuego
+        })
     },
 
     {
