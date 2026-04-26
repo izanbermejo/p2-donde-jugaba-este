@@ -2,17 +2,18 @@
 
 namespace App\Http\Controllers\Api;
 
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreJugadorRequest;
 use App\Http\Requests\UpdateJugadorRequest;
 use App\Models\Jugador;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class JugadorController extends Controller
 {
     public function index(Request $request){
-        $perPage = $request->get('rows', 10);
-        $page = $request->get('page', 1);
+        $perPage = $request->input('rows', 10);
+        $page = $request->input('page', 1);
 
         $jugadores = Jugador::with('pais')->paginate($perPage);
 
@@ -59,5 +60,33 @@ class JugadorController extends Controller
     public function indexByIdPosicion($id_posicion){
         $jugadores = Jugador::where('posicion_jugador', $id_posicion)->get();
         return $jugadores;
+    }
+
+    public function getClubes($id)
+    {
+        $jugador = Jugador::with('clubes')->findOrFail($id);
+
+        return response()->json($jugador->clubes);
+    }
+
+    public function updateClubes(Request $request, $id)
+    {
+        $jugador = Jugador::findOrFail($id);
+
+        $clubes = $request->input('clubes', []);
+
+        $jugador->clubes()->sync($clubes);
+
+        return response()->json([
+            'message' => 'Clubes actualizados correctamente'
+        ]);
+    }
+
+    public function search(Request $request)
+    {
+        $q = $request->get('search');
+        return Jugador::where('nombre_jugador', 'like', "%$q%")
+            ->limit(10)
+            ->get();
     }
 }

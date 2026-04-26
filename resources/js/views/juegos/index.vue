@@ -11,7 +11,7 @@
                     <router-link :to="juego.route">
                         <Button label="JUGAR" severity="primary" class="btn-jugar" />
                     </router-link>
-                    <router-link :to="juego.routeInfo">
+                    <router-link :to="{ name: 'InfoJuego', params: { slug: juego.slug }, query: { idJuego: juego.id } }">
                         <Button icon="pi pi-info" severity="primary" class="btn-info" />
                     </router-link>
                 </div>
@@ -26,15 +26,17 @@
 
 const juegos = [
     {
-        id: 'match9',
+        id: '1',
         name: 'Match 9',
+        slug: 'match9',
         image: '/images/Match9.webp',
         route: '/juegos/match9',
         routeInfo: '/juegos/match9/info'
     },
     {
-        id: 'path4',
+        id: '2',
         name: 'Path 4',
+        slug: 'path4',
         image: '/images/Path4.webp',
         route: '/juegos/path4',
         routeInfo: '/juegos/path4/info'

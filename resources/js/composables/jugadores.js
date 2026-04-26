@@ -22,6 +22,7 @@ export default function useJugadores() {
         pais_jugador: '',
         posicion_jugador: '',
         club_actual_jugador: '',
+        clubes: [],
     }
     const jugador = ref({ ...initialJugador })
     const validationErrors = errors
