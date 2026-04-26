@@ -38,6 +38,10 @@
 
   </div>
 
+  <button @click="rendirse" class="btn-red">
+  Rendirse
+</button>
+
   <!-- MODAL -->
   <PlayerModal
   v-if="showModal"
@@ -60,7 +64,7 @@ const paises = ref([])
 const clubes = ref([])
 const paisesMap = ref({})
 const clubesMap = ref({})
-const partidaId = ref(null)
+const id_partida = ref(null)
 
 const showModal = ref(false)
 const jugadoresModal = ref([])
@@ -74,7 +78,7 @@ onMounted(async () => {
   const res = await axios.post('/api/partida/iniciar', {
     id_usuario: 1,
     id_juego: 1,
-    id_dificultad: 2
+    id_dificultad: 1
   })
 
   const paisesRes = await axios.get('/api/paises')
@@ -88,9 +92,13 @@ onMounted(async () => {
     clubesRes.data.map(c => [c.id_club, c.nombre_club])
   )
   
-  partida.value = res.data.partida
+if (!res.data.ok) {
+  alert(res.data.message)
+  return
+}
 
-  partidaId.value = res.data.partida.id_partida
+partida.value = res.data.partida
+id_partida.value = res.data.partida.id_partida
 
   paises.value = partida.value.estado.paises
   clubes.value = partida.value.estado.clubes
@@ -129,7 +137,7 @@ async function clickCelda(fila, columna) {
 async function selectJugador(jugador) {
   try {
     const res = await axios.post('/api/partida/jugar', {
-      id_partida: partidaId.value,
+      id_partida: id_partida.value,
       fila: filaSeleccionada.value,
       columna: columnaSeleccionada.value,
       id_jugador: jugador.id_jugador
@@ -148,8 +156,36 @@ async function selectJugador(jugador) {
 
     showModal.value = false
 
+    axios.post('/api/partida/jugar', data)
+    .then(res => {
+      
+      if (res.data.victoria) {
+        alert("🎉 ¡VICTORIA!\nPuntuación: " + res.data.puntuacion_final)
+      }
+
+    })
+
   } catch (e) {
     console.error(e)
+  }
+}
+
+
+
+function rendirse() {
+  axios.post('/api/partida/rendirse', {
+    id_partida: partida.value.id_partida
+  }).then(res => {
+    alert('Te has rendido. Puntuación: ' + res.data.puntuacion)
+    // aquí puedes redirigir o cerrar juego
+  })
+}
+
+function comprobarFinPartida() {
+  const tablero = partida.value?.estado?.tablero || {}
+
+  if (Object.keys(tablero).length === 9) {
+    finalizarPartida()
   }
 }
 

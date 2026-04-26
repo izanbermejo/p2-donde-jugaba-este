@@ -71,6 +71,7 @@ Route::apiResource('/ligas', LigaController::class);
 
 Route::post('/partida/iniciar', [PartidaController::class, 'iniciar']);
 Route::post('/partida/jugar', [PartidaController::class, 'jugar']);
+Route::post('/partida/rendirse', [PartidaController::class, 'rendirse']);
 Route::post('/partida/finalizar', [PartidaController::class, 'finalizar']);
 Route::get('/jugadores/search', [JugadorController::class, 'search']);
 

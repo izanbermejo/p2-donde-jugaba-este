@@ -57,6 +57,17 @@ class PartidaController extends Controller
         );
     }
 
+    public function rendirse(Request $request)
+    {
+        $request->validate([
+            'id_partida' => 'required|integer',
+        ]);
+
+        return response()->json(
+            $this->gameService->rendirse($request->id_partida)
+        );
+    }
+
     /**
      * 🔴 FINALIZAR PARTIDA
      */
