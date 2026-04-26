@@ -181,6 +181,7 @@ function getClubNombre(id) {
 </script>
 
 <style scoped>
+
 .game-wrapper {
   display: flex;
   flex-direction: column;
@@ -270,4 +271,19 @@ function getClubNombre(id) {
 .info {
   background: #3b82f6;
 }
+
+/* responsive */
+@media (max-width: 430px) {
+
+  .game-wrapper {
+    padding: 10px;
+  }
+
+  .board {
+    transform: scale(0.9);
+    transform-origin: top center;
+  }
+
+}
+
 </style>
