@@ -47,7 +47,7 @@ class RankingController extends Controller
             ],
             [
                 'id_partida' => $partida->id_partida,
-                'id_dificultad' => $partida->id_dificultad,
+                'dificultad' => $partida->id_dificultad,
                 'puntuacion' => max($partida->puntuacion, optional($record_actual)->puntuacion ?? 0),
                 'inicio' => $partida->inicio,
                 'fin' => $partida->fin,
