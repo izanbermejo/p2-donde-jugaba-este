@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('juegos', function (Blueprint $table) {
             $table->integer('id_juego')->primary();
             $table->string('nombre_juego');
+            $table->text('descripcion_juego');
         });
     }
 
