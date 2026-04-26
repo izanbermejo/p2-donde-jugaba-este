@@ -24,29 +24,31 @@
 
 <script setup>
 
-import { onMounted, ref } from 'vue';
-import Navbar from '../../layouts/LandingNavbar.vue';
-import Footer from '../../layouts/MainFooter.vue';
-import useJuegos from "@/composables/juegos";
-import { useRoute } from 'vue-router';
-import TablaRankingJuego from '../../components/TablaRankingJuego.vue';
+import { onMounted, ref } from 'vue'
+import Navbar from '../../layouts/LandingNavbar.vue'
+import Footer from '../../layouts/MainFooter.vue'
+import useJuegos from "@/composables/juegos"
+import { useRoute } from 'vue-router'
+import TablaRankingJuego from '../../components/TablaRankingJuego.vue'
 
 const route = useRoute()
-const {juego, getJuegoByIdJuego} = useJuegos();
+const { juego, getJuegoByIdJuego } = useJuegos()
 
 const props = defineProps({
     idJuego: [String, Number],
     slugJuego: String
 })
 
-onMounted( async () => {
-    await getJuegoByIdJuego(props.idJuego);
-});
+// Carga la información del juego al montar el componente
+onMounted(async () => {
+    await getJuegoByIdJuego(props.idJuego)
+})
 
 </script>
 
 <style scoped>
 
+/* Título principal del juego */
 h2 {
     color: #00203E;
     font-size: 60px;
@@ -57,6 +59,7 @@ html, body {
     height: 100%;
 }
 
+/* Contenedor principal de la sección de información del juego */
 .info-juego {
     display: flex;
     flex-direction: column;
@@ -67,7 +70,7 @@ html, body {
     min-height: calc(75vh);
 }
 
-/* nuevo wrapper */
+/* Wrapper que separa ranking y descripción */
 .content {
     display: flex;
     flex-direction: row;
@@ -76,6 +79,7 @@ html, body {
     gap: 10%;
 }
 
+/* Caja de descripción del juego */
 .descripcion {
     width: 35%;
     padding: 25px;
@@ -86,13 +90,14 @@ html, body {
     box-shadow: 0px 8px 20px rgba(0,0,0,0.3);
 }
 
+/* Sección del ranking del juego */
 .ranking {
     width: 55%;
     font-size: 16px;
     color: #00203E;
 }
 
-/* botón */
+/* Botón de jugar */
 .btn-jugar {
     font-size: 20px;
     padding: 12px 24px;
@@ -120,7 +125,7 @@ html, body {
         min-height: auto;
     }
 
-    /* orden móvil: ranking arriba */
+    /* En móvil se apila el contenido verticalmente */
     .content {
         flex-direction: column;
         gap: 30px;
@@ -135,7 +140,6 @@ html, body {
         font-size: 14px;
     }
 
-    /* más espacio con el botón */
     .btn-jugar {
         width: 100%;
         max-width: 320px;

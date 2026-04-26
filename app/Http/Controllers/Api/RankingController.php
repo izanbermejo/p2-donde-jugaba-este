@@ -7,6 +7,7 @@ use App\Models\Ranking;
 
 class RankingController extends Controller
 {
+    // Devuelve el ranking global de usuarios sumando todas las puntuaciones por usuario
     public function indexGlobal(){
         $ranking_global = Ranking::join('users', 'rankings.id_usuario', '=', 'users.id')
             ->select(
@@ -17,9 +18,11 @@ class RankingController extends Controller
             ->groupBy('id_usuario', 'name')
             ->orderByDesc('total_puntuacion')
             ->get();
+
         return $ranking_global;
     }
 
+    // Devuelve el ranking de un juego concreto ordenado por puntuación
     public function indexByIdJuego($id_juego){
         $ranking_juego = Ranking::join('users', 'rankings.id_usuario', '=', 'users.id')
             ->where('rankings.id_juego', $id_juego)
@@ -35,11 +38,15 @@ class RankingController extends Controller
         return $ranking_juego;
     }
 
+    // Actualiza o crea el mejor registro de un usuario en un juego si la nueva puntuación es mayor
     public function actualizarMejorRegistro($partida){
+
+        // Obtiene el registro actual del usuario para ese juego
         $record_actual = Ranking::where('id_usuario', $partida->id_usuario)
                                 ->where('id_juego', $partida->id_juego)
                                 ->first();
 
+        // Inserta o actualiza el ranking manteniendo la mejor puntuación
         Ranking::updateOrCreate(
             [
                 'id_usuario' => $partida->id_usuario,

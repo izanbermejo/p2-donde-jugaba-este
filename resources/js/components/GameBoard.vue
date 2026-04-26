@@ -46,7 +46,7 @@
 
   </div>
 
-  <!-- MODAL -->
+  <!-- Modal de selección de jugador -->
   <PlayerModal
     v-if="showModal"
     @select="selectJugador"
@@ -59,24 +59,33 @@ import { ref, onMounted } from 'vue'
 import axios from 'axios'
 import PlayerModal from './PlayerModal.vue'
 
+// Estado de la partida actual
 const partida = ref(null)
 
+// Listas de países y clubes del tablero
 const paises = ref([])
 const clubes = ref([])
+
+// Mapas para traducir IDs a nombres
 const paisesMap = ref({})
 const clubesMap = ref({})
+
+// ID de la partida activa
 const id_partida = ref(null)
 
+// Control del modal de selección de jugador
 const showModal = ref(false)
 const filaSeleccionada = ref(null)
 const columnaSeleccionada = ref(null)
 
+// Estado del toast de notificaciones
 const toast = ref({
   visible: false,
   message: '',
   type: 'info'
 })
 
+// Muestra un mensaje temporal en pantalla
 function showToast(message, type = 'info') {
   toast.value.message = message
   toast.value.type = type
@@ -116,18 +125,21 @@ onMounted(async () => {
   clubes.value = partida.value.estado.clubes
 })
 
+// Obtiene el jugador colocado en una celda del tablero
 function getJugador(fila, columna) {
   const key = `${fila}-${columna}`
   const jugador = partida.value?.estado?.tablero?.[key]
   return jugador?.nombre_jugador ?? ''
 }
 
+// Abre el modal para seleccionar jugador en una celda
 function clickCelda(fila, columna) {
   filaSeleccionada.value = fila
   columnaSeleccionada.value = columna
   showModal.value = true
 }
 
+// Envía la jugada seleccionada al backend
 async function selectJugador(jugador) {
   try {
     const res = await axios.post('/api/partida/jugar', {
@@ -160,6 +172,7 @@ async function selectJugador(jugador) {
   }
 }
 
+// Abandona la partida actual
 function rendirse() {
   axios.post('/api/partida/rendirse', {
     id_partida: partida.value.id_partida
@@ -171,10 +184,12 @@ function rendirse() {
   })
 }
 
+// Traduce ID de país a nombre
 function getPaisNombre(id) {
   return paisesMap.value[id] || id
 }
 
+// Traduce ID de club a nombre
 function getClubNombre(id) {
   return clubesMap.value[id] || id
 }
@@ -182,6 +197,7 @@ function getClubNombre(id) {
 
 <style scoped>
 
+/* Layout principal del juego */
 .game-wrapper {
   display: flex;
   flex-direction: column;
@@ -189,6 +205,7 @@ function getClubNombre(id) {
   width: 100%;
 }
 
+/* Tablero principal */
 .board {
   display: inline-block;
 }
@@ -209,12 +226,14 @@ function getClubNombre(id) {
   background: #ffffff;
 }
 
+/* Cabeceras superiores del tablero */
 .top-header {
   background: #00203E;
   color: #ffffff;
   font-weight: 700;
 }
 
+/* Cabeceras laterales del tablero */
 .side-header {
   background: #1DB954;
   color: #ffffff;
@@ -248,6 +267,7 @@ function getClubNombre(id) {
   cursor: pointer;
 }
 
+/* Notificaciones toast */
 .toast {
   position: fixed;
   top: 20px;
