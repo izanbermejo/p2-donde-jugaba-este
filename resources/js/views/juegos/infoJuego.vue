@@ -3,14 +3,17 @@
 
     <section class="info-juego">
         <h2>{{ juego?.nombre_juego }}</h2>
-        <div class="flex flex-row justify-between" style="width: 100%; gap: 10%;">
-            <div class="descripcion">
-                <p>{{ juego?.descripcion_juego }}</p>
-            </div>
+
+        <div class="content">
             <div class="ranking">
                 <TablaRankingJuego :idJuego="props.idJuego"/>
             </div>
+
+            <div class="descripcion">
+                <p>{{ juego?.descripcion_juego }}</p>
+            </div>
         </div>
+
         <router-link :to="`/juegos/${juego?.slug_juego}`">
             <Button label="JUGAR" severity="primary" class="btn-jugar" style="width: 500px;"/>
         </router-link>
@@ -64,6 +67,15 @@ html, body {
     min-height: calc(75vh);
 }
 
+/* nuevo wrapper */
+.content {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    gap: 10%;
+}
+
 .descripcion {
     width: 35%;
     padding: 25px;
@@ -80,58 +92,7 @@ html, body {
     color: #00203E;
 }
 
-.juego-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-color: #d8e6f4;
-    padding: 40px;
-    padding-bottom: 0px;
-    margin-bottom: 40px;
-    border-radius: 12px;
-    transition: transform 0.2s ease, box-shadow 0.2s ease
-}
-
-.btn-jugar:hover, .btn-info:hover {
-    transform: translateY(-5px);
-    box-shadow: 0px 8px 20px rgba(0,0,0,0.3);
-}
-
-.juego-imagen {
-    width: 400px;
-    height: 400px;
-    border-radius: 8px;
-    box-shadow: 0px 4px 15px 4px rgba(0,0,0,0.23)
-;
-}
-
-.juego-titulo {
-    margin-bottom: 22px;
-    font-size: 34px;
-    font-weight: 600;
-    color: #00203E;
-}
-
-.btn-ver-juegos {
-    font-size: 28px;
-    padding: 12px 24px;
-    border-radius: 16px;
-    background-color: #1DB954;
-    color: #00203E;
-    font-weight: 800;
-    width: 100%;
-    margin-top: 20px;
-}
-
-.btns-juego {
-    width: 80%;
-    display: flex;
-    gap: 20px;
-    flex-direction: row;
-    margin: 20px;
-    justify-content: center;
-}
-
+/* botón */
 .btn-jugar {
     font-size: 20px;
     padding: 12px 24px;
@@ -142,13 +103,44 @@ html, body {
     width: 200px;
 }
 
-.btn-info {
-    font-size: 20px;
-    padding: 12px 24px;
-    border-radius: 16px;
-    background-color: #1DB954;
-    color: #00203E;
-    font-weight: 800;
+/* ===================== */
+/* RESPONSIVE 430x932    */
+/* ===================== */
+@media (max-width: 430px) {
+
+    h2 {
+        font-size: 34px;
+        text-align: center;
+    }
+
+    .info-juego {
+        padding: 0px 15px;
+        margin: 30px 0px;
+        gap: 35px;
+        min-height: auto;
+    }
+
+    /* orden móvil: ranking arriba */
+    .content {
+        flex-direction: column;
+        gap: 30px;
+    }
+
+    .ranking {
+        width: 100%;
+    }
+
+    .descripcion {
+        width: 100%;
+        font-size: 14px;
+    }
+
+    /* más espacio con el botón */
+    .btn-jugar {
+        width: 100%;
+        max-width: 320px;
+        margin-top: 25px;
+    }
 }
 
 </style>
