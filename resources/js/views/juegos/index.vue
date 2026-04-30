@@ -8,7 +8,7 @@
                 <h3 class="juego-titulo">{{ juego.name }}</h3>
                 <img :src="juego.image" alt="Imagen del juego" class="juego-imagen" />
                 <div class="btns-juego">
-                    <router-link :to="juego.route">
+                    <router-link :to="{ name: 'SeleccionDificultad', query: { idJuego: juego.id } }">
                         <Button label="JUGAR" severity="primary" class="btn-jugar" />
                     </router-link>
                     <router-link :to="{ name: 'InfoJuego', params: { slug: juego.slug }, query: { idJuego: juego.id } }">

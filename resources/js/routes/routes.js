@@ -1,4 +1,6 @@
 import { authStore } from "../store/auth";
+import SeleccionDificultad from '@/components/SeleccionDificultad.vue';
+import GameBoard from '@/components/GameBoard.vue';
 
 const AuthenticatedLayout = () => import('../layouts/AdminLayout.vue');
 const AuthenticatedUserLayout = () => import('../layouts/UserLayout.vue');
@@ -361,5 +363,15 @@ export default [
         path: '/juegos/match9',
         name: 'Match9',
         component: () => import('../views/juegos/match9/Index.vue')
-    }
+    },
+    {
+    path: '/seleccionar-dificultad',
+    name: 'SeleccionDificultad',
+    component: SeleccionDificultad
+  },
+  {
+    path: '/game',
+    name: 'GameBoard',
+    component: GameBoard
+  },
 ];

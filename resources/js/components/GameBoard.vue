@@ -58,6 +58,12 @@
 import { ref, onMounted } from 'vue'
 import axios from 'axios'
 import PlayerModal from './PlayerModal.vue'
+import { useRoute } from 'vue-router'
+import { authStore } from '@/store/auth'
+
+const auth = authStore()
+
+const route = useRoute()
 
 const partida = ref(null)
 
@@ -88,10 +94,14 @@ function showToast(message, type = 'info') {
 }
 
 onMounted(async () => {
+  if (!auth.authenticated || !auth.user?.id) {
+  showToast('Usuario no autenticado', 'error')
+  return
+}
   const res = await axios.post('/api/partida/iniciar', {
-    id_usuario: 1,
-    id_juego: 1,
-    id_dificultad: 1
+    id_usuario: auth.user.id,
+    id_juego: route.query.idJuego,
+    id_dificultad: route.query.idDificultad
   })
 
   const paisesRes = await axios.get('/api/paises')

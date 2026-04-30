@@ -15,12 +15,13 @@ class GameService
     // INICIAR PARTIDA
     public function iniciarPartida($id_usuario, $id_juego, $dificultad)
 {
+    $dificultadString = (string) $dificultad;
     // 1. obtener combinaciones reales (pais + club)
     $combinaciones = \DB::table('jugadores')
     ->join('jugador_has_club', 'jugadores.id_jugador', '=', 'jugador_has_club.id_jugador')
     ->join('paises', 'paises.id_pais', '=', 'jugadores.pais_jugador')
     ->join('clubes', 'clubes.id_club', '=', 'jugador_has_club.id_club')
-    ->where('paises.dificultad_pais', $dificultad)
+    ->where('paises.dificultad_pais', $dificultadString)
     ->where('clubes.dificultad_club', $dificultad)
     ->select(
         'jugadores.pais_jugador as pais',
