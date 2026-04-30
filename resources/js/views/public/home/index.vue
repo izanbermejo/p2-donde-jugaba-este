@@ -13,7 +13,7 @@
 
     <section class="juegos">
         <h2>Juegos</h2>
-        <div class="flex flex-row justify-between" style="width: 100%;">
+        <div class="flex flex-row flex-wrap justify-center w-full" style="gap: 50px;">
             <router-link  to="/juegos/match9">
                 <div class="juego-container">
                     <img src="/images/Match9.webp" alt="Imagen del juego" class="juego-imagen" />
@@ -27,17 +27,27 @@
                 </div>
             </router-link>
         </div>
-        <router-link  to="/juegos" style="width: 100%;">
+        <router-link  to="/juegos" style="width: 25%;">
             <Button label="Ver juegos" severity="primary" class="btn-ver-juegos" />
         </router-link>
     </section>
 
-    <div class="flex gap-4">
-    </div>
+    <Divider />
+
+    <section class="ranking">
+        <h2>Ranking</h2>
+        <div class="flex flex-col items-center" style="width: 100%; height: 100%; margin-bottom: 40px; gap: 30px; ">
+            <TablaRankingGlobal />
+            <router-link  to="/ranking" style="width: 25%;">
+                <Button label="Ir al ranking" severity="primary" class="btn-ver-juegos" />
+            </router-link>
+        </div>
+    </section>
 </template>
 
 <script setup>
 import { authStore } from "@/store/auth";
+import TablaRankingGlobal from "../../../components/TablaRankingGlobal.vue";
 </script>
 
 <style scoped>
@@ -48,9 +58,22 @@ h2 {
     font-weight: bold;
 }
 
+.banner,
+.juegos {
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
 .banner {
     position: relative;
     width: 100%;
+    margin-top: 0;
+    padding-top: 0;
+}
+
+/* FIX línea blanca */
+.banner img {
+    display: block;
 }
 
 /* Degradado inferior */
@@ -73,23 +96,16 @@ h2 {
 /* Texto superpuesto */
 .banner .titulo-banner {
     position: absolute;
-    bottom: 50px;
+    bottom: 30px;
     left: 50%;
     transform: translateX(-50%);
     color: white;
-    font-size: 48px;
+    font-size: 56px;
     font-weight: 700;
     text-shadow: 0 2px 10px rgba(0, 0, 0, 0.6);
     z-index: 2;
     text-align: center;
     white-space: nowrap;
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-    .banner .titulo-banner {
-        font-size: 20px;
-    }
 }
 
 /* Juegos */
@@ -101,6 +117,7 @@ h2 {
     gap: 50px;
     margin: 50px 0px;
     padding: 0px 200px;
+    margin-bottom: 80px;
 }
 
 .juego-container {
@@ -147,6 +164,73 @@ h2 {
 }
 
 /* ranking */
+.ranking {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 50px;
+    margin: 50px 0px;
+    padding: 0px 200px;
+    height: 700px;
+}
 
+/* responsive */
+
+@media (max-width: 430px) {
+
+    h2 {
+        font-size: 34px;
+    }
+
+    .banner img {
+        height: 720px;
+        object-fit: cover;
+        object-position: center;
+    }
+
+    .banner .titulo-banner {
+        font-size: 44px;
+        bottom: 20px;
+        white-space: normal;
+        padding: 0 10px;
+        width: 100%;
+    }
+
+    .juegos {
+        padding: 0px 15px;
+        gap: 25px;
+        margin: 30px 0px;
+    }
+
+    .juego-container {
+        padding: 20px;
+    }
+
+    .juego-imagen {
+        width: 280px;
+        height: 280px;
+    }
+
+    .juego-titulo {
+        font-size: 22px;
+    }
+
+    .juegos a,
+    .ranking a {
+        width: 80% !important;
+    }
+
+    .btn-ver-juegos {
+        font-size: 18px;
+        padding: 10px 16px;
+        width: 100%;
+    }
+
+    .ranking {
+        padding: 0px 15px;
+        height: auto;
+        gap: 25px;
+    }
+}
 
 </style>

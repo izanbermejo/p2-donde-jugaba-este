@@ -308,6 +308,21 @@
                             {{ getError('club_actual_jugador') }}
                         </small>
                     </div>
+                    <div>
+                        <label for="jugador-clubes" class="dialog-label">Clubes del jugador</label>
+                        <MultiSelect
+                            v-model="jugador.clubes"
+                            :options="clubes"
+                            optionLabel="nombre_club"
+                            optionValue="id_club"
+                            placeholder="Selecciona clubes"
+                            class="w-full"
+                            filter
+                        />
+                        <small v-if="hasError('club_actual_jugador')" class="dialog-error">
+                            {{ getError('club_actual_jugador') }}
+                        </small>
+                    </div>
                 </div>
             </div>
             <template #footer>
@@ -344,6 +359,7 @@ import { useAbility } from '@casl/vue';
 import {FilterMatchMode, FilterOperator} from "@primevue/core/api";
 import { usePrimeVue } from 'primevue/config';
 import { useCountryStore } from "@/store/paises";
+import MultiSelect from 'primevue/multiselect';
 
 const FILTERS_STORAGE_KEY = 'admin_permissions_table_filters';
 const {jugadores, jugador, getJugadores, createJugador, updateJugador, deleteJugador, resetJugador, setJugador, hasError, getError, upsertJugadorRecord, isLoading, totalRecords} = useJugadores();
@@ -355,21 +371,7 @@ const currentPage = ref(0);
 const swal = inject('$swal');
 const canUseBrowserStorage = typeof window !== 'undefined';
 
-console.log('DEBUG - Store inicial:', {
-    countries: countryStore.countries,
-    isArray: Array.isArray(countryStore.countries),
-    type: typeof countryStore.countries,
-    value: countryStore.countries
-});
-
-watch(() => countryStore.countries, (newVal, oldVal) => {
-    console.log('DEBUG - countries cambiaron:', {
-        nuevo: newVal,
-        esArray: Array.isArray(newVal),
-        longitud: newVal?.length,
-        tipo: typeof newVal
-    });
-}, { deep: true, immediate: true });
+const clubes = ref([]);
 
 const dificultadOpciones = ref([
     { dificultad: '0', value: '0' },
@@ -402,6 +404,11 @@ const saveFiltersToStorage = (currentFilters) => {
     } catch (error) {
         console.warn('No se pudieron guardar los filtros de permisos', error);
     }
+};
+
+const getClubes = async () => {
+    const res = await axios.get('/api/clubes');
+    clubes.value = res.data;
 };
 
 const restoreFiltersFromStorage = () => {
@@ -439,12 +446,16 @@ const openCreateDialog = () => {
 };
 
 const openEditDialog = async (currentJugador) => {
-    console.log('DEBUG - Abriendo modal CREATE:', {
-        countries: countryStore.countries,
-        esArray: Array.isArray(countryStore.countries),
-        longitud: countryStore.countries?.length
-    });
+    cargaPaises();
+    await getClubes(); // 👈 cargar TODOS los clubes
+
     await setJugador(currentJugador);
+
+    // 👇 cargar clubes del jugador
+    const res = await axios.get(`/api/jugadores/${currentJugador.id_jugador}/clubes`);
+
+    jugador.value.clubes = res.data.map(c => c.id_club);
+
     jugadorDialog.type = 'edit';
     jugadorDialog.open = true;
 };
@@ -472,14 +483,21 @@ const submitUpdate = () => {
     if (isSubmitting.value) return;
 
     updateJugador()
-    .then(updatedJugador => {
-            if (updatedJugador) {
-                const paisObj = countryStore.countries.find(p => p.id_pais === updatedJugador.pais_jugador);
-                updatedJugador.pais = paisObj || { id_pais: updatedJugador.pais_jugador, nombre_pais: '-' };
-                upsertJugadorRecord(updatedJugador);
-                closeDialog();
-            }
-        });
+    .then(async (updatedJugador) => {
+        if (updatedJugador) {
+
+            // GUARDAR CLUBES EN TABLA N/M
+            await axios.put(`/api/jugadores/${jugador.value.id_jugador}/clubes`, {
+                clubes: jugador.value.clubes
+            });
+
+            const paisObj = paises.value.find(p => p.id_pais === updatedJugador.pais_jugador);
+            updatedJugador.pais = paisObj || { id_pais: updatedJugador.pais_jugador, nombre_pais: '-' };
+
+            upsertJugadorRecord(updatedJugador);
+            closeDialog();
+        }
+    });
 };
 
 const performDelete = (id) => {

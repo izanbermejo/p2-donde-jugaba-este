@@ -55,6 +55,14 @@ export default [
                 name: 'home',
                 component: () => import('../views/public/home/index.vue'),
             },
+            {
+                name: 'perfil',
+                path: 'perfil',
+                component: () => import('../views/user/profile.vue'),
+                meta: {
+                    breadCrumb: 'Perfil',
+                },
+            },
 
             {
                 path: 'login',
@@ -84,26 +92,6 @@ export default [
     },
 
     {
-        path: '/app',
-        component: AuthenticatedUserLayout,
-        name: 'app',
-        beforeEnter: requireLogin,
-        meta: { breadCrumb: '.' },
-        children: [
-            {
-                name: 'app.profile',
-                path: 'profile',
-                component: () => import('../views/user/profile.vue'),
-                meta: {
-                    breadCrumb: 'Perfil',
-                },
-            },
-
-        ]
-    },
-
-
-    {
         path: '/admin',
         component: AuthenticatedLayout,
         beforeEnter: requireAdmin,
@@ -117,46 +105,6 @@ export default [
                     breadCrumb: 'Admin',
                     hideBreadcrumb: true
                 }
-            },
-            {
-                name: 'profile.index',
-                path: 'profile',
-                component: () => import('../views/admin/profile/index.vue'),
-                meta: { breadCrumb: 'Profile' }
-            },
-
-            {
-                name: 'categories',
-                path: 'categories',
-                meta: { breadCrumb: 'Categories' },
-                children: [
-                    {
-                        name: 'categories.index',
-                        path: '',
-                        component: () => import('../views/admin/categories/Index.vue'),
-                        meta: {
-                            breadCrumb: 'View category',
-                            hideBreadcrumb: true
-                        }
-                    },
-                ]
-            },
-
-            {
-                name: 'posts',
-                path: 'posts',
-                meta: { breadCrumb: 'Posts' },
-                children: [
-                    {
-                        name: 'posts.index',
-                        path: '',
-                        component: () => import('../views/admin/posts/Index.vue'),
-                        meta: {
-                            breadCrumb: 'View posts',
-                            hideBreadcrumb: true
-                        }
-                    },
-                ]
             },
 
             {
@@ -331,9 +279,24 @@ export default [
             {
                 name: 'Match9',
                 path: 'match9',
-                component: () => import('../views/juegos/match9/index.vue')
+                component: () => import('../views/juegos/match9/index.vue'),
             },
         ]
+    },
+
+    {
+        name: 'InfoJuego',
+        path: '/juegos/:slug/info',
+        component: () => import('../views/juegos/infoJuego.vue'),
+        props: route => ({
+            slugJuego: route.params.slug,
+            idJuego: route.query.idJuego
+        })
+    },
+
+    {
+        path: '/ranking',
+        component: () => import('../views/ranking/index.vue'),
     },
 
     {
@@ -341,4 +304,10 @@ export default [
         name: 'NotFound',
         component: () => import("../views/errors/404.vue"),
     },
+
+    {
+        path: '/juegos/match9',
+        name: 'Match9',
+        component: () => import('../views/juegos/match9/Index.vue')
+    }
 ];
