@@ -13,6 +13,7 @@
 
     <section class="juegos">
         <h2>Juegos</h2>
+        <span class="explicacion-seccion">Pon a prueba tus conocimientos de fútbol con distintos minijuegos y mejora tus resultados.</span>
         <div class="flex flex-row flex-wrap justify-center w-full" style="gap: 50px;">
             <router-link  to="/juegos/match9">
                 <div class="juego-container">
@@ -36,6 +37,7 @@
 
     <section class="ranking">
         <h2>Ranking</h2>
+        <span class="explicacion-seccion">Consulta las mejores puntuaciones y compara tu nivel con otros jugadores.</span>
         <div class="flex flex-col items-center" style="width: 100%; height: 100%; margin-bottom: 40px; gap: 30px; ">
             <TablaRankingGlobal />
             <router-link  to="/ranking" style="width: 25%;">
@@ -172,6 +174,13 @@ h2 {
     margin: 50px 0px;
     padding: 0px 200px;
     height: 700px;
+}
+
+.explicacion-seccion {
+    font-size: 18px;
+    color: #2a4761;
+    text-align: center;
+    max-width: 800px;
 }
 
 /* responsive */

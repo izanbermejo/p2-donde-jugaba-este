@@ -3,7 +3,7 @@
         <Navbar />
 
         <main class="content">
-            <h1 class="title">Match 9</h1>
+            <h2>Match 9</h2>
 
             <div class="game-wrapper">
                 <GameBoard />
@@ -21,6 +21,12 @@ import Footer from '@/layouts/MainFooter.vue'
 </script>
 
 <style scoped>
+h2 {
+    color: #00203E;
+    font-size: 60px;
+    font-weight: bold;
+}
+
 .page-container {
     min-height: 100vh;
     display: flex;

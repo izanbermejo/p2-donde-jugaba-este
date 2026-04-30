@@ -4,19 +4,19 @@
     <section class="info-juego">
         <h2>{{ juego?.nombre_juego }}</h2>
 
-        <div class="content">
+        <div class="flex flex-row" style="gap: 50px; width: 100%; margin-bottom: 50px;">
             <div class="ranking">
                 <TablaRankingJuego :idJuego="props.idJuego"/>
             </div>
-
-            <div class="descripcion">
-                <p>{{ juego?.descripcion_juego }}</p>
+            <div class="content">
+                <router-link :to="`/juegos/${juego?.slug_juego}`">
+                    <Button label="JUGAR" severity="primary" class="btn-jugar"/>
+                </router-link>
+                <div class="descripcion">
+                    <p>{{ juego?.descripcion_juego }}</p>
+                </div>
             </div>
         </div>
-
-        <router-link :to="`/juegos/${juego?.slug_juego}`">
-            <Button label="JUGAR" severity="primary" class="btn-jugar" style="width: 500px;"/>
-        </router-link>
     </section>
 
     <Footer />
@@ -73,15 +73,15 @@ html, body {
 /* Wrapper que separa ranking y descripción */
 .content {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: space-between;
-    width: 100%;
+    width: 45%;
     gap: 10%;
 }
 
 /* Caja de descripción del juego */
 .descripcion {
-    width: 35%;
+    width: 100%;
     padding: 25px;
     border-radius: 16px;
     font-size: 16px;
@@ -105,7 +105,7 @@ html, body {
     background-color: #1DB954;
     color: #00203E;
     font-weight: 800;
-    width: 200px;
+    width: 100%;
 }
 
 /* ===================== */
