@@ -18,7 +18,7 @@
 
             <!-- Desktop Menu -->
             <div v-if="isDesktop" class="flex items-center" style="width: 100%; justify-content: space-between;">
-                <router-link  to="/" class="flex items-center gap-2">
+                <router-link  to="/" class="flex items-center gap-2" style="width: 33%;">
                     <img src="/images/logo.svg" alt="logo" class="h-10 w-auto"/>
                 </router-link>
                 <div class="flex gap-20">
@@ -27,7 +27,7 @@
                         :key="link.route"
                         :to="link.route"
                         class="font-medium transition-colors nav-link"
-                        style="font-size: 24px;"
+                        style="font-size: 24px; width: 33%"
                     >
                         {{ link.label }}
                     </router-link>
@@ -35,7 +35,7 @@
                 </div>
 
                 <!-- Actions -->
-                <div class="flex items-center gap-3 pl-6 ">
+                <div class="flex items-center gap-3 pl-6 " style="width: 33%; justify-content: flex-end;">
 
                     <template v-if="!authStore().user?.name">
                         <router-link to="/login">
