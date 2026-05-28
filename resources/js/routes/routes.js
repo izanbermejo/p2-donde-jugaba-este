@@ -316,10 +316,10 @@ export default [
     path: '/seleccionar-dificultad',
     name: 'SeleccionDificultad',
     component: SeleccionDificultad
-  },
-  {
-    path: '/game',
-    name: 'GameBoard',
-    component: GameBoard
-  },
+    },
+    {
+        path: '/juegos/FinPartida',
+        name: 'FinPartida',
+        component: () => import('../components/FinPartida.vue')
+    },
 ];

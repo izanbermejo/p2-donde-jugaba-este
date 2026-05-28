@@ -58,11 +58,12 @@
 import { ref, onMounted } from 'vue'
 import axios from 'axios'
 import PlayerModal from './PlayerModal.vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { authStore } from '@/store/auth'
 
 const auth = authStore()
 
+const router = useRouter()
 const route = useRoute()
 
 // Estado de la partida actual
@@ -171,11 +172,25 @@ async function selectJugador(jugador) {
     showModal.value = false
 
     if (res.data.victoria) {
-      showToast(
-        "🎉 ¡VICTORIA! Puntuación: " + res.data.puntuacion_final,
-        'success'
-      )
-    }
+  showToast(
+    "🎉 ¡VICTORIA! Puntuación: " + res.data.puntuacion_final,
+    'success'
+  )
+
+  setTimeout(() => {
+    router.push({
+      name: 'FinPartida',
+      query: {
+        victoria: 1,
+        puntuacion: res.data.puntuacion_final,
+        segundos: res.data.segundos ?? 0,
+        idJuego: route.query.idJuego
+      }
+    })
+  }, 1200)
+
+  return
+}
 
   } catch (e) {
     showToast("Error al jugar la partida", 'error')
@@ -187,10 +202,23 @@ function rendirse() {
   axios.post('/api/partida/rendirse', {
     id_partida: partida.value.id_partida
   }).then(res => {
+
     showToast(
       'Te has rendido. Puntuación: ' + res.data.puntuacion,
       'info'
     )
+
+    setTimeout(() => {
+      router.push({
+        name: 'FinPartida',
+        query: {
+          victoria: 0,
+          puntuacion: res.data.puntuacion,
+          idJuego: route.query.idJuego
+        }
+      })
+    }, 1200)
+
   })
 }
 

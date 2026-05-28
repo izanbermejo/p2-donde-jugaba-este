@@ -21,7 +21,7 @@
         <h2>Juegos</h2>
         <span class="explicacion-seccion">Pon a prueba tus conocimientos de fútbol con distintos minijuegos y mejora tus resultados.</span>
         <div class="flex flex-row flex-wrap justify-between w-full" >
-            <router-link  to="/juegos/match9">
+            <router-link :to="{ name: 'SeleccionDificultad', query: { idJuego: 1 } }">
                 <div class="juego-container">
                     <img src="/images/Match9.webp" alt="Imagen del juego" class="juego-imagen" />
                     <h3 class="juego-titulo">Match 9</h3>
@@ -30,7 +30,7 @@
                     </p>
                 </div>
             </router-link>
-            <router-link  to="/juegos/path4">
+            <router-link :to="{ name: 'SeleccionDificultad', query: { idJuego: 2 } }">
                 <div class="juego-container">
                     <img src="/images/Path4.webp" alt="Imagen del juego" class="juego-imagen" />
                     <h3 class="juego-titulo">Path 4</h3>

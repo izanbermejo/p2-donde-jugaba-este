@@ -10,7 +10,7 @@
             </div>
 
             <div class="content">
-                <router-link :to="`/juegos/${juego?.slug_juego}`">
+                <router-link :to="{ name: 'SeleccionDificultad', query: { idJuego: props.idJuego } }">
                     <Button label="JUGAR" severity="primary" class="btn-jugar"/>
                 </router-link>
 
