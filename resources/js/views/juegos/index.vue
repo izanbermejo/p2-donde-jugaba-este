@@ -4,7 +4,7 @@
     <section class="juegos">
         <h2>Juegos</h2>
         <span class="explicacion-pagina">En esta sección podrás poner a prueba tus conocimientos de fútbol a través de distintos minijuegos. Explora, responde y mejora tus resultados mientras repasas información sobre equipos, jugadores y competiciones. Compite contigo mismo o con otros usuarios y comprueba tu nivel en cada desafío.</span>
-        <div class="flex flex-row justify-between flex-wrap" style="width: 100%;">
+        <div class="flex flex-row justify-between flex-wrap" style="width: 100%; padding: 0px 350px;">
             <div v-for="juego in juegos" :key="juego.id" class="juego-container">
                 <h3 class="juego-titulo">{{ juego.name }}</h3>
                 <img :src="juego.image" alt="Imagen del juego" class="juego-imagen" />
@@ -63,7 +63,6 @@ h2 {
     align-items: center;
     gap: 50px;
     margin: 50px 0px;
-    padding: 0px 200px;
 }
 
 .juego-container {

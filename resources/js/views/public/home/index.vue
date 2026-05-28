@@ -17,10 +17,10 @@
         </div>
     </section>
 
-    <section class="juegos">
+    <section class="juegos section-home">
         <h2>Juegos</h2>
         <span class="explicacion-seccion">Pon a prueba tus conocimientos de fútbol con distintos minijuegos y mejora tus resultados.</span>
-        <div class="flex flex-row flex-wrap justify-center w-full" style="gap: 50px;">
+        <div class="flex flex-row flex-wrap justify-between w-full" >
             <router-link  to="/juegos/match9">
                 <div class="juego-container">
                     <img src="/images/Match9.webp" alt="Imagen del juego" class="juego-imagen" />
@@ -41,7 +41,7 @@
 
     <Divider />
 
-    <section class="ranking">
+    <section class="ranking section-home">
         <h2>Ranking</h2>
         <span class="explicacion-seccion">Consulta las mejores puntuaciones y compara tu nivel con otros jugadores.</span>
         <div class="flex flex-col items-center" style="width: 100%; height: 100%; margin-bottom: 40px; gap: 30px; ">
@@ -132,6 +132,11 @@ h2 {
     text-shadow: 0 2px 10px rgba(0, 0, 0, 0.6);
 }
 
+/* Secciones */
+.section-home {
+    padding: 0px 350px;
+}
+
 /* Juegos */
 
 .juegos {
@@ -140,8 +145,8 @@ h2 {
     align-items: center;
     gap: 50px;
     margin: 50px 0px;
-    padding: 0px 200px;
     margin-bottom: 80px;
+    width: 100%;
 }
 
 .juego-container {
@@ -194,8 +199,8 @@ h2 {
     align-items: center;
     gap: 50px;
     margin: 50px 0px;
-    padding: 0px 200px;
     height: 700px;
+    width: 100%;
 }
 
 .explicacion-seccion {
