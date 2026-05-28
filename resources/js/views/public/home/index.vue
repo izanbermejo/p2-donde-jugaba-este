@@ -277,48 +277,82 @@ h2 {
         text-align: center;
     }
 
-    /* ===== BANNER ===== */
-    .banner img {
+    /* ===================== */
+    /* HEADER / BANNER */
+    /* ===================== */
+
+    .banner {
         height: 720px;
+    }
+
+    .banner img {
+        height: 100%;
         object-fit: cover;
-        object-position: center;
+    }
+
+    .banner::after {
+        height: 100%;
     }
 
     .banner .titulo-banner {
-        font-size: 44px;
+        font-size: 36px;
         white-space: normal;
-        padding: 0 10px;
+        padding: 0;
         width: 100%;
         text-align: center;
     }
 
-    .banner .parrafo-banner {
-        font-size: 14px;
-        padding: 0 10px;
+    .banner .texto-banner {
+        left: 0;
+        transform: none;
+        width: 100%;
+        max-width: 100%;
+        padding: 0 15px; /* mismo margen que el resto de la web */
+        text-align: center;
     }
 
-    /* ===== SECCIONES GENERALES ===== */
+    .banner .parrafo-banner {
+        margin-top: 15px;
+        font-size: 14px;
+        line-height: 1.3;
+
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    /* ===================== */
+    /* MÁRGENES GENERALES */
+    /* ===================== */
+
     .section-home {
         padding: 0px 15px;
     }
 
-    /* ===== JUEGOS ===== */
+    /* ===================== */
+    /* JUEGOS */
+    /* ===================== */
+
     .juegos {
         padding: 0px 15px;
         gap: 25px;
         margin: 30px 0px;
     }
 
+    /* cards full width */
     .juego-container {
         width: 100%;
-        max-width: 320px;
+        max-width: 100%;
         padding: 20px;
     }
 
+    /* imagen un poco más grande y fluida */
     .juego-imagen {
         width: 100%;
-        height: auto;
-        max-width: 280px;
+        height: 320px;
+        object-fit: cover;
+        object-position: center;
     }
 
     .juego-titulo {
@@ -330,13 +364,14 @@ h2 {
         font-size: 14px;
     }
 
+    /* columnas en móvil */
     .flex.flex-row.flex-wrap {
         flex-direction: column !important;
         align-items: center;
         gap: 20px;
     }
 
-    /* ===== BOTÓN JUEGOS ===== */
+    /* botón juegos */
     .btn-ver-juegos {
         font-size: 18px;
         padding: 10px 16px;
@@ -348,7 +383,10 @@ h2 {
         width: 100% !important;
     }
 
-    /* ===== RANKING ===== */
+    /* ===================== */
+    /* RANKING */
+    /* ===================== */
+
     .ranking {
         padding: 0px 15px;
         height: auto;
