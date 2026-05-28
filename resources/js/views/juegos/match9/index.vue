@@ -3,9 +3,11 @@
         <Navbar />
 
         <main class="content">
-            <h2>Match 9</h2>
+            <div class="title-section">
+                <h2>Match 9</h2>
+            </div>
 
-            <div class="game-wrapper">
+            <div class="game-section">
                 <GameBoard />
             </div>
         </main>
@@ -21,42 +23,59 @@ import Footer from '@/layouts/MainFooter.vue'
 </script>
 
 <style scoped>
-h2 {
-    color: #00203E;
-    font-size: 60px;
-    font-weight: bold;
-}
-
 .page-container {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
 }
 
-/* CENTRADO GLOBAL */
 .content {
     flex: 1;
     display: flex;
     flex-direction: column;
-    align-items: center; /* centra horizontal */
-    justify-content: flex-start;
+    align-items: center;
+    padding-top: 40px;
+    padding-bottom: 60px;
+}
+
+.title-section {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 40px;
+}
+
+h2 {
+    color: #00203E;
+    font-size: 60px;
+    font-weight: bold;
+    margin: 0;
     text-align: center;
-    padding-top: 30px;
 }
 
-/* TÍTULO */
-.title {
-    font-size: 32px;
-    font-weight: 800;
-    color: #111827;
-    margin-bottom: 25px;
-    letter-spacing: 1px;
+.game-section {
+    width: 100%;
+    display: flex;
+    justify-content: center;
 }
 
-/* CONTENEDOR DEL JUEGO */
 .game-wrapper {
     display: flex;
     justify-content: center;
     width: 100%;
+}
+
+@media (max-width: 430px) {
+    h2 {
+        font-size: 36px;
+    }
+
+    .title-section {
+        margin-bottom: 20px;
+    }
+
+    .content {
+        padding-top: 20px;
+    }
 }
 </style>
