@@ -3,7 +3,7 @@
         v-model:filters="filters"
         :value="ranking || []"
         :paginator="true"
-        :rows="10"
+        :rows="props.rows"
         striped-rows
         style="width: 100%;"
     >
@@ -37,6 +37,13 @@
 </template>
 
 <script setup>
+
+const props = defineProps({
+    rows: {
+        type: Number,
+        default: 10
+    }
+});
 
 import { onMounted } from 'vue';
 import useRanking from "@/composables/ranking";

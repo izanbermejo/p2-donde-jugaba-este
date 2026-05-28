@@ -66,7 +66,8 @@ html, body {
     align-items: center;
     gap: 50px;
     margin: 50px 0px;
-    padding: 0px 200px;
+    width: 100%;
+    padding: 0px 350px;
     min-height: calc(75vh);
 }
 

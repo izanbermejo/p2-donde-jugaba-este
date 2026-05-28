@@ -5,7 +5,7 @@
         <section class="ranking">
             <h2>Ranking</h2>
             <span class="explicacion-pagina">Consulta la clasificación de los jugadores en los distintos minijuegos y compara tus resultados con los de otros usuarios. Aquí se reflejan las mejores puntuaciones y el progreso de cada participante. Supera tus marcas, escala posiciones y demuestra tu nivel en cada reto.</span>
-            <div class="flex flex-row justify-between flex-wrap" style="width: 70%;">
+            <div class="flex flex-row justify-between flex-wrap" style="width: 100%;">
                 <TablaRankingGlobal />
             </div>
         </section>
@@ -50,7 +50,8 @@ h2 {
     align-items: center;
     gap: 50px;
     margin: 50px 0px;
-    padding: 0px 200px;
+    width: 100%;
+    padding: 0px 350px;
     flex: 1;
 }
 
@@ -58,7 +59,6 @@ h2 {
     font-size: 18px;
     color: #2a4761;
     text-align: center;
-    max-width: 800px;
     margin-bottom: 20px;
 }
 

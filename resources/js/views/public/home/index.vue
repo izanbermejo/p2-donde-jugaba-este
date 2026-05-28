@@ -49,7 +49,7 @@
         <h2>Ranking</h2>
         <span class="explicacion-seccion">Consulta las mejores puntuaciones y compara tu nivel con otros jugadores.</span>
         <div class="flex flex-col items-center" style="width: 100%; height: 100%; margin-bottom: 40px; gap: 30px; ">
-            <TablaRankingGlobal />
+            <TablaRankingGlobal :rows="5"/>
             <router-link  to="/ranking" style="width: 25%;">
                 <Button label="Ir al ranking" severity="primary" class="btn-ver-juegos" />
             </router-link>
@@ -247,7 +247,7 @@ h2 {
     content: '';
     position: absolute;
     inset: 0;
-    background-image: url("/images/confeti.png");
+    background-image: url("/images/confeti.webp");
     background-repeat: repeat;
     background-size: 280px;
     opacity: 0.15;
