@@ -45,8 +45,6 @@
         </router-link>
     </section>
 
-    <Divider />
-
     <section class="ranking section-home">
         <h2>Ranking</h2>
         <span class="explicacion-seccion">Consulta las mejores puntuaciones y compara tu nivel con otros jugadores.</span>
@@ -219,9 +217,48 @@ h2 {
     flex-direction: column;
     align-items: center;
     gap: 50px;
-    margin: 50px 0px;
+    /* margin: 50px 0px; */
+    padding-top: 50px;
+    padding-bottom: 710px;
     height: 700px;
     width: 100%;
+    background-color: #d8e6f4;
+    position: relative;
+    overflow: hidden;
+}
+
+.ranking :deep(.p-row-even),
+.ranking :deep(.p-datatable-header-cell),
+.ranking :deep(.p-datatable-empty-message),
+.ranking :deep(.p-paginator) {
+    background-color: #d8e6f4 !important;
+}
+
+
+.ranking :deep(.p-datatable-paginator-bottom) {
+    border-top: 1px solid #a8c6e4 !important;
+}
+
+.ranking :deep(.p-datatable-header-cell) {
+    border-bottom: 1px solid #a8c6e4 !important;
+}
+
+.ranking::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url("/images/confeti.png");
+    background-repeat: repeat;
+    background-size: 280px;
+    opacity: 0.15;
+    pointer-events: none;
+    z-index: 0;
+    mix-blend-mode: multiply;
+}
+
+.ranking > * {
+    position: relative;
+    z-index: 1;
 }
 
 .explicacion-seccion {

@@ -10,7 +10,7 @@
         <template #empty>
             <div class="table-empty-state">
                 <i class="pi pi-trophy empty-state-icon"></i>
-                <p class="empty-state-text">No hayn registros en el ranking</p>
+                <p class="empty-state-text">No hay registros en el ranking</p>
                 <p class="empty-state-subtext">Juega una partida y se el primero en aparecer</p>
             </div>
         </template>
