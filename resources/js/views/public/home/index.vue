@@ -25,12 +25,18 @@
                 <div class="juego-container">
                     <img src="/images/Match9.webp" alt="Imagen del juego" class="juego-imagen" />
                     <h3 class="juego-titulo">Match 9</h3>
+                    <p class="juego-descripcion">
+                        Juego de lógica futbolística en formato 3x3 donde deberás completar un tablero rellenando cada casilla con un jugador que cumpla simultáneamente los requisitos de su fila y su columna (nacionalidad y club en el que haya jugado). Cada combinación siempre tiene al menos un jugador válido, pero no podrás repetir jugadores dentro del mismo tablero...
+                    </p>
                 </div>
             </router-link>
             <router-link  to="/juegos/path4">
                 <div class="juego-container">
                     <img src="/images/Path4.webp" alt="Imagen del juego" class="juego-imagen" />
                     <h3 class="juego-titulo">Path 4</h3>
+                    <p class="juego-descripcion">
+                        Encuentra la ruta correcta entre jugadores conectándolos a través de clubes en el menor número de pasos posible. Cada jugador te llevará a nuevas opciones, pero tendrás que elegir bien el camino para llegar al objetivo...
+                    </p>
                 </div>
             </router-link>
         </div>
@@ -155,9 +161,9 @@ h2 {
     align-items: center;
     background-color: #d8e6f4;
     padding: 40px;
-    padding-bottom: 0px;
     border-radius: 12px;
-    transition: transform 0.2s ease, box-shadow 0.2s ease
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    max-width: 480px;
 }
 
 .juego-container:hover {
@@ -168,6 +174,8 @@ h2 {
 .juego-imagen {
     width: 400px;
     height: 400px;
+    object-fit: cover;
+    object-position: center;
     border-radius: 8px;
     box-shadow: 0px 4px 15px 4px rgba(0,0,0,0.23)
 ;
@@ -179,6 +187,19 @@ h2 {
     font-size: 34px;
     font-weight: 600;
     color: #00203E;
+}
+
+.juego-descripcion {
+    font-size: 16px;
+    color: #2a4761;
+    text-align: center;
+    line-height: 1.3;
+
+    display: -webkit-box;
+    line-clamp: 3;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 
 .btn-ver-juegos {
