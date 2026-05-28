@@ -6,9 +6,15 @@
             style="width: 100%;"
         />
 
-        <h1 class="titulo-banner">
-            Sube en el ranking o quédate en el banquillo
-        </h1>
+        <div class="texto-banner">
+            <h1 class="titulo-banner">
+                Sube en el ranking o quédate en el banquillo
+            </h1>
+
+            <span class="parrafo-banner">
+                Bienvenido a nuestra plataforma de fútbol, donde la pasión por el deporte rey se une con la emoción de los juegos y el espíritu competitivo. Aquí podrás desafiar tus conocimientos futbolísticos, competir contra otros jugadores y escalar posiciones en nuestro ranking global. ¿Estás listo para demostrar que eres el mejor en el campo? ¡Únete a nosotros y comienza tu aventura futbolística hoy mismo!
+            </span>
+        </div>
     </section>
 
     <section class="juegos">
@@ -71,10 +77,15 @@ h2 {
     width: 100%;
     margin-top: 0;
     padding-top: 0;
+    height: 800px;
+    overflow: hidden;
 }
 
 /* FIX línea blanca */
 .banner img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
     display: block;
 }
 
@@ -96,18 +107,29 @@ h2 {
 }
 
 /* Texto superpuesto */
-.banner .titulo-banner {
+.banner .texto-banner {
     position: absolute;
     bottom: 30px;
     left: 50%;
     transform: translateX(-50%);
+    text-align: center;
+    z-index: 2;
+    max-width: 90%;
+}
+
+.banner .titulo-banner {
     color: white;
-    font-size: 56px;
+    font-size: 60px;
     font-weight: 700;
     text-shadow: 0 2px 10px rgba(0, 0, 0, 0.6);
-    z-index: 2;
-    text-align: center;
     white-space: nowrap;
+}
+
+.banner .parrafo-banner {
+    color: #d8e6f4;
+    font-size: 18px;
+    font-weight: 500;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.6);
 }
 
 /* Juegos */
