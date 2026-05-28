@@ -15,9 +15,7 @@ class PartidaController extends Controller
         $this->gameService = $gameService;
     }
 
-    /**
-     * 🟢 INICIAR PARTIDA
-     */
+    // INICIAR PARTIDA
     public function iniciar(Request $request)
     {
         $request->validate([
@@ -35,9 +33,7 @@ class PartidaController extends Controller
         );
     }
 
-    /**
-     * 🟡 JUGAR CASILLA
-     */
+    // JUGAR CASILLA
     public function jugar(Request $request)
     {
         $request->validate([
@@ -68,9 +64,7 @@ class PartidaController extends Controller
         );
     }
 
-    /**
-     * 🔴 FINALIZAR PARTIDA
-     */
+    // FINALIZAR PARTIDA
     public function finalizar(Request $request)
     {
         $request->validate([
