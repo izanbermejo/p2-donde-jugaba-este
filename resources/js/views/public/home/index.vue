@@ -274,8 +274,10 @@ h2 {
 
     h2 {
         font-size: 34px;
+        text-align: center;
     }
 
+    /* ===== BANNER ===== */
     .banner img {
         height: 720px;
         object-fit: cover;
@@ -284,12 +286,23 @@ h2 {
 
     .banner .titulo-banner {
         font-size: 44px;
-        bottom: 20px;
         white-space: normal;
         padding: 0 10px;
         width: 100%;
+        text-align: center;
     }
 
+    .banner .parrafo-banner {
+        font-size: 14px;
+        padding: 0 10px;
+    }
+
+    /* ===== SECCIONES GENERALES ===== */
+    .section-home {
+        padding: 0px 15px;
+    }
+
+    /* ===== JUEGOS ===== */
     .juegos {
         padding: 0px 15px;
         gap: 25px;
@@ -297,33 +310,54 @@ h2 {
     }
 
     .juego-container {
+        width: 100%;
+        max-width: 320px;
         padding: 20px;
     }
 
     .juego-imagen {
-        width: 280px;
-        height: 280px;
+        width: 100%;
+        height: auto;
+        max-width: 280px;
     }
 
     .juego-titulo {
         font-size: 22px;
+        text-align: center;
     }
 
-    .juegos a,
-    .ranking a {
-        width: 80% !important;
+    .juego-descripcion {
+        font-size: 14px;
     }
 
+    .flex.flex-row.flex-wrap {
+        flex-direction: column !important;
+        align-items: center;
+        gap: 20px;
+    }
+
+    /* ===== BOTÓN JUEGOS ===== */
     .btn-ver-juegos {
         font-size: 18px;
         padding: 10px 16px;
         width: 100%;
     }
 
+    .juegos a,
+    .ranking a {
+        width: 100% !important;
+    }
+
+    /* ===== RANKING ===== */
     .ranking {
         padding: 0px 15px;
         height: auto;
         gap: 25px;
+    }
+
+    .explicacion-seccion {
+        font-size: 14px;
+        padding: 0 10px;
     }
 }
 
