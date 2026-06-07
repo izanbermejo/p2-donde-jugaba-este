@@ -282,6 +282,9 @@ export default [
                 name: 'Match9',
                 path: 'match9',
                 component: () => import('../views/juegos/match9/index.vue'),
+                name: 'Path4',
+                path: 'Path4',
+                component: () => import('../views/juegos/path4/index.vue'),
             },
         ]
     },

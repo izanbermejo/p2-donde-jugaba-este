@@ -70,11 +70,15 @@ Route::apiResource('/posiciones', PosicionController::class);
 
 Route::apiResource('/ligas', LigaController::class);
 
+// Match9
 Route::post('/partida/iniciar', [PartidaController::class, 'iniciar']);
 Route::post('/partida/jugar', [PartidaController::class, 'jugar']);
 Route::post('/partida/rendirse', [PartidaController::class, 'rendirse']);
 Route::post('/partida/finalizar', [PartidaController::class, 'finalizar']);
 Route::get('/jugadores/search', [JugadorController::class, 'search']);
+
+// Path4
+Route::post('/path4/iniciar', [PartidaController::class, 'iniciarPath4']);
 
 Route::get('/ranking', [RankingController::class, 'indexGlobal']);
 Route::get('/ranking/{id_juego}', [RankingController::class, 'indexByIdJuego']);
