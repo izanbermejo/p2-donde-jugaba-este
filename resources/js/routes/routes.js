@@ -316,6 +316,11 @@ export default [
         component: () => import('../views/juegos/match9/Index.vue')
     },
     {
+        path: '/juegos/path4',
+        name: 'Path4',
+        component: () => import('../views/juegos/path4/Index.vue')
+    },
+    {
     path: '/seleccionar-dificultad',
     name: 'SeleccionDificultad',
     component: SeleccionDificultad

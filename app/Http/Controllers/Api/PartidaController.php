@@ -10,6 +10,15 @@ use App\Services\Path4Service;
 class PartidaController extends Controller
 {
 
+    protected $gameService;
+    protected $path4Service;
+
+    public function __construct(GameService $gameService, Path4Service $path4Service)
+    {
+        $this->gameService = $gameService;
+        $this->path4Service = $path4Service;
+    }
+        
     /*
     *           *
     **         **
@@ -17,13 +26,6 @@ class PartidaController extends Controller
     **         **
     *           *
     */
-    protected $gameService;
-
-    public function __construct(GameService $gameService)
-    {
-        $this->gameService = $gameService;
-    }
-
     // INICIAR PARTIDA
     public function iniciar(Request $request)
     {
@@ -104,10 +106,24 @@ class PartidaController extends Controller
         ]);
 
         return response()->json(
-            $this->gameService->iniciarPath4(
+            $this->path4Service->iniciarPartida(
                 $request->id_usuario,
                 $request->id_juego,
                 $request->id_dificultad
+            )
+        );
+    }
+    public function jugarPath4(Request $request)
+    {
+        $request->validate([
+            'id_partida' => 'required|integer',
+            'id_jugador' => 'required|integer'
+        ]);
+
+        return response()->json(
+            $this->path4Service->jugar(
+                $request->id_partida,
+                $request->id_jugador
             )
         );
     }

@@ -79,6 +79,7 @@ Route::get('/jugadores/search', [JugadorController::class, 'search']);
 
 // Path4
 Route::post('/path4/iniciar', [PartidaController::class, 'iniciarPath4']);
+Route::post('/path4/jugar', [PartidaController::class, 'jugarPath4']);
 
 Route::get('/ranking', [RankingController::class, 'indexGlobal']);
 Route::get('/ranking/{id_juego}', [RankingController::class, 'indexByIdJuego']);

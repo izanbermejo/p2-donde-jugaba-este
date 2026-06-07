@@ -4,11 +4,11 @@
 
         <main class="content">
             <div class="title-section">
-                <h2>Match 9</h2>
+                <h2>Path 4</h2>
             </div>
 
             <div class="game-section">
-                <GameBoard />
+                <GameBoardPath4 />
             </div>
         </main>
 
@@ -17,7 +17,7 @@
 </template>
 
 <script setup>
-import GameBoard from '@/components/GameBoard.vue'
+import GameBoardPath4 from '@/components/GameBoardPath4.vue'
 import Navbar from '@/layouts/LandingNavbar.vue'
 import Footer from '@/layouts/MainFooter.vue'
 </script>

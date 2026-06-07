@@ -59,4 +59,39 @@ class Path4Service
             'partida' => $partida
         ];
     }
+
+
+    public function jugar($id_partida, $id_jugador)
+    {
+        $partida = Partida::findOrFail($id_partida);
+
+        $estado = $partida->estado;
+
+        $correcto = ($id_jugador == $estado['jugador_objetivo']);
+
+        $victoria = false;
+        $revelarClub = null;
+
+        if ($correcto) {
+            $victoria = true;
+        } else {
+
+            $index = $estado['clubes_revelados'];
+
+            $revelarClub = $estado['clubes'][$index] ?? null;
+
+            $estado['clubes_revelados']++;
+        }
+
+        $partida->estado = $estado;
+        $partida->save();
+
+        return [
+            'ok' => true,
+            'correcto' => $correcto,
+            'victoria' => $victoria,
+            'revelar_club' => $revelarClub,
+            'clubes_revelados' => $estado['clubes_revelados'],
+        ];
+    }
 }
