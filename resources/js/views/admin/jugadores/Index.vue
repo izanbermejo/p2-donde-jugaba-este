@@ -12,7 +12,7 @@
                             outlined
                             severity="secondary"
                             :loading="isLoading"
-                            @click="test"
+                            @click="cargarJugadores"
                         />
                         <Button
                             v-if="can('jugador-create')"
@@ -262,7 +262,7 @@
                     </div>
                     <div class="flex flex-col">
                         <label for="jugador-pais" class="dialog-label">Nacionalidad</label>
-                        <Select v-model="jugador.pais_jugador" :options="countryStore.countries" filter filterBy="nombre_pais" optionLabel="nombre_pais" placeholder="Selecciona la nacionalidad" class="w-full">
+                        <Select v-model="jugador.pais_jugador" :options="paises" filter filterBy="nombre_pais" optionLabel="nombre_pais" placeholder="Selecciona la nacionalidad" class="w-full">
                             <!-- Lo valida como false al insertar jugador porque devuelve el objeto de pais en vez de el id -->
                             <template #value="slotProps">
                                 <div v-if="slotProps.value" class="flex items-center">
@@ -363,17 +363,17 @@ import { useCountryStore } from "@/store/paises";
 import MultiSelect from 'primevue/multiselect';
 
 const FILTERS_STORAGE_KEY = 'admin_permissions_table_filters';
-const {jugadores, jugador, getJugadores, createJugador, updateJugador, deleteJugador, resetJugador, setJugador, hasError, getError, upsertJugadorRecord, isLoading, totalRecords} = useJugadores();
+const {jugadores, jugador, getJugadores, createJugador, updateJugador, deleteJugador, resetJugador, setJugador, hasError, getError, upsertJugadorRecord, isLoading, totalRecords, getClubesJugador, guardarClubesJugador} = useJugadores();
 const {clubes, getClubes} = useClubes();
+const {paises} = usePaises();
 const { can } = useAbility();
 const $primevue = usePrimeVue();
 const countryStore = useCountryStore();
 const currentPage = ref(0);
+const clubesJugador = ref([]);
 
 const swal = inject('$swal');
 const canUseBrowserStorage = typeof window !== 'undefined';
-
-// const clubes = ref([]);
 
 const dificultadOpciones = ref([
     { dificultad: '0', value: '0' },
@@ -432,26 +432,18 @@ watch(filters, (newFilters) => {
 }, { deep: true });
 
 const openCreateDialog = () => {
-    console.log('DEBUG - Abriendo modal CREATE:', {
-        countries: countryStore.countries,
-        esArray: Array.isArray(countryStore.countries),
-        longitud: countryStore.countries?.length
-    });
     resetJugador();
     jugadorDialog.type = 'create';
     jugadorDialog.open = true;
 };
 
 const openEditDialog = async (currentJugador) => {
-    cargaPaises();
-    await getClubes(); // 👈 cargar TODOS los clubes
-
     await setJugador(currentJugador);
 
-    // 👇 cargar clubes del jugador
-    const res = await axios.get(`/api/jugadores/${currentJugador.id_jugador}/clubes`);
+    let result = await getClubesJugador(currentJugador.id_jugador);
+    clubesJugador.value = result.data;
 
-    jugador.value.clubes = res.data.map(c => c.id_club);
+    jugador.value.clubes = clubesJugador.value.map(c => c.id_club);
 
     jugadorDialog.type = 'edit';
     jugadorDialog.open = true;
@@ -462,18 +454,22 @@ const closeDialog = () => {
     resetJugador();
 };
 
-const submitCreate = () => {
+const submitCreate = async () => {
     if (isSubmitting.value) return;
 
-    createJugador()
-        .then(createdJugador => {
+    await createJugador()
+        .then(async (createdJugador) => {
             if (createdJugador) {
                 const paisObj = countryStore.countries.find(p => p.id_pais === createdJugador.pais_jugador);
                 createdJugador.pais = paisObj || { id_pais: createdJugador.pais_jugador, nombre_pais: '-' };
                 upsertJugadorRecord(createdJugador);
+
+                await guardarClubesJugador(createdJugador.id_jugador, jugador.value.clubes);
                 closeDialog();
             }
         });
+
+    cargarJugadores();
 };
 
 const submitUpdate = () => {
@@ -484,9 +480,7 @@ const submitUpdate = () => {
         if (updatedJugador) {
 
             // GUARDAR CLUBES EN TABLA N/M
-            await axios.put(`/api/jugadores/${jugador.value.id_jugador}/clubes`, {
-                clubes: jugador.value.clubes
-            });
+            await guardarClubesJugador(jugador.value.id_jugador, jugador.value.clubes);
 
             const paisObj = paises.value.find(p => p.id_pais === updatedJugador.pais_jugador);
             updatedJugador.pais = paisObj || { id_pais: updatedJugador.pais_jugador, nombre_pais: '-' };
@@ -495,10 +489,8 @@ const submitUpdate = () => {
             closeDialog();
         }
     });
-};
 
-const performDelete = (id) => {
-    deleteJugador(id);
+    cargarJugadores();
 };
 
 const confirmDeleteJugador = (currentJugador) => {
@@ -525,10 +517,16 @@ const confirmDeleteJugador = (currentJugador) => {
 };
 
 onMounted(() => {
-    countryStore.fetchCountries();
+    cargarJugadores();
+});
+
+const cargarJugadores = async () => {
+    await countryStore.fetchCountries();
+    paises.value = countryStore.countries;
+    await getClubes();
     restoreFiltersFromStorage();
     getJugadores(1, 10);
-});
+};
 
 let isChangingPage = false;
 
