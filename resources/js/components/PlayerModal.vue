@@ -41,9 +41,10 @@
 
 <script setup>
 import { ref } from 'vue'
-import axios from 'axios'
+import useJugadores from '../composables/jugadores';
 
 const emit = defineEmits(['select', 'close'])
+const { getJugadorByNombre } = useJugadores();
 
 const search = ref('')
 const resultados = ref([])
@@ -52,9 +53,6 @@ const selectedIndex = ref(-1)
 
 let debounceTimer = null
 
-/* ======================
-   INPUT + DEBOUNCE
-====================== */
 function onInput() {
   clearTimeout(debounceTimer)
 
@@ -67,9 +65,7 @@ function onInput() {
     loading.value = true
 
     try {
-      const res = await axios.get('/api/jugadores/search', {
-        params: { search: search.value }
-      })
+      const res = await getJugadorByNombre(search.value)
 
       resultados.value = res.data
       selectedIndex.value = 0

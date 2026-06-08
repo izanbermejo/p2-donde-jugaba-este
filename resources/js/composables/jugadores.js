@@ -71,6 +71,12 @@ export default function useJugadores() {
             })
     }
 
+    const getJugadorByNombre = async (nombre) => {
+        return await axios.get('/api/jugadores/search', {
+            params: { search: nombre }
+        }) 
+    }
+
     // Obtiene los clubes asociados a un jugador por su ID
     const getClubesJugador = async (id) => {
         return axios.get(`/api/jugadores/${id}/clubes`)
@@ -232,6 +238,7 @@ export default function useJugadores() {
         jugador,
         getJugadores,
         getJugador,
+        getJugadorByNombre,
         getClubesJugador,
         createJugador,
         updateJugador,

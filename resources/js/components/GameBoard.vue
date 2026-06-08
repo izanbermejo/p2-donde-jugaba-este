@@ -36,7 +36,7 @@
 
     </div>
 
-    <button @click="rendirse" class="btn-red">
+    <button @click="abandonarPartida" class="btn-red">
       Rendirse
     </button>
 
@@ -56,22 +56,24 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
-import axios from 'axios'
 import PlayerModal from './PlayerModal.vue'
 import { useRoute, useRouter } from 'vue-router'
 import { authStore } from '@/store/auth'
+import usePaises from "@/composables/paises";
+import useClubes from "@/composables/clubes";
+import usePartidas from "@/composables/partidas";
 
 const auth = authStore()
 
 const router = useRouter()
 const route = useRoute()
 
+const {clubes, getClubes} = useClubes();
+const {paises, getPaises} = usePaises();
+const { iniciarPartida, jugarPartida, rendirse } = usePartidas();
+
 // Estado de la partida actual
 const partida = ref(null)
-
-// Listas de países y clubes del tablero
-const paises = ref([])
-const clubes = ref([])
 
 // Mapas para traducir IDs a nombres
 const paisesMap = ref({})
@@ -108,20 +110,16 @@ onMounted(async () => {
   showToast('Usuario no autenticado', 'error')
   return
 }
-  const res = await axios.post('/api/partida/iniciar', {
-    id_usuario: auth.user.id,
-    id_juego: route.query.idJuego,
-    id_dificultad: route.query.idDificultad
-  })
+  const res = await iniciarPartida(auth.user.id, route.query.idJuego, route.query.idDificultad)
 
-  const paisesRes = await axios.get('/api/paises')
+  await getPaises()
   paisesMap.value = Object.fromEntries(
-    paisesRes.data.map(p => [p.id_pais, p.nombre_pais])
+    paises.map(p => [p.id_pais, p.nombre_pais])
   )
 
-  const clubesRes = await axios.get('/api/clubes')
+  await getClubes()
   clubesMap.value = Object.fromEntries(
-    clubesRes.data.map(c => [c.id_club, c.nombre_club])
+    clubes.map(c => [c.id_club, c.nombre_club])
   )
 
   if (!res.data.ok) {
@@ -153,12 +151,7 @@ function clickCelda(fila, columna) {
 // Envía la jugada seleccionada al backend
 async function selectJugador(jugador) {
   try {
-    const res = await axios.post('/api/partida/jugar', {
-      id_partida: id_partida.value,
-      fila: filaSeleccionada.value,
-      columna: columnaSeleccionada.value,
-      id_jugador: jugador.id_jugador
-    })
+    const res = await jugarPartida(id_partida.value, filaSeleccionada.value, columnaSeleccionada.value, jugador.id_jugador);
 
     if (!res.data.ok) {
       showToast(res.data.message, 'error')
@@ -173,7 +166,7 @@ async function selectJugador(jugador) {
 
     if (res.data.victoria) {
   showToast(
-    "🎉 ¡VICTORIA! Puntuación: " + res.data.puntuacion_final,
+    "¡VICTORIA! Puntuación: " + res.data.puntuacion_final,
     'success'
   )
 
@@ -198,10 +191,8 @@ async function selectJugador(jugador) {
 }
 
 // Abandona la partida actual
-function rendirse() {
-  axios.post('/api/partida/rendirse', {
-    id_partida: partida.value.id_partida
-  }).then(res => {
+function abandonarPartida() {
+  rendirse(id_partida.value).then(res => {
 
     showToast(
       'Te has rendido. Puntuación: ' + res.data.puntuacion,

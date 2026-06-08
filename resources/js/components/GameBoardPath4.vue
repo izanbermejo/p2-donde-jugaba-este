@@ -35,7 +35,7 @@
           {{ jugador.nombre_jugador }}
         </div>
       </div>
-      <button @click="rendirse" class="btn-red">
+      <button @click="abandonarPartida" class="btn-red">
         Rendirse
       </button>
 
@@ -53,13 +53,18 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
-import axios from 'axios'
 import { useRoute, useRouter } from 'vue-router'
 import { authStore } from '@/store/auth'
+import useClubes from '../composables/clubes'
+import useJugadores from '../composables/jugadores'
+import usePartidas from '../composables/partidas'
 
 const auth = authStore()
 const router = useRouter()
 const route = useRoute()
+const {clubes, getClubes} = useClubes();
+const {getJugadorByNombre} = useJugadores();
+const { iniciarPartidaPath4, jugarPartidaPath4, rendirse } = usePartidas();
 
 const partida = ref(null)
 const id_partida = ref(null)
@@ -81,11 +86,11 @@ function showToast(message, type='info'){
 
 onMounted(async () => {
 
-  const res = await axios.post('/api/path4/iniciar', {
-    id_usuario: auth.user.id,
-    id_juego: route.query.idJuego,
-    id_dificultad: route.query.idDificultad
-  })
+  const res = await iniciarPartidaPath4(
+    auth.user.id,
+    route.query.idJuego,
+    route.query.idDificultad
+  )
 
   partida.value = res.data.partida
   id_partida.value = res.data.partida.id_partida
@@ -95,9 +100,9 @@ onMounted(async () => {
     i === 0 ? c : null
   )
 
-  const clubesRes = await axios.get('/api/clubes')
+  await getClubes();
   clubesMap.value = Object.fromEntries(
-    clubesRes.data.map(c => [c.id_club, c.nombre_club])
+    clubes.value.map(c => [c.id_club, c.nombre_club])
   )
 })
 
@@ -123,9 +128,7 @@ function onInput(){
 
     loading.value = true
 
-    const res = await axios.get('/api/jugadores/search', {
-      params: { search: search.value }
-    })
+    const res = await getJugadorByNombre(search.value)
 
     resultados.value = res.data
     loading.value = false
@@ -141,13 +144,7 @@ async function selectJugador(jugador){
 
   try {
 
-    const res = await axios.post('/api/path4/jugar', {
-      id_partida: id_partida.value,
-      id_jugador: jugador.id_jugador
-    })
-
-    console.log("RAW:", res)
-    console.log("DATA:", res.data)
+    const res = await jugarPartidaPath4(id_partida.value, jugador.id_jugador)
 
     const data = res.data.original ?? res.data
 
@@ -208,13 +205,11 @@ async function selectJugador(jugador){
   }
 }
 
-async function rendirse() {
+async function abandonarPartida() {
 
   try {
 
-    const res = await axios.post('/api/partida/rendirse', {
-      id_partida: id_partida.value
-    })
+    const res = await rendirse(id_partida.value)
 
     showToast(
       'Te has rendido. Puntuación: ' + res.data.puntuacion,

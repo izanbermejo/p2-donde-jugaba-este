@@ -88,7 +88,7 @@
                             <InputText v-model="filterModel.value" placeholder="Nombre" class="w-full" />
                         </template>
                     </Column>
-                    
+
                     <Column field="pais_club" header="Pais" sortable filter class="min-w-37.5">
                         <template #body="slotProps">
                             <Skeleton v-if="isLoading" width="10rem" height="1rem" />
@@ -98,7 +98,7 @@
                             <InputText v-model="filterModel.value" placeholder="Pais" class="w-full" />
                         </template>
                     </Column>
-                    
+
                     <Column field="id_liga_club" header="Liga" sortable filter filterField="liga.nombre_liga" class="min-w-37.5" :showFilterMatchModes="false">
                         <template #body="slotProps">
                             <Skeleton v-if="isLoading" width="10rem" height="1rem" />
@@ -232,7 +232,7 @@
                         <small v-if="hasError('nombre_club')" class="dialog-error">
                             {{ getError('nombre_club') }}
                         </small>
-                    
+
                     </div>
                     <div class="flex flex-col">
                         <label for="club-pais" class="dialog-label">Pais</label>
@@ -251,14 +251,14 @@
                     <div>
                         <label for="club-liga" class="dialog-label">Liga</label>
                         <Select
-                        id="club-liga" 
-                        v-model="club.id_liga_club" 
-                        :options="ligas" 
+                        id="club-liga"
+                        v-model="club.id_liga_club"
+                        :options="ligas"
                         optionLabel="nombre_liga"
                         optionValue="id_liga"
-                        filter 
-                        filterBy="nombre_liga"  
-                        placeholder="Selecciona la liga" 
+                        filter
+                        filterBy="nombre_liga"
+                        placeholder="Selecciona la liga"
                         class="w-full">
                             <!-- Lo valida como false al insertar club porque devuelve el objeto de liga en vez de el id -->
                             <template #value="slotProps">
@@ -422,8 +422,6 @@ const closeDialog = () => {
 };
 
 const submitCreate = () => {
-    console.log("1. ENTRA")
-    console.log(isSubmitting.value);
     if (isSubmitting.value) return;
 
     createClub()
