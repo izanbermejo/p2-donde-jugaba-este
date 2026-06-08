@@ -355,6 +355,7 @@
 import { ref, reactive, computed, onMounted, inject, watch } from "vue";
 import useJugadores from "@/composables/jugadores";
 import usePaises from "@/composables/paises";
+import useClubes from "@/composables/clubes";
 import { useAbility } from '@casl/vue';
 import {FilterMatchMode, FilterOperator} from "@primevue/core/api";
 import { usePrimeVue } from 'primevue/config';
@@ -363,6 +364,7 @@ import MultiSelect from 'primevue/multiselect';
 
 const FILTERS_STORAGE_KEY = 'admin_permissions_table_filters';
 const {jugadores, jugador, getJugadores, createJugador, updateJugador, deleteJugador, resetJugador, setJugador, hasError, getError, upsertJugadorRecord, isLoading, totalRecords} = useJugadores();
+const {clubes, getClubes} = useClubes();
 const { can } = useAbility();
 const $primevue = usePrimeVue();
 const countryStore = useCountryStore();
@@ -371,7 +373,7 @@ const currentPage = ref(0);
 const swal = inject('$swal');
 const canUseBrowserStorage = typeof window !== 'undefined';
 
-const clubes = ref([]);
+// const clubes = ref([]);
 
 const dificultadOpciones = ref([
     { dificultad: '0', value: '0' },
@@ -404,11 +406,6 @@ const saveFiltersToStorage = (currentFilters) => {
     } catch (error) {
         console.warn('No se pudieron guardar los filtros de permisos', error);
     }
-};
-
-const getClubes = async () => {
-    const res = await axios.get('/api/clubes');
-    clubes.value = res.data;
 };
 
 const restoreFiltersFromStorage = () => {
