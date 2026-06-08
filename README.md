@@ -1,121 +1,91 @@
-# Laravel 10 + Vue 3 API Base Project
+# Laravel 12 + Vue 3 SPA - ¿Dónde jugaba este?
 
-Este proyecto es una base sólida diseñada para estudiantes y desarrolladores que deseen aprender a construir aplicaciones SPA (Single Page Application) modernas utilizando Laravel como API backend y Vue 3 como frontend.
+Este proyecto es una aplicación web tipo SPA (Single Page Application) desarrollada con Laravel 12 como backend API y Vue 3 como frontend, orientada a un minijuego de fútbol donde los usuarios pueden adivinar jugadores y competir en rankings.
+
+El objetivo del proyecto es aprender arquitectura moderna fullstack separando frontend y backend, aplicando autenticación, relaciones entre tablas, tests y componentes reutilizables.
+
+---
+
+##  Descripción del proyecto
+
+Este proyecto consiste en una aplicación web interactiva centrada en el mundo del fútbol, donde los usuarios pueden:
+
+- Jugar a diferentes minijuegos de adivinanzas futbolísticas  
+- Competir en rankings y mejorar su puntuación  
+- Registrarse e iniciar sesión para guardar su progreso
+- Los administradores podran gestionar la base de daatos de los jugadores, clubes, paises, ligas y posiciones.
+
+La aplicación está desarrollada como una **Single Page Application (SPA)**, combinando un backend robusto en Laravel con un frontend dinámico en Vue 3.
+
+---
 
 ## 🚀 Características Principales
 
-### Backend (Laravel 10)
-- **API RESTful**: Estructura robusta para servir datos al frontend.
-- **Autenticación Sanctum**: Sistema seguro de autenticación basado en cookies/tokens.
-- **Roles y Permisos**: Implementación de `spatie/laravel-permission` para gestión granular de accesos.
-- **Recursos API**: Uso de API Resources para transformar datos de manera consistente.
+### Backend (Laravel 12)
+
+- API RESTful para consumo desde Vue
+- Autenticación con Sanctum
+- Gestión de usuarios (login/registro)
+- Sistema de partidas
+- Rankings globales y por juego
+- Relaciones entre jugadores, clubes, ligas y partidas
+- Migraciones y seeders
+- Validaciones backend
+- Tests con PHPUnit
 
 ### Frontend (Vue 3)
-- **Composition API**: Uso moderno de Vue 3 con `<script setup>`.
-- **Pinia**: Gestión de estado modular y persistente.
-- **Vue Router**: Enrutamiento dinámico con protecciones de navegación (Guards).
-- **PrimeVue**: Suite de componentes UI profesional y personalizable.
-- **Tailwind CSS**: Estilizado utilitario para un diseño rápido y responsivo.
-- **i18n**: Soporte multi-idioma (Español, Inglés, Francés, etc.).
-- **Validación**: Formularios robustos con `yup`
 
-## 🛠️ Requisitos Previos
+- Composition API con `<script setup>`
+- Pinia / composables
+- Vue Router
+- PrimeVue (DataTable, SelectButton, etc.)
+- Filtros en frontend (sin backend)
+- Layouts reutilizables
+- Ranking dinámico
+- Diseño responsive
 
-- PHP >= 8.1
+---
+
+## 🛠️ Requisitos
+
+- PHP >= 8.2
 - Composer
-- Node.js >= 16
-- MySQL / MariaDB
+- Node.js >= 18
+- MySQL
 
-## ⚙️ Instalación y Configuración
+---
 
-Sigue estos pasos para levantar el proyecto en tu entorno local:
+## ⚙️ Instalación
 
-### 1. Clonar el Repositorio
-```bash
-git clone <url-del-repositorio>
-cd Laravel-VUE-API-Base-Clase
-```
+git clone <https://github.com/izanbermejo/p2-donde-jugaba-este>
+cd p2-donde-jugaba-este
 
-### 2. Configurar Backend (Laravel)
-
-Instalar dependencias de PHP:
-```bash
 composer install
-```
-
-Configurar variables de entorno:
-```bash
 cp .env.example .env
-```
-
-Generar clave de aplicación:
-```bash
 php artisan key:generate
-```
 
-Configurar base de datos en `.env`:
-Abre el archivo `.env` y ajusta las credenciales de tu base de datos:
-```dotenv
-DB_CONNECTION=mysql
-DB_HOST=127.0.0.1
-DB_PORT=3306
-DB_DATABASE=nombre_de_tu_bd
-DB_USERNAME=root
-DB_PASSWORD=
-```
+php artisan migrate:fresh --seed
 
-Configurar dominio para Sanctum (Importante para autenticación):
-```dotenv
-SANCTUM_STATEFUL_DOMAINS=localhost:8000
-APP_URL=http://localhost:8000
-FRONTEND_URL=http://localhost:8000
-```
-
-Ejecutar migraciones y seeders:
-```bash
-php artisan migrate --seed
-```
-*Esto creará, categorías para un blog, usuarios, roles y permisos iniciales.*
-
-### Credenciales de Acceso (Seeders)
-Los siguientes usuarios son creaados por defecto:
-- **Admin**: `admin@demo.com` / `12345678`
-- **Usuario**: `user@demo.com` / `12345678`
-
-### 3. Configurar Frontend (Vue)
-
-Instalar dependencias de Node:
-```bash
 npm install
-```
-
-### 4. Ejecutar la Aplicación
-
-Necesitarás dos terminales:
-
-Terminal 1 (Backend):
-```bash
-php artisan serve
-```
-
-Terminal 2 (Frontend):
-```bash
 npm run dev
-```
 
-Accede a la aplicación en: `http://localhost:8000`
+php artisan serve
 
-## 📂 Estructura del Proyecto
+---
 
-### Backend (`app/`)
-- `Http/Controllers/Api`: Controladores que manejan las peticiones API.
-- `Http/Resources`: Transformadores de datos JSON.
-- `Models`: Modelos Eloquent.
+## 👤 Usuarios
 
-### Frontend (`resources/js/`)
-- `components`: Componentes Vue reutilizables (Botones, Inputs, etc.).
-- `composables`: Lógica reutilizable (Hooks) para API, validación, etc.
-- `layouts`: Plantillas principales (Admin, User, Guest).
-- `pages` / `views`: Vistas de la aplicación organizadas por módulos.
-- `store`: Estados globales con Pinia (Auth, Lang, etc.).
-- `routes`: Definición de rutas y guards.
+Admin: admin@admin.com / 1234
+User: user@user.com / 1234  
+
+---
+
+## 🎮 Proyecto
+
+“¿Dónde jugaba este?” es un minijuego de fútbol donde los usuarios compiten adivinando jugadores, ganan puntos y suben en rankings.
+
+---
+
+## 🧪 Tests
+
+vendor\bin\phpunit

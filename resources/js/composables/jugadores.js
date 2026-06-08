@@ -71,6 +71,21 @@ export default function useJugadores() {
             })
     }
 
+    const getJugadorByNombre = async (nombre) => {
+        return await axios.get('/api/jugadores/search', {
+            params: { search: nombre }
+        }) 
+    }
+
+    // Obtiene los clubes asociados a un jugador por su ID
+    const getClubesJugador = async (id) => {
+        return axios.get(`/api/jugadores/${id}/clubes`)
+            .then(response => {
+                jugador.value.clubes = response.data.data
+                return response
+            })
+    }
+
     // Crea un nuevo jugador
     const createJugador = async () => {
         if (isLoading.value) return
@@ -168,6 +183,12 @@ export default function useJugadores() {
             .finally(() => isLoading.value = false)
     }
 
+    const guardarClubesJugador = async (id, clubes) => {
+        await axios.put(`/api/jugadores/${jugador.value.id_jugador}/clubes`, {
+            clubes: jugador.value.clubes
+        });
+    }
+
     // Inserta o actualiza un jugador en la lista local evitando duplicados
     const upsertJugadorRecord = (jugadorRecord) => {
         if (!jugadorRecord?.id_jugador) return
@@ -217,8 +238,11 @@ export default function useJugadores() {
         jugador,
         getJugadores,
         getJugador,
+        getJugadorByNombre,
+        getClubesJugador,
         createJugador,
         updateJugador,
+        guardarClubesJugador,
         upsertJugadorRecord,
         deleteJugador,
         resetJugador,

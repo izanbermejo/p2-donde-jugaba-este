@@ -270,4 +270,23 @@ class GameService
             'completo' => $completo
         ];
     }
+
+
+
+    
+    /*
+    *           *
+    **         **
+    *** PATH4 ***
+    **         **
+    *           *
+    */
+    public function iniciarPath4($id_usuario, $id_juego, $dificultad)
+    {
+        return (new Path4Service())->iniciarPartida(
+            $id_usuario,
+            $id_juego,
+            $dificultad
+        );
+    }
 }

@@ -16,7 +16,7 @@ return new class extends Migration
             $table->integer('id_club');
 
             $table->primary(['id_jugador', 'id_club']);
-            $table->foreign('id_jugador')->references('id_jugador')->on('jugadores');
+            $table->foreign('id_jugador')->references('id_jugador')->on('jugadores')->cascadeOnDelete();
             $table->foreign('id_club')->references('id_club')->on('clubes');
         });
     }
