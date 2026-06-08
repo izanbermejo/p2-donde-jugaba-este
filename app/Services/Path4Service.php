@@ -72,19 +72,43 @@ class Path4Service
         $victoria = false;
         $revelarClub = null;
 
+        // puntuación actual
+        $puntuacion = $partida->puntuacion ?? 0;
+
         if ($correcto) {
+
             $victoria = true;
+
+            // BONUS por acertar
+            $puntuacion += 400;
+
         } else {
 
-            $index = $estado['clubes_revelados'];
+            // penalización por fallo
+            $puntuacion -= 100;
 
+            $index = $estado['clubes_revelados'];
             $revelarClub = $estado['clubes'][$index] ?? null;
 
             $estado['clubes_revelados']++;
         }
 
+        // guardar estado
         $partida->estado = $estado;
+
+        // guardar puntuación en BD
+        $partida->puntuacion = $puntuacion;
+
         $partida->save();
+
+        if ($victoria || $estado['clubes_revelados'] >= 4) {
+            try {
+                app(\App\Http\Controllers\Api\RankingController::class)
+                    ->actualizarMejorRegistro($partida);
+            } catch (\Throwable $e) {
+                \Log::error('ERROR RANKING: ' . $e->getMessage());
+            }
+        }
 
         return [
             'ok' => true,
@@ -92,6 +116,7 @@ class Path4Service
             'victoria' => $victoria,
             'revelar_club' => $revelarClub,
             'clubes_revelados' => $estado['clubes_revelados'],
+            'puntuacion_final' => $puntuacion
         ];
     }
 }
