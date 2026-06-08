@@ -6,8 +6,11 @@
     <main class="result-wrapper">
 
       <div class="status-section">
-        <h1 v-if="victoria" class="title win">¡VICTORIA!</h1>
-        <h1 v-else class="title lose">TE HAS RENDIDO</h1>
+        <h1 v-if="resultado === 'victoria'" class="title win">¡VICTORIA!</h1>
+
+        <h1 v-else-if="resultado === 'rendido'" class="title lose">TE HAS RENDIDO</h1>
+        
+        <h1 v-else class="title lose">DERROTA</h1>
       </div>
 
       <div class="score-card">
@@ -24,7 +27,7 @@
 
         <div class="detail">
           <span class="label">Estado</span>
-          <span class="value">{{ victoria ? 'Completado' : 'Abandonado' }}</span>
+          <span class="value">{{resultado === 'victoria' ? 'Completado' : resultado === 'rendido' ? 'Abandonado' : 'Perdido'}}</span>
         </div>
       </div>
 
@@ -48,7 +51,7 @@ import Footer from '@/layouts/MainFooter.vue'
 const router = useRouter()
 const route = useRoute()
 
-const victoria = route.query.victoria === '1'
+const resultado = route.query.resultado
 const puntuacion = route.query.puntuacion || 0
 const segundos = route.query.segundos || 0
 

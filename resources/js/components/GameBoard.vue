@@ -181,7 +181,7 @@ async function selectJugador(jugador) {
     router.push({
       name: 'FinPartida',
       query: {
-        victoria: 1,
+        victoria: 'victoria',
         puntuacion: res.data.puntuacion_final,
         segundos: res.data.segundos ?? 0,
         idJuego: route.query.idJuego
@@ -212,7 +212,7 @@ function rendirse() {
       router.push({
         name: 'FinPartida',
         query: {
-          victoria: 0,
+          victoria: 'rendido',
           puntuacion: res.data.puntuacion,
           idJuego: route.query.idJuego
         }

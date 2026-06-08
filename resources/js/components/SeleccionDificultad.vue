@@ -40,10 +40,23 @@ const router = useRouter()
 const route = useRoute()
 
 function seleccionar(dificultad) {
+
+  const idJuego = route.query.idJuego
+
+  let rutaJuego = ''
+
+  if (idJuego == 1) {
+    rutaJuego = '/juegos/match9'
+  }
+
+  if (idJuego == 2) {
+    rutaJuego = '/juegos/path4'
+  }
+
   router.push({
-    path: `/juegos/match9`,
+    path: rutaJuego,
     query: {
-      idJuego: route.query.idJuego,
+      idJuego: idJuego,
       idDificultad: dificultad,
     }
   })

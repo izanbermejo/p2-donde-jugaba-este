@@ -5,16 +5,27 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Services\GameService;
+use App\Services\Path4Service;
 
 class PartidaController extends Controller
 {
-    protected $gameService;
 
-    public function __construct(GameService $gameService)
+    protected $gameService;
+    protected $path4Service;
+
+    public function __construct(GameService $gameService, Path4Service $path4Service)
     {
         $this->gameService = $gameService;
+        $this->path4Service = $path4Service;
     }
-
+        
+    /*
+    *           *
+    **         **
+    *** MATCH9 ***
+    **         **
+    *           *
+    */
     // INICIAR PARTIDA
     public function iniciar(Request $request)
     {
@@ -77,5 +88,43 @@ class PartidaController extends Controller
             )
         );
     }
-    
+
+
+    /*
+    *           *
+    **         **
+    *** PATH4 ***
+    **         **
+    *           *
+    */
+    public function iniciarPath4(Request $request)
+    {
+        $request->validate([
+            'id_usuario' => 'required|integer',
+            'id_juego' => 'required|integer',
+            'id_dificultad' => 'required|integer',
+        ]);
+
+        return response()->json(
+            $this->path4Service->iniciarPartida(
+                $request->id_usuario,
+                $request->id_juego,
+                $request->id_dificultad
+            )
+        );
+    }
+    public function jugarPath4(Request $request)
+    {
+        $request->validate([
+            'id_partida' => 'required|integer',
+            'id_jugador' => 'required|integer'
+        ]);
+
+        return response()->json(
+            $this->path4Service->jugar(
+                $request->id_partida,
+                $request->id_jugador
+            )
+        );
+    }
 }
