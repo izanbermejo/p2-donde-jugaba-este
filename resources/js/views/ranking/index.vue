@@ -4,8 +4,22 @@
 
         <section class="ranking">
             <h2>Ranking</h2>
-            <span class="explicacion-pagina">Consulta la clasificación de los jugadores en los distintos minijuegos y compara tus resultados con los de otros usuarios. Aquí se reflejan las mejores puntuaciones y el progreso de cada participante. Supera tus marcas, escala posiciones y demuestra tu nivel en cada reto.</span>
-            <div class="flex flex-column justify-center flex-wrap" style="width: 100%;">
+
+            <span class="explicacion-pagina">
+                Consulta la clasificación de los jugadores en los distintos minijuegos y compara tus resultados con los de otros usuarios. Aquí se reflejan las mejores puntuaciones y el progreso de cada participante. Supera tus marcas, escala posiciones y demuestra tu nivel en cada reto.
+            </span>
+
+            <!-- FILTROS -->
+            <div class="filtros">
+                <!-- INPUT A LA IZQUIERDA -->
+                <input
+                    v-model="busqueda"
+                    type="text"
+                    placeholder="Buscar jugador..."
+                    class="input-busqueda"
+                />
+
+                <!-- SELECT -->
                 <SelectButton
                     id="ranking-seleccionado"
                     v-model="rankingSeleccionado"
@@ -13,9 +27,19 @@
                     optionLabel="label"
                     optionValue="value"
                 />
-                <TablaRankingGlobal v-if="rankingSeleccionado === null || rankingSeleccionado === 0"/>
-                <TablaRankingJuego v-else :idJuego="rankingSeleccionado" />
             </div>
+
+            <!-- TABLAS -->
+            <TablaRankingGlobal
+                v-if="rankingSeleccionado === null || rankingSeleccionado === 0"
+                :filtro="busqueda"
+            />
+
+            <TablaRankingJuego
+                v-else
+                :idJuego="rankingSeleccionado"
+                :filtro="busqueda"
+            />
         </section>
 
         <Footer />
@@ -23,7 +47,6 @@
 </template>
 
 <script setup>
-
 import { computed, onMounted, ref } from 'vue';
 import Navbar from '../../layouts/LandingNavbar.vue';
 import Footer from '../../layouts/MainFooter.vue';
@@ -32,20 +55,25 @@ import useJuegos from "@/composables/juegos";
 import TablaRankingGlobal from '../../components/TablaRankingGlobal.vue';
 import TablaRankingJuego from '../../components/TablaRankingJuego.vue';
 
-const {ranking, getRankingGlobal} = useRanking();
-const {juegos, getJuegos} = useJuegos();
-const rankingSeleccionado = ref(0);
+const { ranking, getRankingGlobal } = useRanking();
+const { juegos, getJuegos } = useJuegos();
 
+const rankingSeleccionado = ref(0);
+const busqueda = ref('');
+
+/* Ranking dinámico */
 const rankings = computed(() => [
     { label: 'Global', value: 0 },
-    ...juegos.value.map((j) => ({ label: j.nombre_juego, value: j.id_juego }))
+    ...juegos.value.map((j) => ({
+        label: j.nombre_juego,
+        value: j.id_juego
+    }))
 ]);
 
-onMounted( async () => {
+onMounted(async () => {
     await getRankingGlobal();
     await getJuegos();
 });
-
 </script>
 
 <style scoped>
@@ -80,8 +108,24 @@ h2 {
     margin-bottom: 20px;
 }
 
-/* responsive */
+/* FILTROS */
+.filtros {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    gap: 20px;
+}
 
+.input-busqueda {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    width: 250px;
+}
+
+/* responsive */
 @media (max-width: 430px) {
 
     h2 {
@@ -98,6 +142,15 @@ h2 {
     .ranking > div {
         width: 100% !important;
         justify-content: center;
+    }
+
+    .filtros {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .input-busqueda {
+        width: 100%;
     }
 }
 

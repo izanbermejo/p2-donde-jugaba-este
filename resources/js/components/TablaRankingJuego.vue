@@ -1,7 +1,7 @@
 <template>
     <DataTable
         v-model:filters="filters"
-        :value="ranking || []"
+        :value="datosTabla || []"
         :paginator="true"
         :rows="10"
         striped-rows
@@ -44,13 +44,17 @@
 
 <script setup>
 
-import { onMounted, watch } from 'vue';
+import { computed, onMounted, watch } from 'vue';
 import useRanking from "@/composables/ranking";
 
 const {ranking, getRankingByIdJuego} = useRanking();
 
 const props = defineProps({
-    idJuego: String
+    idJuego: String,
+    filtro: {
+        type: String,
+        default: ''
+    }
 })
 
 onMounted( async () => {
@@ -59,6 +63,18 @@ onMounted( async () => {
 
 watch(() => props.idJuego, async (newId) => {
     await getRankingByIdJuego(newId);
+});
+
+const datosTabla = computed(() => {
+    if (!ranking.value) return [];
+
+    return ranking.value.filter(j => {
+        if (!props.filtro) return true;
+
+        return (j.name || '')
+            .toLowerCase()
+            .includes(props.filtro.toLowerCase());
+    });
 });
 
 const formatDate = (dateString) => {
