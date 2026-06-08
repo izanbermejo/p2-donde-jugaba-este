@@ -35,6 +35,13 @@
           {{ jugador.nombre_jugador }}
         </div>
       </div>
+      <button @click="rendirse" class="btn-red">
+        Rendirse
+      </button>
+
+      <div v-if="toast.visible" :class="['toast', toast.type]">
+        {{ toast.message }}
+      </div>
     </div>
 
     <div v-if="toast.visible" :class="['toast', toast.type]">
@@ -151,7 +158,7 @@ async function selectJugador(jugador){
         router.push({
           name: 'FinPartida',
           query: {
-            victoria: 1,
+            resultado: 'victoria',
             puntuacion: data.puntuacion_final ?? 0,
             idJuego: route.query.idJuego
           }
@@ -170,6 +177,26 @@ async function selectJugador(jugador){
       if (index !== -1 && data.revelar_club) {
         clubsVisibles.value[index] = data.revelar_club
       }
+      if (
+        data.victoria === false &&
+        data.clubes_revelados > 4
+      ) {
+
+        showToast("💀 DERROTA", "error")
+
+        setTimeout(() => {
+          router.push({
+            name: 'FinPartida',
+            query: {
+              resultado: 'derrota',
+              puntuacion: 0,
+              idJuego: route.query.idJuego
+            }
+          })
+        }, 1000)
+
+        return
+      }
     }
 
     search.value = ''
@@ -178,6 +205,36 @@ async function selectJugador(jugador){
   } catch (e) {
     console.error(e)
     showToast("Error al jugar", "error")
+  }
+}
+
+async function rendirse() {
+
+  try {
+
+    const res = await axios.post('/api/partida/rendirse', {
+      id_partida: id_partida.value
+    })
+
+    showToast(
+      'Te has rendido. Puntuación: ' + res.data.puntuacion,
+      'info'
+    )
+
+    setTimeout(() => {
+      router.push({
+        name: 'FinPartida',
+        query: {
+          resultado: 'rendido',
+          puntuacion: res.data.puntuacion,
+          idJuego: route.query.idJuego
+        }
+      })
+    }, 1200)
+
+  } catch (e) {
+    console.error(e)
+    showToast("Error al rendirse", "error")
   }
 }
 
@@ -234,4 +291,19 @@ async function selectJugador(jugador){
 .success{ background:green }
 .error{ background:red }
 .info{ background:blue }
+
+.btn-red{
+  margin-top: 10px;
+  padding: 12px 22px;
+  border: none;
+  border-radius: 12px;
+  background: #ef4444;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-red:hover{
+  opacity: 0.9;
+}
 </style>
