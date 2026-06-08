@@ -114,12 +114,12 @@ onMounted(async () => {
 
   await getPaises()
   paisesMap.value = Object.fromEntries(
-    paises.map(p => [p.id_pais, p.nombre_pais])
+    paises.value.map(p => [p.id_pais, p.nombre_pais])
   )
 
   await getClubes()
   clubesMap.value = Object.fromEntries(
-    clubes.map(c => [c.id_club, c.nombre_club])
+    clubes.value.map(c => [c.id_club, c.nombre_club])
   )
 
   if (!res.data.ok) {
