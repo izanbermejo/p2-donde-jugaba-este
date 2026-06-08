@@ -44,7 +44,7 @@
 
 <script setup>
 
-import { onMounted } from 'vue';
+import { onMounted, watch } from 'vue';
 import useRanking from "@/composables/ranking";
 
 const {ranking, getRankingByIdJuego} = useRanking();
@@ -55,6 +55,10 @@ const props = defineProps({
 
 onMounted( async () => {
     await getRankingByIdJuego(props.idJuego);
+});
+
+watch(() => props.idJuego, async (newId) => {
+    await getRankingByIdJuego(newId);
 });
 
 const formatDate = (dateString) => {
