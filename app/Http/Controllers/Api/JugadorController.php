@@ -12,15 +12,58 @@ use Illuminate\Support\Facades\DB;
 class JugadorController extends Controller
 {
     // Devuelve una lista paginada de jugadores con su país asociado
-    public function index(Request $request){
+    public function index(Request $request)
+    {
         $perPage = $request->input('rows', 10);
         $page = $request->input('page', 1);
 
-        $jugadores = Jugador::with('pais')->paginate($perPage);
+        $query = Jugador::with('pais');
 
-        return response()->json($jugadores);
+        // FILTROS
+        if ($request->id_jugador) {
+            $query->where('id_jugador', $request->id_jugador);
+        }
+
+        if ($request->nombre_jugador) {
+            $query->where('nombre_jugador', 'like', "%{$request->nombre_jugador}%");
+        }
+
+        if ($request->posicion_jugador) {
+            $query->where('posicion_jugador', 'like', "%{$request->posicion_jugador}%");
+        }
+
+        if ($request->club_actual_jugador) {
+            $query->where('club_actual_jugador', 'like', "%{$request->club_actual_jugador}%");
+        }
+
+        if ($request->pais) {
+            $query->whereHas('pais', function ($q) use ($request) {
+                $q->where('nombre_pais', 'like', "%{$request->pais}%");
+            });
+        }
+
+        // ORDENAR
+        $sortField = $request->input('sortField');
+        $sortOrder = (int) $request->input('sortOrder', 1);
+
+        $direction = $sortOrder === -1 ? 'desc' : 'asc';
+
+        $allowedFields = [
+            'id_jugador',
+            'nombre_jugador',
+            'fecha_nacimiento_jugador',
+            'posicion_jugador',
+            'club_actual_jugador'
+        ];
+
+        if ($sortField && in_array($sortField, $allowedFields)) {
+            $query->orderBy($sortField, $direction);
+        } else {
+            $query->orderBy('id_jugador', 'asc');
+        }
+        
+        return $query->paginate($perPage, ['*'], 'page', $page);
     }
-
     // Devuelve los datos de un jugador por su ID
     public function show($id_jugador){
         $jugador = Jugador::find($id_jugador);

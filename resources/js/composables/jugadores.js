@@ -41,26 +41,33 @@ export default function useJugadores() {
     })
 
     // Obtiene jugadores paginados desde la API
-    const getJugadores = async (page = 1, rows = 10) => {
-        try {
-            isLoading.value = true
+    const getJugadores = async (
+        page = 1,
+        rows = 10,
+        filters = null,
+        sortField = null,
+        sortOrder = null
+    ) => {
+    try {
+        isLoading.value = true
 
-            const response = await axios.get('/api/jugadores', {
-                params: {
-                    page: page,
-                    rows: rows
-                }
-            })
+        const response = await axios.get('/api/jugadores', {
+            params: {
+                page,
+                rows,
+                ...filters,
+                sortField,
+                sortOrder
+            }
+        })
 
-            jugadores.value = [...response.data.data]
-            totalRecords.value = response.data.total
+        jugadores.value = [...response.data.data]
+        totalRecords.value = response.data.total
 
-        } catch (error) {
-            console.error(error)
-        } finally {
-            isLoading.value = false
-        }
+    } finally {
+        isLoading.value = false
     }
+}
 
     // Obtiene un jugador por ID
     const getJugador = async (id) => {
@@ -232,6 +239,15 @@ export default function useJugadores() {
             .replace(/[\u0300-\u036f]/g, "")
             .replace(/\s+/g, "-")
     }
+    const buildFilters = (filters) => {
+        return {
+            id_jugador: filters.id_jugador?.constraints?.[0]?.value,
+            nombre_jugador: filters.nombre_jugador?.constraints?.[0]?.value,
+            pais: filters['pais.nombre_pais']?.constraints?.[0]?.value,
+            posicion_jugador: filters.posicion_jugador?.constraints?.[0]?.value,
+            club_actual_jugador: filters.club_actual_jugador?.constraints?.[0]?.value,
+        }
+    }
 
     return {
         jugadores,
@@ -239,6 +255,7 @@ export default function useJugadores() {
         getJugadores,
         getJugador,
         getJugadorByNombre,
+        buildFilters,
         getClubesJugador,
         createJugador,
         updateJugador,

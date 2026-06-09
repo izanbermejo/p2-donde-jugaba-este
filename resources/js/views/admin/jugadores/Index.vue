@@ -49,6 +49,8 @@
 
                 <DataTable
                     v-else
+                    v-model:sortField="sortField"
+                    v-model:sortOrder="sortOrder"
                     v-model:filters="filters"
                     :value="jugadores || []"
                     :first="currentPage * 10"
@@ -63,7 +65,9 @@
                     filter-display="menu"
                     :filter-delay="300"
                     :global-filter-fields="['id_jugador', 'nombre_jugador', 'dificultad_jugador']"
+                    @filter="onFilter"
                     @page="onPageChange"
+                    @sort="onSort"
                 >
                     <template #empty>
                         <div class="table-empty-state">
@@ -371,6 +375,9 @@ const $primevue = usePrimeVue();
 const countryStore = useCountryStore();
 const currentPage = ref(0);
 const clubesJugador = ref([]);
+const { buildFilters } = useJugadores()
+const sortField = ref(null)
+const sortOrder = ref(null)
 
 const swal = inject('$swal');
 const canUseBrowserStorage = typeof window !== 'undefined';
@@ -528,6 +535,18 @@ const cargarJugadores = async () => {
     getJugadores(1, 10);
 };
 
+const onFilter = async () => {
+    currentPage.value = 0;
+
+    await getJugadores(
+        1,
+        10,
+        buildFilters(filters.value),
+        sortField.value,
+        sortOrder.value
+    );
+};
+
 let isChangingPage = false;
 
 const onPageChange = async (event) => {
@@ -536,12 +555,36 @@ const onPageChange = async (event) => {
 
     currentPage.value = event.page;
 
-    await getJugadores(event.page + 1, event.rows);
+    await getJugadores(
+        event.page + 1,
+        event.rows,
+        buildFilters(filters.value),
+        sortField.value,
+        sortOrder.value
+    );
 
     setTimeout(() => {
         isChangingPage = false;
     }, 100);
 };
+
+const onSort = async (event) => {
+    console.log('SORT EVENT:', event)
+
+    const field = event.sortField
+    const order = event.sortOrder
+
+    sortField.value = field
+    sortOrder.value = order
+
+    await getJugadores(
+        1,
+        10,
+        buildFilters(filters.value),
+        field,
+        order
+    )
+}
 
 //subir imagen
 const totalSize = ref(0);
