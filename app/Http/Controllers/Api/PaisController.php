@@ -11,16 +11,22 @@ use App\Models\Pais;
 class PaisController extends Controller
 {
     public function index(){
+        $this->authorize('pais-list');
+
         $paises = Pais::all();
         return $paises;
     }
 
     public function show($id_pais){
+        $this->authorize('pais-list');
+
         $pais = Pais::find($id_pais);
         return $pais;
     }
 
     public function destroy($id_pais){
+        $this->authorize('pais-delete');
+
         $pais = Pais::find($id_pais);
         $pais->delete();
 
@@ -31,13 +37,16 @@ class PaisController extends Controller
     }
 
     public function store(StorePaisRequest $request){
+        $this->authorize('pais-create');
+
         $data = $request->validated();
         $pais = Pais::create($data);
         return $pais;
     }
 
     public function update(UpdatePaisRequest $request, $id_pais){
-        
+        $this->authorize('pais-edit');
+
         $pais = Pais::find($id_pais);
         $pais->update($request->validated());
 
