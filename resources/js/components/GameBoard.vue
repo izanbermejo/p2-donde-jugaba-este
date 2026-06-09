@@ -21,7 +21,13 @@
         class="row"
       >
         <div class="cell header side-header">
-          {{ getClubNombre(club) }}
+          <img
+            v-if="getClub(club)?.logo"
+            :src="`/storage/${getClub(club).logo}`"
+          />
+          <span v-else>
+            {{ getClub(club)?.nombre || club }}
+          </span>
         </div>
 
         <div
@@ -119,8 +125,14 @@ onMounted(async () => {
 
   await getClubes()
   clubesMap.value = Object.fromEntries(
-    clubes.value.map(c => [c.id_club, c.nombre_club])
-  )
+    clubes.value.map(c => [
+      c.id_club,
+      {
+        nombre: c.nombre_club,
+        logo: c.logo_url?.startsWith('clubes/') ? c.logo_url : null // o el campo que tengas
+      }
+    ])
+)
 
   if (!res.data.ok) {
     showToast(res.data.message, 'error')
@@ -222,9 +234,17 @@ function getPaisNombre(id) {
 function getClubNombre(id) {
   return clubesMap.value[id] || id
 }
+function getClub(id) {
+  return clubesMap.value[id] || null
+}
 </script>
 
 <style scoped>
+.club-logo {
+  width: 45px;
+  height: 45px;
+  object-fit: contain;
+}
 
 /* Layout principal del juego */
 .game-wrapper {

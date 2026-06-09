@@ -9,7 +9,21 @@
         :key="index"
         class="path-cell"
       >
-        {{ club ? getClubNombre(club) : "?" }}
+        <div v-if="club">
+        <img
+          v-if="tieneLogoValido(club)"
+          :src="`/storage/${getClub(club).logo}`"
+          class="club-logo"
+        />
+
+        <span v-else>
+          {{ getClub(club)?.nombre || club }}
+        </span>
+      </div>
+
+      <span v-else>
+        ?
+      </span>
       </div>
 
     </div>
@@ -102,12 +116,26 @@ onMounted(async () => {
 
   await getClubes();
   clubesMap.value = Object.fromEntries(
-    clubes.value.map(c => [c.id_club, c.nombre_club])
+    clubes.value.map(c => [
+      c.id_club,
+      {
+        nombre: c.nombre_club,
+        logo: c.logo_url
+      }
+    ])
   )
 })
 
 function getClubNombre(id){
   return clubesMap.value[id] || id
+}
+function getClub(id){
+  return clubesMap.value[id] || null
+}
+
+function tieneLogoValido(id){
+  const club = getClub(id)
+  return club?.logo && club.logo.startsWith('clubes/')
 }
 
 /* ==========
@@ -236,6 +264,13 @@ async function abandonarPartida() {
 </script>
 
 <style scoped>
+
+.club-logo{
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+}
+
 .game-wrapper{
   display:flex;
   flex-direction:column;

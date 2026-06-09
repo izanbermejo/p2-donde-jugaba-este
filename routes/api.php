@@ -65,6 +65,7 @@ Route::put('jugadores/{id}/clubes', [JugadorController::class, 'updateClubes']);
 Route::apiResource('/jugadores', JugadorController::class);
 
 Route::apiResource('/clubes', ClubController::class);
+Route::post('/clubes/updateimg', [ClubController::class, 'updateimg']);
 
 Route::apiResource('/posiciones', PosicionController::class);
 

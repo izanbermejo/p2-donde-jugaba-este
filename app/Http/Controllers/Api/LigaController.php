@@ -11,16 +11,22 @@ use App\Models\Liga;
 class LigaController extends Controller
 {
     public function index(){
+        $this->authorize('liga-list');
+
         $ligas = Liga::all();
         return $ligas;
     }
 
     public function show($id_liga){
+        $this->authorize('liga-list');
+
         $liga = Liga::find($id_liga);
         return $liga;
     }
 
     public function destroy($id_liga){
+        $this->authorize('liga-delete');
+
         $liga = Liga::find($id_liga);
         $liga->delete();
 
@@ -31,13 +37,16 @@ class LigaController extends Controller
     }
 
     public function store(StoreLigaRequest $request){
+        $this->authorize('liga-create');
+
         $data = $request->validated();
         $liga = Liga::create($data);
         return $liga;
     }
 
     public function update(UpdateLigaRequest $request, $id_liga){
-        
+        $this->authorize('liga-edit');
+
         $liga = Liga::find($id_liga);
         $liga->update($request->validated());
 

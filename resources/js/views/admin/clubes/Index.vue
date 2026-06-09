@@ -167,7 +167,7 @@
                             <div class="user-avatar">
                                 <FileUpload
                                     name="picture"
-                                    url="/api/users/updateimg"
+                                    url="/api/clubes/updateimg"
                                     @before-upload="onBeforeUpload"
                                     @upload="onTemplatedUpload($event)"
                                     accept="image/*"
@@ -197,8 +197,7 @@
                                     </template>
 
                                     <template #empty>
-                                        <!-- <img v-if="user.avatar" :src=user.avatar alt="Avatar" class="object-cover w-full aspect-square rounded-tl-2 rounded-tr-2">
-                                        <img v-if="!user.avatar" src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Avatar Default" class="object-cover w-full aspect-square rounded-tl-2 rounded-tr-2"> -->
+                                        <img :src="`/storage/${club.logo_url}`">
                                     </template>
                                 </FileUpload>
                             </div>
@@ -329,7 +328,7 @@ import {FilterMatchMode, FilterOperator} from "@primevue/core/api";
 import { usePrimeVue } from 'primevue/config';
 
 const FILTERS_STORAGE_KEY = 'admin_permissions_table_filters';
-const {clubes, club, getClubes, createClub, updateClub, deleteClub, resetClub, setClub, hasError, getError, upsertClubRecord, isLoading} = useClubes();
+const {clubes, club, getClubes,getClub, createClub, updateClub, deleteClub, resetClub, setClub, hasError, getError, upsertClubRecord, isLoading} = useClubes();
 const {ligas, getLigas} = useLigas();
 const { can } = useAbility();
 const $primevue = usePrimeVue();
@@ -440,12 +439,12 @@ const submitUpdate = () => {
 
     updateClub()
     .then(updatedClub => {
-            if (updatedClub) {
+            if (!updatedClub) return;
+
                 const ligaObj = ligas.value.find(p => p.id_liga === updatedClub.id_liga_club);
                 updatedClub.liga = ligaObj || { id_liga: updatedClub.id_liga_club, nombre_liga: '-' };
                 upsertClubRecord(updatedClub);
                 closeDialog();
-            }
         });
 };
 
@@ -485,16 +484,19 @@ const totalSizePercent = ref(0);
 const files = ref([]);
 
 const onBeforeUpload = (event) => {
-    event.formData.append('id', user.value.id)
+    if (!club.value?.id_club) return;
+    event.formData.append('id', club.value.id_club)
 };
 
 const onSelectedFiles = (event) => {
     files.value = event.files;
+    totalSize.value = 0;
+
     if (event.files.length > 1) {
-        event.files = event.files.splice(0, event.files.length - 1);
+        event.files = event.files.splice(-1);
     }
     files.value.forEach((file) => {
-        totalSize.value += parseInt(formatSize(file.size));
+        totalSize.value += file.size;
     });
 };
 
@@ -503,9 +505,8 @@ const uploadEvent = async (callback, uploadedFiles) => {
     await callback();
 };
 
-const onTemplatedUpload = (event) => {
-    // Reload user to get new avatar
-    getUser(user.value.id);
+const onTemplatedUpload = async () => {
+    await getClub(club.value.id_club);
 };
 
 const formatSize = (bytes) => {
