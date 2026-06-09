@@ -12,16 +12,22 @@ use Illuminate\Http\Request;
 class PosicionController extends Controller
 {
     public function index(){
+        $this->authorize('posicion-list');
+
         $posiciones = Posicion::all();
         return $posiciones;
     }
 
     public function show($id_posicion){
+        $this->authorize('posicion-list');
+        
         $posicion = Posicion::find($id_posicion);
         return $posicion;
     }
 
     public function destroy($id_posicion){
+        $this->authorize('posicion-delete');
+
         $posicion = Posicion::find($id_posicion);
         $posicion->delete();
 
@@ -32,13 +38,16 @@ class PosicionController extends Controller
     }
 
     public function store(StorePosicionRequest $request){
+        $this->authorize('posicion-create');
+
         $data = $request->validated();
         $posicion = Posicion::create($data);
         return $posicion;
     }
 
     public function update(UpdatePosicionRequest $request, $id_posicion){
-        
+        $this->authorize('posicion-edit');
+
         $posicion = Posicion::find($id_posicion);
         $posicion->update($request->validated());
 

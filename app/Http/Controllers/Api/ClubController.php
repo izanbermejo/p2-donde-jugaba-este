@@ -10,16 +10,22 @@ use App\Models\Club;
 class ClubController extends Controller
 {
     public function index(){
+        $this->authorize('club-list');
+
         $clubes = Club::with('liga')->get();
         return $clubes;
     }
 
     public function show($id_club){
+        $this->authorize('club-list');
+
         $club = Club::find($id_club);
         return $club;
     }
 
     public function destroy($id_club){
+        $this->authorize('club-delete');
+
         $club = Club::find($id_club);
         $club->delete();
 
@@ -30,12 +36,16 @@ class ClubController extends Controller
     }
 
     public function store(StoreClubRequest $request){
+        $this->authorize('club-create');
+
         $data = $request->validated();
         $club = Club::create($data);
         return $club;
     }
 
     public function update(UpdateClubRequest $request, $id_club){
+        $this->authorize('club-edit');
+        
         $club = Club::find($id_club);
         $club->update($request->validated());
 

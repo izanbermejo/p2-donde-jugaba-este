@@ -12,8 +12,9 @@ use Illuminate\Support\Facades\DB;
 class JugadorController extends Controller
 {
     // Devuelve una lista paginada de jugadores con su país asociado
-    public function index(Request $request)
-    {
+    public function index(Request $request){
+        $this->authorize('jugador-list');
+
         $perPage = $request->input('rows', 10);
         $page = $request->input('page', 1);
 
@@ -66,12 +67,16 @@ class JugadorController extends Controller
     }
     // Devuelve los datos de un jugador por su ID
     public function show($id_jugador){
+        $this->authorize('jugador-list');
+
         $jugador = Jugador::find($id_jugador);
         return $jugador;
     }
 
     // Elimina un jugador por su ID
     public function destroy($id_jugador){
+        $this->authorize('jugador-delete');
+
         $jugador = Jugador::find($id_jugador);
         $jugador->delete();
 
@@ -83,6 +88,8 @@ class JugadorController extends Controller
 
     // Crea un nuevo jugador validando los datos de entrada
     public function store(StoreJugadorRequest $request){
+        $this->authorize('jugador-create');
+
         $data = $request->validated();
         $jugador = Jugador::create($data);
         return $jugador;
@@ -90,6 +97,8 @@ class JugadorController extends Controller
 
     // Actualiza los datos de un jugador existente
     public function update(UpdateJugadorRequest $request, $id_jugador){
+        $this->authorize('jugador-edit');
+
         $jugador = Jugador::find($id_jugador);
         $jugador->update($request->validated());
 
@@ -122,6 +131,8 @@ class JugadorController extends Controller
     // Actualiza la relación de clubes de un jugador usando sync
     public function updateClubes(Request $request, $id)
     {
+        $this->authorize('jugador-edit');
+        
         $jugador = Jugador::findOrFail($id);
 
         $clubes = $request->input('clubes', []);
@@ -136,7 +147,7 @@ class JugadorController extends Controller
     // Busca jugadores por nombre con un límite de resultados
     public function search(Request $request)
     {
-        $q = $request->get('search');
+        $q = $request->input('search');
         return Jugador::where('nombre_jugador', 'like', "%$q%")
             ->limit(10)
             ->get();
