@@ -5,8 +5,8 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreClubRequest;
 use App\Http\Requests\UpdateClubRequest;
+use Illuminate\Http\Request;
 use App\Models\Club;
-
 class ClubController extends Controller
 {
     public function index(){
@@ -54,5 +54,27 @@ class ClubController extends Controller
     public function indexByIdPosicion($id_posicion){
         $clubes = Club::where('posicion_club', $id_posicion)->get();
         return $clubes;
+    }
+
+    public function updateImg(Request $request)
+    {
+        
+        $request->validate([
+            'id' => 'required|exists:clubes,id_club',
+            'picture' => 'required|image|max:2048',
+        ]);
+
+        $club = Club::findOrFail($request->id);
+
+        $path = $request->file('picture')->store('clubes', 'public');
+
+        $club->logo_url = $path;
+        $club->save();
+
+        return response()->json([
+            'message' => 'Imagen subida correctamente',
+            'path' => $path,
+            'club' => $club
+        ]);
     }
 }

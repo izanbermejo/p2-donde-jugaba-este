@@ -47,7 +47,7 @@ export default function useClubes() {
     const getClub = async (id) => {
         return axios.get(`/api/clubes/${id}`)
             .then(response => {
-                club.value = response.data.data;
+                Object.assign(club.value, response.data.data ?? {});
                 return response;
             })
     }
